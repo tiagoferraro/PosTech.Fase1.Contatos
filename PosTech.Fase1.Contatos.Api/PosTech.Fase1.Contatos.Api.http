@@ -1,0 +1,6 @@
+@PosTech.Fase1.Contatos.Api_HostAddress = http://localhost:5196
+
+GET {{PosTech.Fase1.Contatos.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
