@@ -11,7 +11,6 @@ namespace PosTech.Fase1.Contatos.IoC
     {
         public static IServiceCollection AdicionarDependencias(this IServiceCollection services)
         {
-            
             return services;
         }
     }
