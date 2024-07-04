@@ -4,6 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
+using PosTech.Fase1.Contatos.Application.Interfaces;
+using PosTech.Fase1.Contatos.Application.Services;
+using PosTech.Fase1.Contatos.Infra.Interfaces;
+using PosTech.Fase1.Contatos.Infra.Repository;
 
 namespace PosTech.Fase1.Contatos.IoC
 {
@@ -11,6 +15,13 @@ namespace PosTech.Fase1.Contatos.IoC
     {
         public static IServiceCollection AdicionarDependencias(this IServiceCollection services)
         {
+
+            services.AddScoped<IDDDRepository, DDDRepository>();
+            services.AddScoped<IContatoRepository, ContatoRepository>();
+
+            services.AddScoped<IContatoService, ContatoService>();
+            services.AddScoped<IDDDService, DDDService>();
+
             return services;
         }
     }

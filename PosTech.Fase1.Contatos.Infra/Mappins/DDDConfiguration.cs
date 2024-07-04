@@ -13,6 +13,7 @@ namespace PosTech.Fase1.Contatos.Infra.Mappins
     {
         public void Configure(EntityTypeBuilder<DDD> builder)
         {
+            builder.ToTable("DDD");
             builder.HasKey(x => x.DddId);
             builder.Property(x => x.Regiao).HasMaxLength(50).IsRequired();
             builder.Property(x => x.UF).HasMaxLength(2).IsRequired();

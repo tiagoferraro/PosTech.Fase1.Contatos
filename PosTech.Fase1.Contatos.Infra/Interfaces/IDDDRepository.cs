@@ -9,8 +9,8 @@ namespace PosTech.Fase1.Contatos.Infra.Interfaces
 {
     public interface IDDDRepository
     {
-        Task<DDD> Adicionar(DDD c);
-        Task Atualizar(DDD c);
+        Task<DDD> Adicionar(DDD d);
+        Task Atualizar(DDD d);
         Task<IEnumerable<DDD>> Listar();
         Task<DDD> Obter(int DDDId);
     }

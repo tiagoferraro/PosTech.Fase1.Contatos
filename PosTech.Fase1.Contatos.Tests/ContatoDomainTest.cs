@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PosTech.Fase1.Contatos.Application.Services;
 using PosTech.Fase1.Contatos.Domain.Entities;
 
 namespace PosTech.Fase1.Contatos.Tests
@@ -18,6 +19,7 @@ namespace PosTech.Fase1.Contatos.Tests
             contato.DesativarContato();
             //Assert
             Assert.False(contato.Ativo);
+            
         }
     }
 }

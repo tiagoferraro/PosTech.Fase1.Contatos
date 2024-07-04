@@ -15,15 +15,16 @@ namespace PosTech.Fase1.Contatos.Domain.Entities
         public int DddId { get; private set; }
         public DDD Ddd { get; private set; }
         public bool Ativo { get; private set; }
+        public DateTime DataInclusao   { get; private set; }
 
         public Contato( int contatoId, string nome, string telefone, string email, int dddId)
         {
-
             ContatoId = contatoId;
             Nome = nome;
             Telefone = telefone;
             Email = email;
             DddId = dddId;
+            DataInclusao = DateTime.Now;
             Ativo = true;
         }
 
