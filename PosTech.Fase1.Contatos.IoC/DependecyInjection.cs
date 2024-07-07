@@ -16,11 +16,11 @@ namespace PosTech.Fase1.Contatos.IoC
         public static IServiceCollection AdicionarDependencias(this IServiceCollection services)
         {
 
-            services.AddScoped<IDDDRepository, DDDRepository>();
-            services.AddScoped<IContatoRepository, ContatoRepository>();
+            //services.AddScoped<IDDDRepository, DDDRepository>();
+            //services.AddScoped<IContatoRepository, ContatoRepository>();
 
-            services.AddScoped<IContatoService, ContatoService>();
-            services.AddScoped<IDDDService, DDDService>();
+            //services.AddScoped<IContatoService, ContatoService>();
+            //services.AddScoped<IDDDService, DDDService>();
 
             return services;
         }

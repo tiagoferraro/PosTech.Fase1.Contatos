@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using PosTech.Fase1.Contatos.Domain.Entities;
 using PosTech.Fase1.Contatos.Infra.Context;
 using PosTech.Fase1.Contatos.Infra.Interfaces;
