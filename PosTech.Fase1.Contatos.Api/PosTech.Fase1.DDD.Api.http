@@ -11,3 +11,7 @@ Accept: application/json
     "UF": "SP",
     "Regiao": "São Paulo"
 }
+###
+
+GET {{hostname}}/{{controller}}
+Accept: application/json

@@ -12,7 +12,7 @@ namespace PosTech.Fase1.Contatos.Application.Interfaces
     public interface IDDDService
     {
         Task<ServiceResult<DDDDto>> Adicionar(DDDDto c);
-        Task<ServiceResult> Atualizar(DDDDto c);
+        Task<ServiceResult<bool>> Atualizar(DDDDto c);
         Task<ServiceResult<IEnumerable<DDDDto>>> Listar();
         Task<ServiceResult<DDDDto>> Obter(int DDDId);
     }

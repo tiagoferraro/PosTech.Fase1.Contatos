@@ -25,12 +25,12 @@ namespace PosTech.Fase1.Contatos.Application.Services
             throw new NotImplementedException();
         }
 
-        public Task<ServiceResult> Atualizar(ContatoDTO c)
+        public Task<ServiceResult<bool>> Atualizar(ContatoDTO c)
         {
             throw new NotImplementedException();
         }
 
-        public Task<ServiceResult> Excluir(int ContatoId)
+        public Task<ServiceResult<bool>> Excluir(int ContatoId)
         {
             throw new NotImplementedException();
         }

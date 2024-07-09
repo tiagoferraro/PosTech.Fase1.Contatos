@@ -12,8 +12,8 @@ namespace PosTech.Fase1.Contatos.Application.Interfaces
     public interface IContatoService
     {
         Task<ServiceResult<ContatoDTO>> Adicionar(ContatoDTO c);
-        Task<ServiceResult> Atualizar(ContatoDTO c);
-        Task<ServiceResult> Excluir(int ContatoId);
+        Task<ServiceResult<bool>> Atualizar(ContatoDTO c);
+        Task<ServiceResult<bool>> Excluir(int ContatoId);
         Task<ServiceResult<IEnumerable<ContatoDTO>>> Listar();
         Task<ServiceResult<IEnumerable<ContatoDTO>>> ListarComDDD(int DDD);
         Task<ServiceResult<ContatoDTO>> Obter(int ContatoId);
