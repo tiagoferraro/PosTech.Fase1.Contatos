@@ -8,6 +8,6 @@ Accept: application/json
 
 {
     "DDDId": "11",
-    "UF": "SPS",
+    "UF": "SP",
     "Regiao": "São Paulo"
 }

@@ -1,15 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+using PosTech.Fase1.Contatos.Api.Model;
 
 namespace PosTech.Fase1.Contatos.Api.Extension
 {
     public static class ModelStateExtension
     {
-        public static List<string> RetornaErrosMessages(this ModelStateDictionary modelstate)
+        public static MensagemErro RetornaErrosMessages(this ModelStateDictionary modelstate)
         {
-            return modelstate
+            return new MensagemErro(modelstate
                 .SelectMany(ms => ms.Value!.Errors)
                 .Select(e => e.ErrorMessage)
-                .ToList();
+                .ToList());
         }
     }
 }

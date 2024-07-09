@@ -8,7 +8,7 @@ public class DDDValidator : AbstractValidator<DDDDto>
     private const string _MensagemDDD = "O Campo Uf precisa ter extamente 2 caracteres ex:SP";
     public DDDValidator()
     {
-        RuleFor(x => x.UF).NotEmpty().Length(2,2).WithMessage(_MensagemDDD) ;
+        RuleFor(x => x.UF).NotEmpty().Length(2).WithMessage(_MensagemDDD) ;
 
 
     }
