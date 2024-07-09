@@ -1,12 +1,12 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using PosTech.Fase1.Contatos.Domain.Entities;
+using PosTech.Fase1.Contatos.Infra.Context;
+using PosTech.Fase1.Contatos.Infra.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using PosTech.Fase1.Contatos.Domain.Entities;
-using PosTech.Fase1.Contatos.Infra.Context;
-using PosTech.Fase1.Contatos.Infra.Interfaces;
 
 namespace PosTech.Fase1.Contatos.Infra.Repository
 {
@@ -37,9 +37,9 @@ namespace PosTech.Fase1.Contatos.Infra.Repository
 
         }
 
-        public async Task<DDD> Obter(int DDDId)
+        public async Task<DDD> Obter(int dddId)
         {
-            return await _context.DDD.FindAsync(DDDId);
+            return await _context.DDD.FindAsync(dddId) ?? throw new InvalidOperationException("DDD não encontrado.");
         }
     }
 }
