@@ -2,6 +2,10 @@
 {
     public class MensagemErro
     {
-        public string mensagemErro { get; set; }
+        public MensagemErro(List<string> erros)
+        {
+            mensagemErro = erros;
+        }
+        public List<string> mensagemErro { get; private set; }
     }
 }
