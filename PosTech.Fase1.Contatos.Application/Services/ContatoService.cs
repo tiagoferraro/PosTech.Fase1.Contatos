@@ -1,53 +1,105 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using PosTech.Fase1.Contatos.Application.DTO;
+﻿using PosTech.Fase1.Contatos.Application.DTO;
 using PosTech.Fase1.Contatos.Application.Interfaces;
+using PosTech.Fase1.Contatos.Application.Mapping;
 using PosTech.Fase1.Contatos.Application.Result;
 using PosTech.Fase1.Contatos.Infra.Interfaces;
 
 namespace PosTech.Fase1.Contatos.Application.Services
 {
-    public class ContatoService : IContatoService
+    public class ContatoService(IContatoRepository contatoRepository) : IContatoService
     {
-        private readonly IContatoRepository _contatoRepository;
-
-        public ContatoService(IContatoRepository contatoRepository)
+        public async Task<ServiceResult<ContatoRequestResponseDto>> Adicionar(ContatoRequestDTO c)
         {
-            _contatoRepository = contatoRepository;
+            try
+            {
+                var contato = ContatoMapping.MapToEntity(c);
+                var novoContato = await contatoRepository.Adicionar(contato);
+                var contatoDto = ContatoMapping.MapToDto(novoContato);
+
+                return new ServiceResult<ContatoRequestResponseDto>(contatoDto);
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult<ContatoRequestResponseDto>(ex);
+            }
         }
 
-
-        public Task<ServiceResult<ContatoDTO>> Adicionar(ContatoDTO c)
+        public async Task<ServiceResult> Atualizar(ContatoRequestDTO c)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var contato = Mapping.ContatoMapping.MapToEntity(c);
+                await contatoRepository.Atualizar(contato);
+
+                return new ServiceResult();
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult(ex);
+            }
         }
 
-        public Task<ServiceResult> Atualizar(ContatoDTO c)
+        public async Task<ServiceResult> Excluir(int contatoId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var contato = await contatoRepository.Obter(contatoId);
+                contato.DesativarContato();
+                await contatoRepository.Atualizar(contato);
+
+                return new ServiceResult();
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult(ex);
+            }
         }
 
-        public Task<ServiceResult> Excluir(int ContatoId)
+        public async Task<ServiceResult<IEnumerable<ContatoRequestResponseDto>>> Listar()
         {
-            throw new NotImplementedException();
+            try
+            {
+                var contatos = await contatoRepository.Listar();
+                var contatosDto = new List<ContatoRequestResponseDto>();
+                foreach (var contato in contatos)
+                {
+                    contatosDto.Add(Mapping.ContatoMapping.MapToDto(contato));
+                }
+                return new ServiceResult<IEnumerable<ContatoRequestResponseDto>>(contatosDto);
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult<IEnumerable<ContatoRequestResponseDto>>(ex);
+            }
         }
 
-        public Task<ServiceResult<IEnumerable<ContatoDTO>>> Listar()
+        public async Task<ServiceResult<IEnumerable<ContatoRequestResponseDto>>> ListarComDDD(int ddd)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var contatos = await contatoRepository.ListarComDDD(ddd);
+                var contatosDto = contatos.Select(ContatoMapping.MapToDto).ToList();
+                return new ServiceResult<IEnumerable<ContatoRequestResponseDto>>(contatosDto);
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult<IEnumerable<ContatoRequestResponseDto>>(ex);
+            }
         }
 
-        public Task<ServiceResult<IEnumerable<ContatoDTO>>> ListarComDDD(int DDD)
+        public async Task<ServiceResult<ContatoRequestResponseDto>> Obter(int contatoId)
         {
-            throw new NotImplementedException();
-        }
+            try
+            {
+                var contato = await contatoRepository.Obter(contatoId);
 
-        public Task<ServiceResult<ContatoDTO>> Obter(int ContatoId)
-        {
-            throw new NotImplementedException();
+                var contatoDto = ContatoMapping.MapToDto(contato);
+                return new ServiceResult<ContatoRequestResponseDto>(contatoDto);
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult<ContatoRequestResponseDto>(ex);
+            }
         }
     }
 }
