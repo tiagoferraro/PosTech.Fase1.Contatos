@@ -14,7 +14,7 @@ namespace PosTech.Fase1.Contatos.Application.Services
             try
             {
                 var ddd = DDDMapping.MapToEntity(c);
-                var novoDdd = await dddRepository.Adicionar(ddd);
+                var novoDdd = await _dddRepository.Adicionar(ddd);
                 var dddDto = DDDMapping.MapToDto(novoDdd);
                 return new ServiceResult<DDDDto>(dddDto);
             }
@@ -24,17 +24,17 @@ namespace PosTech.Fase1.Contatos.Application.Services
             }
         }
 
-        public async Task<ServiceResult> Atualizar(DDDDto c)
+        public async Task<ServiceResult<bool>> Atualizar(DDDDto c)
         {
             try
             {
                 var ddd = DDDMapping.MapToEntity(c);
-                await dddRepository.Atualizar(ddd);
-                return new ServiceResult();
+                await _dddRepository.Atualizar(ddd);
+                return new ServiceResult<bool>(true);
             }
             catch (Exception ex)
             {
-                return new ServiceResult(ex);
+                return new ServiceResult<bool>(ex);
             }
         }
 
@@ -42,7 +42,7 @@ namespace PosTech.Fase1.Contatos.Application.Services
         {
             try
             {
-                var ddds = await dddRepository.Listar();
+                var ddds = await _dddRepository.Listar();
                 var dddsDto = ddds.Select(DDDMapping.MapToDto).ToList();
                 return new ServiceResult<IEnumerable<DDDDto>>(dddsDto);
             }
@@ -56,7 +56,7 @@ namespace PosTech.Fase1.Contatos.Application.Services
         {
             try
             {
-                var ddd = await dddRepository.Obter(dddId);
+                var ddd = await _dddRepository.Obter(dddId);
                 var dddDto = DDDMapping.MapToDto(ddd);
                 return new ServiceResult<DDDDto>(dddDto);
             }

@@ -1,8 +1,12 @@
 ﻿
 
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using PosTech.Fase1.Contatos.Domain.Entities;
+
 namespace PosTech.Fase1.Contatos.Infra.Context;
 
-public class AppDBContext(IConfiguration configuration) : DbContext
+public class AppDBContext(IConfiguration _configuration) : DbContext
 {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
