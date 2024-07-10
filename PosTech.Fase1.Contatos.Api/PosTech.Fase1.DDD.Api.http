@@ -8,10 +8,18 @@ Accept: application/json
 
 {
     "DDDId": "11",
-    "UF": "SP",
+    "UF": "SPS",
     "Regiao": "São Paulo"
 }
 ###
-
 GET {{hostname}}/{{controller}}
 Accept: application/json
+
+###
+PUT {{hostname}}/{{controller}}
+Accept: application/json
+{
+    "DDDId": "11",
+    "UF": "SP",
+    "Regiao": "São Paulo"
+}

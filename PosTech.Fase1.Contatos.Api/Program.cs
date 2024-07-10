@@ -17,8 +17,7 @@ builder.Services.
     .Add(typeof(ModelStateValidatorFilter)))
     .ConfigureApiBehaviorOptions(options => { options.SuppressModelStateInvalidFilter = true; });
 
-builder.Services.AddDbContext<AppDBContext>(options =>
-    options.UseInMemoryDatabase("InMemoryDb"));
+builder.Services.AddDbContext<AppDBContext>();
 
 builder.Services.AdicionarDependencias();
 

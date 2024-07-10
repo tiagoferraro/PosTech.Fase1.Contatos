@@ -16,7 +16,7 @@ namespace PosTech.Fase1.Contatos.Application.Services
             {
                 var ddd = _mapper.Map<DDD>(c);
                 var novoDdd = await _dddRepository.Adicionar(ddd);
-                var dddDto = _mapper.Map<DDDDto>(c);
+                var dddDto = _mapper.Map<DDDDto>(novoDdd);
                 return new ServiceResult<DDDDto>(dddDto);
             }
             catch (Exception ex)
