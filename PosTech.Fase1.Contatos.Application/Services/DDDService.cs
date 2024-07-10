@@ -1,8 +1,9 @@
 ﻿using AutoMapper;
 using PosTech.Fase1.Contatos.Application.DTO;
 using PosTech.Fase1.Contatos.Application.Interfaces;
-using PosTech.Fase1.Contatos.Application.Mapping;
+
 using PosTech.Fase1.Contatos.Application.Result;
+using PosTech.Fase1.Contatos.Domain.Entities;
 using PosTech.Fase1.Contatos.Infra.Interfaces;
 
 namespace PosTech.Fase1.Contatos.Application.Services
@@ -13,9 +14,9 @@ namespace PosTech.Fase1.Contatos.Application.Services
         {
             try
             {
-                var ddd = DDDMapping.MapToEntity(c);
+                var ddd = _mapper.Map<DDD>(c);
                 var novoDdd = await _dddRepository.Adicionar(ddd);
-                var dddDto = DDDMapping.MapToDto(novoDdd);
+                var dddDto = _mapper.Map<DDDDto>(c);
                 return new ServiceResult<DDDDto>(dddDto);
             }
             catch (Exception ex)
@@ -28,7 +29,7 @@ namespace PosTech.Fase1.Contatos.Application.Services
         {
             try
             {
-                var ddd = DDDMapping.MapToEntity(c);
+                var ddd = _mapper.Map<DDD>(c);
                 await _dddRepository.Atualizar(ddd);
                 return new ServiceResult<bool>(true);
             }
@@ -43,7 +44,7 @@ namespace PosTech.Fase1.Contatos.Application.Services
             try
             {
                 var ddds = await _dddRepository.Listar();
-                var dddsDto = ddds.Select(DDDMapping.MapToDto).ToList();
+                var dddsDto = _mapper.Map<IEnumerable<DDDDto>>(ddds);
                 return new ServiceResult<IEnumerable<DDDDto>>(dddsDto);
             }
             catch (Exception ex)
@@ -57,7 +58,7 @@ namespace PosTech.Fase1.Contatos.Application.Services
             try
             {
                 var ddd = await _dddRepository.Obter(dddId);
-                var dddDto = DDDMapping.MapToDto(ddd);
+                var dddDto = _mapper.Map<DDDDto>(ddd);
                 return new ServiceResult<DDDDto>(dddDto);
             }
             catch (Exception ex)

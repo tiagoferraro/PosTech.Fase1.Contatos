@@ -5,30 +5,30 @@ using PosTech.Fase1.Contatos.Infra.Interfaces;
 
 namespace PosTech.Fase1.Contatos.Infra.Repository;
 
-public class DDDRepository(AppDBContext context) : IDDDRepository
+public class DDDRepository(AppDBContext _context) : IDDDRepository
 {
     public async Task<DDD> Adicionar(DDD d)
     {
-        context.DDD.Add(d);
-        await context.SaveChangesAsync();
+        _context.DDD.Add(d);
+        await _context.SaveChangesAsync();
         return d;
     }
 
     public async Task Atualizar(DDD d)
     {
-        context.DDD.Update(d);
-        await context.SaveChangesAsync();
+        _context.DDD.Update(d);
+        await _context.SaveChangesAsync();
     }
 
     public async Task<IEnumerable<DDD>> Listar()
     {
-        return await context.DDD.AsNoTracking().ToListAsync();
+        return await _context.DDD.AsNoTracking().ToListAsync();
 
     }
 
-        public async Task<DDD> Obter(int dddId)
-        {
-            return await _context.DDD.FindAsync(dddId) ?? throw new InvalidOperationException("DDD não encontrado.");
-        }
+    public async Task<DDD> Obter(int dddId)
+    {
+        return await _context.DDD.FindAsync(dddId) ?? throw new InvalidOperationException("DDD não encontrado.");
     }
+
 }

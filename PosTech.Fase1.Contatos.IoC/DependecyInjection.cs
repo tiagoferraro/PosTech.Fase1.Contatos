@@ -28,7 +28,8 @@ public static class DependecyInjection
 
         services.AddScoped<IContatoRepository, ContatoRepository>();
         services.AddScoped<IContatoService, ContatoService>();
-        
+        services.AddAutoMapper(typeof(ContatoMapingProfile));
+
 
         return services;
     }
