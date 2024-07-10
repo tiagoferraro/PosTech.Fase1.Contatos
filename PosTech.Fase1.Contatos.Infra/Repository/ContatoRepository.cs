@@ -1,49 +1,44 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using PosTech.Fase1.Contatos.Domain.Entities;
+using PosTech.Fase1.Contatos.Infra.Context;
+using PosTech.Fase1.Contatos.Infra.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using PosTech.Fase1.Contatos.Domain.Entities;
-using PosTech.Fase1.Contatos.Infra.Context;
-using PosTech.Fase1.Contatos.Infra.Interfaces;
 
 namespace PosTech.Fase1.Contatos.Infra.Repository
 {
-    public class ContatoRepository:IContatoRepository
+    public class ContatoRepository(AppDBContext context) : IContatoRepository
     {
-        private readonly AppDBContext _context;
-
-        public ContatoRepository(AppDBContext context)
-        {
-            _context = context;
-        }
-
         public async Task<Contato> Adicionar(Contato c)
         {
-            _context.Contatos.Add(c);
-            await _context.SaveChangesAsync();
+            context.Contatos.Add(c);
+            await context.SaveChangesAsync();
+            await context.Entry(c).Reference(x => x.Ddd).LoadAsync();
             return c;
         }
 
-        public Task Atualizar(Contato c)
+        public async Task Atualizar(Contato c)
         {
-            throw new NotImplementedException();
+            context.Contatos.Update(c);
+            await context.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<Contato>> Listar()
         {
-            return await _context.Contatos.AsNoTracking().ToListAsync();
+            return await context.Contatos.Include(c => c.Ddd).AsNoTracking().Where(c => c.Ativo).ToListAsync();
         }
 
-        public async Task<IEnumerable<Contato>> ListarComDDD(int DDD)
+        public async Task<IEnumerable<Contato>> ListarComDDD(int dddId)
         {
-            return await _context.Contatos.AsNoTracking().Where(c => c.DddId == DDD).ToListAsync();
+            return await context.Contatos.Include(c => c.Ddd).AsNoTracking().Where(c => c.DddId == dddId && c.Ativo).ToListAsync();
         }
 
-        public async Task<Contato> Obter(int ContatoId)
+        public async Task<Contato> Obter(int contatoId)
         {
-            return await _context.Contatos.FindAsync(ContatoId);
+            return await context.Contatos.Include(c => c.Ddd).FirstOrDefaultAsync(c => c.ContatoId == contatoId && c.Ativo) ?? throw new InvalidOperationException("Contato não encontrado.");
         }
     }
 }

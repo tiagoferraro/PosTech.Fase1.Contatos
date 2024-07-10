@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using PosTech.Fase1.Contatos.Application.DTO;
 using PosTech.Fase1.Contatos.Application.Interfaces;
+using PosTech.Fase1.Contatos.Application.Mapping;
 using PosTech.Fase1.Contatos.Application.Result;
 using PosTech.Fase1.Contatos.Infra.Interfaces;
 
@@ -8,32 +9,61 @@ namespace PosTech.Fase1.Contatos.Application.Services
 {
     public class DDDService(IDDDRepository _dddRepository, IMapper _mapper) : IDDDService
     {
-        public Task<ServiceResult<DDDDto>> Adicionar(DDDDto c)
+        public async Task<ServiceResult<DDDDto>> Adicionar(DDDDto c)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var ddd = DDDMapping.MapToEntity(c);
+                var novoDdd = await dddRepository.Adicionar(ddd);
+                var dddDto = DDDMapping.MapToDto(novoDdd);
+                return new ServiceResult<DDDDto>(dddDto);
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult<DDDDto>(ex);
+            }
         }
 
-        public Task<ServiceResult<bool>> Atualizar(DDDDto c)
+        public async Task<ServiceResult> Atualizar(DDDDto c)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var ddd = DDDMapping.MapToEntity(c);
+                await dddRepository.Atualizar(ddd);
+                return new ServiceResult();
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult(ex);
+            }
         }
 
         public async Task<ServiceResult<IEnumerable<DDDDto>>> Listar()
         {
             try
             {
-                var listaDDD = await _dddRepository.Listar();
-                return new ServiceResult<IEnumerable<DDDDto>>(_mapper.Map<IEnumerable<DDDDto>>(listaDDD));
+                var ddds = await dddRepository.Listar();
+                var dddsDto = ddds.Select(DDDMapping.MapToDto).ToList();
+                return new ServiceResult<IEnumerable<DDDDto>>(dddsDto);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return new ServiceResult<IEnumerable<DDDDto>>(e);
+                return new ServiceResult<IEnumerable<DDDDto>>(ex);
             }
         }
 
-        public Task<ServiceResult<DDDDto>> Obter(int DDDId)
+        public async Task<ServiceResult<DDDDto>> Obter(int dddId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var ddd = await dddRepository.Obter(dddId);
+                var dddDto = DDDMapping.MapToDto(ddd);
+                return new ServiceResult<DDDDto>(dddDto);
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult<DDDDto>(ex);
+            }
         }
     }
 }

@@ -12,13 +12,14 @@ namespace PosTech.Fase1.Contatos.Domain.Entities
         public string Uf { get; private set; }
         public string Regiao { get; private set; }
 
+    
+
+
         public DDD(int dddId, string uf, string regiao)
         {
-
             DddId = dddId;
             Uf = uf;
             Regiao = regiao;
         }
-
     }
 }
