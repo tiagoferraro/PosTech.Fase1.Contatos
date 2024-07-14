@@ -11,7 +11,8 @@ public class DDDConfiguration : IEntityTypeConfiguration<DDD>
         builder.ToTable("Ddd");
         builder.HasKey(x => x.DddId);
         builder.Property(x => x.Regiao).HasMaxLength(50).IsRequired();
-        builder.Property(x => x.Uf).HasMaxLength(2).IsRequired();
+        builder.Property(x => x.UfSigla).HasMaxLength(2).IsRequired();
+        builder.Property(x => x.UfNome).HasMaxLength(100).IsRequired();
     
     }
 }

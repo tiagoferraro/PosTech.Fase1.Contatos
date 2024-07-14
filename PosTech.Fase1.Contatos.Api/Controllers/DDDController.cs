@@ -2,6 +2,7 @@
 using PosTech.Fase1.Contatos.Api.Extension;
 using PosTech.Fase1.Contatos.Application.DTO;
 using PosTech.Fase1.Contatos.Application.Interfaces;
+using PosTech.Fase1.Contatos.Domain.Entities;
 
 namespace PosTech.Fase1.Contatos.Api.Controllers
 {
@@ -12,6 +13,7 @@ namespace PosTech.Fase1.Contatos.Api.Controllers
         [HttpPost]
         public async Task<ActionResult> Adicionar(DDDDto dddDto)
         {
+            dddDto.UfNome = UnidadeFederativa.ufs[dddDto.UfSigla];
             var resultado = await dddservice.Adicionar(dddDto);
             return resultado.IsSuccess ? Ok(resultado.Data) : BadRequest(resultado.Error?.Message.ConverteParaErro());
         }
