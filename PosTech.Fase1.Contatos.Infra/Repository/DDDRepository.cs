@@ -26,9 +26,9 @@ public class DDDRepository(AppDBContext _context) : IDDDRepository
 
     }
 
-    public async Task<DDD> Obter(int dddId)
+    public async Task<DDD?> Obter(int dddId)
     {
-        return await _context.DDD.FindAsync(dddId) ?? throw new InvalidOperationException("DDD não encontrado.");
+        return await _context.DDD.FindAsync(dddId);
     }
 
 }

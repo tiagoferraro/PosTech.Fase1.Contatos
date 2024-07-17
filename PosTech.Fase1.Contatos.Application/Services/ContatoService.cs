@@ -8,14 +8,14 @@ using PosTech.Fase1.Contatos.Infra.Interfaces;
 
 namespace PosTech.Fase1.Contatos.Application.Services;
 
-public class ContatoService(IContatoRepository contatoRepository,IMapper _mapper) : IContatoService
+public class ContatoService(IContatoRepository _contatoRepository,IMapper _mapper) : IContatoService
 {
     public async Task<ServiceResult<ContatoDTO>> Adicionar(ContatoDTO c)
     {
         try
         {
             var contato = _mapper.Map<Contato>(c);
-            var novoContato = await contatoRepository.Adicionar(contato);
+            var novoContato = await _contatoRepository.Adicionar(contato);
 
             return new ServiceResult<ContatoDTO>(_mapper.Map<ContatoDTO>(novoContato));
         }
@@ -30,7 +30,7 @@ public class ContatoService(IContatoRepository contatoRepository,IMapper _mapper
         try
         {
             var contato = _mapper.Map<Contato>(c);
-            await contatoRepository.Atualizar(contato);
+            await _contatoRepository.Atualizar(contato);
 
             return new ServiceResult<bool>(true);
         }
@@ -46,9 +46,9 @@ public class ContatoService(IContatoRepository contatoRepository,IMapper _mapper
     {
         try
         {
-            var contato = await contatoRepository.Obter(ContatoId);
+            var contato = await _contatoRepository.Obter(ContatoId);
             contato.DesativarContato();
-            await contatoRepository.Atualizar(contato);
+            await _contatoRepository.Atualizar(contato);
 
             return new ServiceResult<bool>(true);
         }
@@ -64,7 +64,7 @@ public class ContatoService(IContatoRepository contatoRepository,IMapper _mapper
     {
         try
         {
-            var contatos = await contatoRepository.Listar();
+            var contatos = await _contatoRepository.Listar();
             var listaContatosDto = _mapper.Map<IEnumerable<ContatoDTO>>(contatos);
 
             return new ServiceResult<IEnumerable<ContatoDTO>>(listaContatosDto);
@@ -79,7 +79,7 @@ public class ContatoService(IContatoRepository contatoRepository,IMapper _mapper
     {
         try
         {
-            var contatos = await contatoRepository.ListarComDDD(ddd);
+            var contatos = await _contatoRepository.ListarComDDD(ddd);
             var listaContatosDto = _mapper.Map<IEnumerable<ContatoDTO>>(contatos);
             return new ServiceResult<IEnumerable<ContatoDTO>>(listaContatosDto);
         }
@@ -93,7 +93,7 @@ public class ContatoService(IContatoRepository contatoRepository,IMapper _mapper
     {
         try
         {
-            var contato = await contatoRepository.Obter(contatoId);
+            var contato = await _contatoRepository.Obter(contatoId);
 
             var contatoDto = _mapper.Map<ContatoDTO>(contato);
             return new ServiceResult<ContatoDTO>(contatoDto);
