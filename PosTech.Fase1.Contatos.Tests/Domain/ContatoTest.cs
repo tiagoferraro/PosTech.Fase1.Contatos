@@ -1,8 +1,8 @@
 ﻿using PosTech.Fase1.Contatos.Domain.Entities;
 
-namespace PosTech.Fase1.Contatos.Tests
+namespace PosTech.Fase1.Contatos.Tests.Domain
 {
-    public class ContatoDomainTest
+    public class ContatoTest
     {
         [Fact]
         public void Contato_Excluir_VerificaContatoExcluido()
@@ -13,7 +13,7 @@ namespace PosTech.Fase1.Contatos.Tests
             contato.DesativarContato();
             //Assert
             Assert.False(contato.Ativo);
-            
+
         }
     }
 }

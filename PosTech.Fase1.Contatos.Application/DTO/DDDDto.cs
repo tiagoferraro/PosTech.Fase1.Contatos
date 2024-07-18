@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace PosTech.Fase1.Contatos.Application.DTO;
+﻿namespace PosTech.Fase1.Contatos.Application.DTO;
 
 public class DDDDto
 {

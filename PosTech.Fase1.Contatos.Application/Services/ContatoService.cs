@@ -8,13 +8,21 @@ using PosTech.Fase1.Contatos.Infra.Interfaces;
 
 namespace PosTech.Fase1.Contatos.Application.Services;
 
-public class ContatoService(IContatoRepository _contatoRepository,IMapper _mapper) : IContatoService
+public class ContatoService(IContatoRepository _contatoRepository,IMapper _mapper,IDDDRepository _dddRepository) : IContatoService
 {
     public async Task<ServiceResult<ContatoDTO>> Adicionar(ContatoDTO c)
     {
         try
         {
             var contato = _mapper.Map<Contato>(c);
+
+            var ddd = await _dddRepository.Obter(c.DddId);
+            if (ddd is null)
+                return new ServiceResult<ContatoDTO>(new Exception("DDD não existe"));
+
+            if (await _contatoRepository.Existe(contato))
+                return new ServiceResult<ContatoDTO>(new Exception("Cadastro de contato ja existe"));
+
             var novoContato = await _contatoRepository.Adicionar(contato);
 
             return new ServiceResult<ContatoDTO>(_mapper.Map<ContatoDTO>(novoContato));
@@ -29,6 +37,14 @@ public class ContatoService(IContatoRepository _contatoRepository,IMapper _mappe
     {
         try
         {
+            var ddd = await _dddRepository.Obter(c.DddId);
+            if (ddd is null)
+                return new ServiceResult<bool>(new Exception("DDD não existe"));
+
+            var contatoExiste = await _contatoRepository.Obter(c.ContatoId!.Value);
+            if (contatoExiste is not null)
+                return new ServiceResult<bool>(new Exception("Contato não pode ser alterado"));
+
             var contato = _mapper.Map<Contato>(c);
             await _contatoRepository.Atualizar(contato);
 
@@ -39,6 +55,8 @@ public class ContatoService(IContatoRepository _contatoRepository,IMapper _mappe
             return new ServiceResult<bool>(ex);
         }
     }
+
+    
 
   
 
