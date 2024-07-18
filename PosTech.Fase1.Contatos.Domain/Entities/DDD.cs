@@ -1,26 +1,27 @@
 ﻿using PosTech.Fase1.Contatos.Domain.ObjectValue;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+namespace PosTech.Fase1.Contatos.Domain.Entities;
 
-namespace PosTech.Fase1.Contatos.Domain.Entities
+public class DDD
 {
-    public class DDD
+    public int DddId { get; private set; }
+    public UnidadeFederativa UnidadeFederativa { get; private set; }
+    public string Regiao { get; private set; }
+
+
+    /// <summary>
+    /// EF constructor
+    /// </summary>
+    private DDD(int dddId,  string regiao)
     {
-        public int DddId { get; private set; }
-        public UnidadeFederativa Uf { get; private set; }
-        public string Regiao { get; private set; }
-
-    
+        DddId = dddId;
+        Regiao = regiao;
+    }
 
 
-        public DDD(int dddId, UnidadeFederativa uf, string regiao)
-        {
-            DddId = dddId;
-            Uf = uf;
-            Regiao = regiao;
-        }
+    public DDD(int dddId, string siglaUf, string regiao)
+    {
+        DddId = dddId;
+        Regiao = regiao;
+        UnidadeFederativa = new UnidadeFederativa(siglaUf);
     }
 }

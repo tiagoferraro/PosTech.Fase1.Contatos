@@ -8,7 +8,7 @@ Accept: application/json
 
 {
     "DDDId": "11",
-    "UF": "SPS",
+    "UFSigla": "SP",
     "Regiao": "São Paulo"
 }
 ###
@@ -17,9 +17,10 @@ Accept: application/json
 
 ###
 PUT {{hostname}}/{{controller}}
+Content-Type: application/json
 Accept: application/json
 {
     "DDDId": "11",
-    "UF": "SP",
+    "UFSigla": "SP",
     "Regiao": "São Paulo"
-}
+} 

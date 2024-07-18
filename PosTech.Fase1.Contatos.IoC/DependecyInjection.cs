@@ -24,6 +24,7 @@ public static class DependecyInjection
         services.AddScoped<IDDDRepository, DDDRepository>();
         services.AddScoped<IDDDService, DDDService>();
         services.AddScoped<IValidator<DDDDto>, DDDValidator>();
+        services.AddScoped<IValidator<ContatoDTO>, ContatoValidator>();
 
 
         services.AddScoped<IContatoRepository, ContatoRepository>();
