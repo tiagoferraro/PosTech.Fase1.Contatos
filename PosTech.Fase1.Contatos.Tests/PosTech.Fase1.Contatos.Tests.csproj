@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\PosTech.Fase1.Contatos.Api\PosTech.Fase1.Contatos.Api.csproj" />
     <ProjectReference Include="..\PosTech.Fase1.Contatos.Application\PosTech.Fase1.Contatos.Application.csproj" />
     <ProjectReference Include="..\PosTech.Fase1.Contatos.Domain\PosTech.Fase1.Contatos.Domain.csproj" />
     <ProjectReference Include="..\PosTech.Fase1.Contatos.Infra\PosTech.Fase1.Contatos.Infra.csproj" />

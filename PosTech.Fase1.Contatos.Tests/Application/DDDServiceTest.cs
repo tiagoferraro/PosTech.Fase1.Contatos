@@ -3,7 +3,6 @@ using Moq;
 using PosTech.Fase1.Contatos.Application.DTO;
 using PosTech.Fase1.Contatos.Application.Mappins;
 using PosTech.Fase1.Contatos.Application.Services;
-using PosTech.Fase1.Contatos.Domain.Entities;
 using PosTech.Fase1.Contatos.Infra.Interfaces;
 
 namespace PosTech.Fase1.Contatos.Tests.Application;
