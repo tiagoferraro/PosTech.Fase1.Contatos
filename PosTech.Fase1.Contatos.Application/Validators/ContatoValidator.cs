@@ -21,7 +21,7 @@ namespace PosTech.Fase1.Contatos.Application.Validators
             RuleFor(x => x.Ativo).Must(x => x == false || x == true).WithMessage("O campo ativo deve ter o valor falso ou true") ;
 
             RuleFor(x => x.DddId).NotEmpty().WithMessage("o código de área deve ser um inteiro de 2 dígitos.")
-                .InclusiveBetween(11,99)
+                .InclusiveBetween(11,99).WithMessage("o código de área deve ser um inteiro de 2 dígitos.")
                             ;
         }        
 
