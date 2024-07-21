@@ -1,5 +1,4 @@
-﻿using PosTech.Fase1.Contatos.Domain.Entities;
-using PosTech.Fase1.Contatos.Domain.ObjectValue;
+﻿using PosTech.Fase1.Contatos.Domain.ObjectValue;
 
 namespace PosTech.Fase1.Contatos.Tests.Domain;
 
@@ -25,13 +24,13 @@ public class UnidadeFederativaTest
         Assert.Equal(unidadeFederativa.Sigla, "SP");
         Assert.Equal(unidadeFederativa.Nome, "São Paulo 2");
     }
-    //[Fact]
-    //public void UnidadeFederativa_ErroUFInvalida()
-    //{
-    //    //Arrange
-    //    //Action
-    //    //Assert
-    //    Assert.Throws<InvalidOperationException>(() => new UnidadeFederativa("WW"));
+    [Fact]
+    public void UnidadeFederativa_ErroUFInvalida()
+    {
+        //Arrange
+        //Action
+        //Assert
+        Assert.Throws<InvalidOperationException>(() => new UnidadeFederativa("WW"));
 
-    //}
+    }
 }

@@ -40,8 +40,8 @@ public class ContatoRepository(AppDBContext context) : IContatoRepository
 
     public async Task<bool> Existe(Contato c)
     {
-        return await context.Contatos.Include(c => c.Ddd).AnyAsync(contato =>
-            contato.Nome.Equals(c.Nome) & contato.Telefone.Equals(c.Telefone) & contato.DddId.Equals(c.DddId));
+        return await context.Contatos.AsNoTracking().AnyAsync(contato =>
+            contato.Nome.Equals(c.Nome) && contato.Telefone.Equals(c.Telefone) && contato.DddId.Equals(c.DddId));
     }
 }
 

@@ -12,44 +12,43 @@ namespace PosTech.Fase1.Contatos.Api.Controllers
         [HttpPost]
         public async Task<ActionResult> Adicionar([FromBody] ContatoDTO contatoRequestRequestDto)
         {
-            
             var resultado = await contatoService.Adicionar(contatoRequestRequestDto);
-            return resultado.IsSuccess ? Ok(resultado.Data) : BadRequest(resultado.Error?.Message.ConverteParaErro());
+            return resultado.IsSuccess ? Ok(resultado) : BadRequest(resultado.Error);
         }
 
         [HttpPut]
         public async Task<ActionResult> Atualizar([FromBody] ContatoDTO contatoRequestRequestDto)
         {
             var resultado = await contatoService.Atualizar(contatoRequestRequestDto);
-            return resultado.IsSuccess ? NoContent() : BadRequest(resultado.Error?.Message.ConverteParaErro());
+            return resultado.IsSuccess ? NoContent() : BadRequest(resultado.Error);
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult> Excluir(int id)
         {
             var resultado = await contatoService.Excluir(id);
-            return resultado.IsSuccess ? NoContent() : BadRequest(resultado.Error?.Message.ConverteParaErro());
+            return resultado.IsSuccess ? NoContent() : BadRequest(resultado.Error);
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ContatoDTO>>> Listar()
         {
             var resultado = await contatoService.Listar();
-            return resultado.IsSuccess ? Ok(resultado.Data) : BadRequest(resultado.Error?.Message.ConverteParaErro());
+            return resultado.IsSuccess ? Ok(resultado.Data) : BadRequest(resultado.Error);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<ContatoDTO>> Obter(int id)
         {
             var resultado = await contatoService.Obter(id);
-            return resultado.IsSuccess ? Ok(resultado.Data) : BadRequest(resultado.Error?.Message.ConverteParaErro());
+            return resultado.IsSuccess ? Ok(resultado.Data) : BadRequest(resultado.Error);
         }
 
         [HttpGet("listarComDDD/{ddd}")]
         public async Task<ActionResult<IEnumerable<ContatoDTO>>> ListarComDDD(int ddd)
         {
             var resultado = await contatoService.ListarComDDD(ddd);
-            return resultado.IsSuccess ? Ok(resultado.Data) : BadRequest(resultado.Error?.Message.ConverteParaErro());
+            return resultado.IsSuccess ? Ok(resultado.Data) : BadRequest(resultado.Error);
         }
     }
 }

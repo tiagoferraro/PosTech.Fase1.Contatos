@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using PosTech.Fase1.Contatos.Application.DTO;
 using PosTech.Fase1.Contatos.Application.Interfaces;
+using PosTech.Fase1.Contatos.Application.Model;
 using PosTech.Fase1.Contatos.Application.Result;
 using PosTech.Fase1.Contatos.Domain.Entities;
 using PosTech.Fase1.Contatos.Infra.Interfaces;
@@ -18,10 +19,10 @@ public class ContatoService(IContatoRepository _contatoRepository,IMapper _mappe
 
             var ddd = await _dddRepository.Obter(c.DddId);
             if (ddd is null)
-                return new ServiceResult<ContatoDTO>(new Exception("DDD não existe"));
+                return new ServiceResult<ContatoDTO>(new ValidacaoException("DDD não existe"));
 
-            if (await _contatoRepository.Existe(contato))
-                return new ServiceResult<ContatoDTO>(new Exception("Cadastro de contato ja existe"));
+            if (!await _contatoRepository.Existe(contato))
+                return new ServiceResult<ContatoDTO>(new ValidacaoException("Cadastro de contato ja existe"));
 
             var novoContato = await _contatoRepository.Adicionar(contato);
 
