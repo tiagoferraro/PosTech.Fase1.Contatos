@@ -21,7 +21,7 @@ public class ContatoService(IContatoRepository _contatoRepository,IMapper _mappe
             if (ddd is null)
                 return new ServiceResult<ContatoDTO>(new ValidacaoException("DDD não existe"));
 
-            if (!await _contatoRepository.Existe(contato))
+            if (await _contatoRepository.Existe(contato))
                 return new ServiceResult<ContatoDTO>(new ValidacaoException("Cadastro de contato ja existe"));
 
             var novoContato = await _contatoRepository.Adicionar(contato);
