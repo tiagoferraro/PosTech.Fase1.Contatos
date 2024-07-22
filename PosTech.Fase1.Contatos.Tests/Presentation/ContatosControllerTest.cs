@@ -1,9 +1,6 @@
-﻿using System.Net;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Moq;
 using PosTech.Fase1.Contatos.Api.Controllers;
-using PosTech.Fase1.Contatos.Api.Model;
 using PosTech.Fase1.Contatos.Application.DTO;
 using PosTech.Fase1.Contatos.Application.Interfaces;
 using PosTech.Fase1.Contatos.Application.Model;
@@ -152,6 +149,79 @@ public class ContatosControllerTest
         var contatoController = new ContatosController(contatoService.Object);
         //act
         var result = await contatoController.Listar();
+
+        //assert
+        var badRequestResult = Assert.IsType<BadRequestObjectResult>(result.Result);
+        var retornoMensagemApi = Assert.IsType<ValidacaoException>(badRequestResult.Value);
+        Assert.Equal(MensagemErro, retornoMensagemApi.Message);
+    }
+    [Fact]
+    public async Task ContatosController_ObterComSucesso()
+    {
+
+        //arrange
+        var contatoService = new Mock<IContatoService>();
+
+        const int contatoId = 1;
+        contatoService.Setup(c => c.Obter(contatoId)).ReturnsAsync(new ServiceResult<ContatoDTO>( _contatoDTO));
+        var contatoController = new ContatosController(contatoService.Object);
+        //act
+        var result = await contatoController.Obter(contatoId);
+
+        //assert
+        var okResult = Assert.IsType<OkObjectResult>(result.Result);
+        Assert.IsType<ContatoDTO>(okResult.Value);
+        
+        
+    }
+    [Fact]
+    public async Task ContatosController_ObterComErro()
+    {
+
+        //arrange
+        var contatoService = new Mock<IContatoService>();
+
+        const int contatoId = 1;
+        contatoService.Setup(c => c.Obter(contatoId)).ReturnsAsync(new ServiceResult<ContatoDTO>(new ValidacaoException(MensagemErro)));
+        var contatoController = new ContatosController(contatoService.Object);
+        //act
+        var result = await contatoController.Obter(contatoId);
+
+        //assert
+        var badRequestResult = Assert.IsType<BadRequestObjectResult>(result.Result);
+        var retornoMensagemApi = Assert.IsType<ValidacaoException>(badRequestResult.Value);
+        Assert.Equal(MensagemErro, retornoMensagemApi.Message);
+    }
+    [Fact]
+    public async Task ContatosController_listarFiltroDDDComSucesso()
+    {
+
+        //arrange
+        var contatoService = new Mock<IContatoService>();
+
+        var dddId = 11;
+        contatoService.Setup(c => c.ListarComDDD(dddId)).ReturnsAsync(new ServiceResult<IEnumerable<ContatoDTO>>((new List<ContatoDTO>() { _contatoDTO })));
+        var contatoController = new ContatosController(contatoService.Object);
+        //act
+        var result = await contatoController.ListarComDDD(dddId);
+
+        //assert
+        var okResult = Assert.IsType<OkObjectResult>(result.Result);
+        var listaRetornada = (IEnumerable<ContatoDTO>)okResult.Value;
+        Assert.Equal(1, listaRetornada.Count());
+    }
+    [Fact]
+    public async Task ContatosController_listarFiltroDDDComErro()
+    {
+
+        //arrange
+        var contatoService = new Mock<IContatoService>();
+
+        var dddId = 11;
+        contatoService.Setup(c => c.ListarComDDD(dddId)).ReturnsAsync(new ServiceResult<IEnumerable<ContatoDTO>>(new ValidacaoException(MensagemErro)));
+        var contatoController = new ContatosController(contatoService.Object);
+        //act
+        var result = await contatoController.ListarComDDD(dddId);
 
         //assert
         var badRequestResult = Assert.IsType<BadRequestObjectResult>(result.Result);

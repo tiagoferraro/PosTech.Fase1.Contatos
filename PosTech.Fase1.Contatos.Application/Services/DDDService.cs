@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using PosTech.Fase1.Contatos.Application.DTO;
 using PosTech.Fase1.Contatos.Application.Interfaces;
+using PosTech.Fase1.Contatos.Application.Model;
 using PosTech.Fase1.Contatos.Application.Result;
 using PosTech.Fase1.Contatos.Domain.Entities;
 using PosTech.Fase1.Contatos.Infra.Interfaces;
@@ -16,7 +17,7 @@ public class DDDService(IDDDRepository _dddRepository, IMapper _mapper) : IDDDSe
             var ddd = _mapper.Map<DDD>(c);
             var dddExiste = await _dddRepository.Obter(c.DddId);
             if (dddExiste is not null)
-                return new ServiceResult<DDDDto>(new Exception("DDD Já Existe"));
+                return new ServiceResult<DDDDto>(new ValidacaoException("DDD Já Existe"));
 
 
             var novoDdd = await _dddRepository.Adicionar(ddd);

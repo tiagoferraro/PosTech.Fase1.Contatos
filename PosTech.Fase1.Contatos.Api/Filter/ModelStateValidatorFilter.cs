@@ -1,10 +1,8 @@
-﻿using System.Diagnostics;
-using System.Net;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using PosTech.Fase1.Contatos.Api.Extension;
 using PosTech.Fase1.Contatos.Application.Model;
+using System.Net;
 
 namespace PosTech.Fase1.Contatos.Api.Filter;
 
