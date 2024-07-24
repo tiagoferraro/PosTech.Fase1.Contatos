@@ -36,7 +36,7 @@ namespace PosTech.Fase1.Contatos.Tests.Application
                 Telefone = "7198875566",
                 Email = "joao.silva@gmail.com",
                 //Ativo = true,
-                DddId = 11
+                DddId = 71
             };
 
             //act
@@ -63,6 +63,37 @@ namespace PosTech.Fase1.Contatos.Tests.Application
 
             //act
             var ContatoResult = await ContatoService.Excluir(2);
+
+            //assert
+            Assert.True(ContatoResult.IsSuccess);
+        }
+
+        [Fact]
+        public async void ContatoService_Atualizar_ContatoServiceAtualizadoComSucesso()
+        {
+            //arrange
+            var ContatoServiceRepository = new Mock<IContatoRepository>();
+            var dddRepository = new Mock<IDDDRepository>();
+
+            var mockMapper = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile(new ContatoMapingProfile());
+            });
+            var _mapper = mockMapper.CreateMapper();
+
+            var ContatoService = new ContatoService(ContatoServiceRepository.Object, _mapper, dddRepository.Object);
+            var ContatoDTO = new ContatoDTO()
+            {
+                ContatoId = 2,
+                Nome = "João da Silva",
+                Telefone = "7198870000",
+                Email = "joao.silva@gmail.com",
+                //Ativo = true,
+                DddId = 71
+            };
+
+            //act
+            var ContatoResult = await ContatoService.Atualizar(ContatoDTO);
 
             //assert
             Assert.True(ContatoResult.IsSuccess);
