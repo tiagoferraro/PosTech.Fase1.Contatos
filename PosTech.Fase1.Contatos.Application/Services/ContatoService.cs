@@ -6,7 +6,6 @@ using PosTech.Fase1.Contatos.Application.Result;
 using PosTech.Fase1.Contatos.Domain.Entities;
 using PosTech.Fase1.Contatos.Infra.Interfaces;
 
-
 namespace PosTech.Fase1.Contatos.Application.Services;
 
 public class ContatoService(IContatoRepository _contatoRepository,IMapper _mapper,IDDDRepository _dddRepository) : IContatoService
@@ -40,11 +39,11 @@ public class ContatoService(IContatoRepository _contatoRepository,IMapper _mappe
         {
             var ddd = await _dddRepository.Obter(c.DddId);
             if (ddd is null)
-                return new ServiceResult<bool>(new Exception("DDD não existe"));
+                return new ServiceResult<bool>(new ValidacaoException("DDD não existe"));
 
             var contatoExiste = await _contatoRepository.Obter(c.ContatoId!.Value);
             if (contatoExiste is not null)
-                return new ServiceResult<bool>(new Exception("Contato não pode ser alterado"));
+                return new ServiceResult<bool>(new ValidacaoException("Contato não pode ser alterado"));
 
             var contato = _mapper.Map<Contato>(c);
             await _contatoRepository.Atualizar(contato);
