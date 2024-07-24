@@ -13,7 +13,20 @@ public class ContatoMapingProfile : Profile
 {
     public ContatoMapingProfile()
     {
-        CreateMap<Contato, ContatoDTO>().ReverseMap();
+        CreateMap<Contato, ContatoDTO>()
+            .ConstructUsing(x => new ContatoDTO()
+            {
+                DddId = x.DddId,
+                Nome = x.Nome,
+                Ativo = x.Ativo,
+                ContatoId = x.ContatoId,
+                Email = x.Email,
+                Telefone = x.Telefone,
+                Ddd = new DDDDto() { UfNome = x.Ddd.UnidadeFederativa.Nome , UfSigla = x.Ddd.UnidadeFederativa.Sigla ,DddId = x.DddId,Regiao = x.Ddd.Regiao }
+            });
+        CreateMap<ContatoDTO, Contato>()
+            .ConstructUsing(x =>
+               new Contato(x.ContatoId,x.Nome,x.Telefone,x.Email,x.DddId  ));
     }
 }
 

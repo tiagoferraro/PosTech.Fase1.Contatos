@@ -32,7 +32,7 @@ public class ContatosControllerTest
 
         //assert
         var okResult = Assert.IsType<OkObjectResult>(result);
-        Assert.IsType<ServiceResult<ContatoDTO>>(okResult.Value);
+        Assert.IsType<ContatoDTO>(okResult.Value);
 
     }
     [Fact]

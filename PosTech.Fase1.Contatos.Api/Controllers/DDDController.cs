@@ -13,7 +13,6 @@ namespace PosTech.Fase1.Contatos.Api.Controllers
         [HttpPost]
         public async Task<ActionResult> Adicionar(DDDDto dddDto)
         {
-        
             var resultado = await dddservice.Adicionar(dddDto);
             return resultado.IsSuccess ? Ok(resultado.Data) : BadRequest(resultado.Error);
         }

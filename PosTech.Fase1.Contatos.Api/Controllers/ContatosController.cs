@@ -13,7 +13,7 @@ namespace PosTech.Fase1.Contatos.Api.Controllers
         public async Task<ActionResult> Adicionar([FromBody] ContatoDTO contatoRequestRequestDto)
         {
             var resultado = await contatoService.Adicionar(contatoRequestRequestDto);
-            return resultado.IsSuccess ? Ok(resultado) : BadRequest(resultado.Error);
+            return resultado.IsSuccess ? Ok(resultado.Data) : BadRequest(resultado.Error);
         }
 
         [HttpPut]

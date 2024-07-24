@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace PosTech.Fase1.Contatos.Application.Result;
 
-namespace PosTech.Fase1.Contatos.Application.Result
-{
     public class ServiceResult<T>
     {
         public T? Data { get; }
@@ -32,4 +26,4 @@ namespace PosTech.Fase1.Contatos.Application.Result
             => new ServiceResult<T>(ex);
     }
 
-}
+

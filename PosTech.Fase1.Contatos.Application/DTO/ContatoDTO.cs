@@ -9,6 +9,7 @@ public class ContatoDTO
     public string Email { get; set; }
     public bool Ativo { get; set; }
     public int DddId { get; set; }
+    public DDDDto? Ddd { get; set; }
 }
 
 
