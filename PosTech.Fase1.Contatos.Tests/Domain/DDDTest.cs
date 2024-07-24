@@ -1,21 +1,19 @@
 using PosTech.Fase1.Contatos.Domain.Entities;
-using PosTech.Fase1.Contatos.Domain.ObjectValue;
 
-namespace PosTech.Fase1.Contatos.Tests.Domain
-{
+namespace PosTech.Fase1.Contatos.Tests.Domain;
     public class DDDTest
     {
         [Fact]
-        public void DDDContruir()
+        public void DDDConstruir()
         {
             //Arrange
             //Action
             var ddd = new DDD(25,"ES","Linhares");
             //Assert
-            Assert.Equal(ddd.DddId, 25);
-            Assert.Equal(ddd.Regiao,"Linhares"); 
-            Assert.Equal(ddd.UnidadeFederativa.Sigla,"ES");           
-            Assert.Equal(ddd.UnidadeFederativa.Nome,"Espírito Santo");     
+            Assert.Equal(25,ddd.DddId);
+            Assert.Equal("Linhares", ddd.Regiao); 
+            Assert.Equal("ES", ddd.UnidadeFederativa.Sigla);           
+            Assert.Equal("Espírito Santo", ddd.UnidadeFederativa.Nome);     
 
             
 
@@ -23,4 +21,3 @@ namespace PosTech.Fase1.Contatos.Tests.Domain
 
         }
     }
-}
