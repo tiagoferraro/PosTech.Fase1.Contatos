@@ -16,6 +16,7 @@ namespace PosTech.Fase1.Contatos.Tests.Application
                 Nome = "Joao de Barro",
                 Telefone = "9 88808182",
                 Email = "Joao.Barro@acme.com",
+                Ativo = true,
                 DddId = 27
             };
             //act
@@ -33,6 +34,7 @@ namespace PosTech.Fase1.Contatos.Tests.Application
                 Nome = "",
                 Telefone = "988808182",
                 Email = "Joao.Barro@acme.com",
+                Ativo = true,
                 DddId = 27
             };
             //act
@@ -51,6 +53,7 @@ namespace PosTech.Fase1.Contatos.Tests.Application
             {
                 Telefone = "988808182",
                 Email = "Joao.Barro@acme.com",
+                Ativo = true,
                 DddId = 27
             };
             //act
@@ -75,6 +78,7 @@ namespace PosTech.Fase1.Contatos.Tests.Application
             {
                 Nome = "Joao de Barro",
                 Telefone = tel,
+                Ativo = true,
                 Email = "Joao.Barro@acme.com",
                 DddId = 27
             };
@@ -148,6 +152,7 @@ namespace PosTech.Fase1.Contatos.Tests.Application
             {
                 Nome = "Joao de Barro",
                 Telefone = "988808182",
+                Ativo = true,
                 DddId = 27
             };
             //act
@@ -167,6 +172,7 @@ namespace PosTech.Fase1.Contatos.Tests.Application
                 Nome = "Joao de Barro",
                 Telefone = "988808182",
                 Email = "Joao.Barro",
+                Ativo = true,
                 DddId = 27
             };
             //act
@@ -186,6 +192,7 @@ namespace PosTech.Fase1.Contatos.Tests.Application
                 Nome = "Joao de Barro",
                 Telefone = "988808182",
                 Email = "Joao.Barro@acme.com",
+                Ativo = true,
                 DddId = 127
             };
             //act
@@ -205,6 +212,7 @@ namespace PosTech.Fase1.Contatos.Tests.Application
                 Nome = "Joao de Barro",
                 Telefone = "988808182",
                 Email = "Joao.Barro@acme.com",
+                Ativo = true,
             };
             //act
             var contatoValidator = new ContatoValidator();
