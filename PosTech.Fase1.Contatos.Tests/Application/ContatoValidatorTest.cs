@@ -1,4 +1,3 @@
-using FluentValidation;
 using PosTech.Fase1.Contatos.Application.DTO;
 using PosTech.Fase1.Contatos.Application.Validators;
 
@@ -7,13 +6,13 @@ namespace PosTech.Fase1.Contatos.Tests.Application
 {
     public class ContatoValidatorTest
     {
-        [Fact]  
+        [Fact]
         public void ContatoValidator_Contato_OK()
         {
             //arrange
             ContatoDTO contatoDto = new ContatoDTO()
             {
-                Nome = "Joao de Barro",
+                Nome = "João de Barro",
                 Telefone = "9 88808182",
                 Email = "Joao.Barro@acme.com",
                 Ativo = true,
@@ -25,7 +24,8 @@ namespace PosTech.Fase1.Contatos.Tests.Application
             //assert
             Assert.True(result.IsValid);
         }
-        [Fact]  
+
+        [Fact]
         public void ContatoValidator_NomeVazio_Error()
         {
             //arrange
@@ -42,10 +42,11 @@ namespace PosTech.Fase1.Contatos.Tests.Application
             var result = contatoValidator.Validate(contatoDto);
             //assert
             Assert.False(result.IsValid);
-            Assert.Equal("NotEmptyValidator", result.Errors[0].ErrorCode);        
-            Assert.Equal("'Nome' must not be empty.", result.Errors[0].ErrorMessage);        
+            Assert.Equal("NotEmptyValidator", result.Errors[0].ErrorCode);
+            Assert.Equal("'Nome' deve ser informado.", result.Errors[0].ErrorMessage);
         }
-        [Fact]  
+
+        [Fact]
         public void ContatoValidator_NomeInformed_Error()
         {
             //arrange
@@ -61,16 +62,16 @@ namespace PosTech.Fase1.Contatos.Tests.Application
             var result = contatoValidator.Validate(contatoDto);
             //assert
             Assert.False(result.IsValid);
-            Assert.Equal("NotEmptyValidator", result.Errors[0].ErrorCode);        
-            Assert.Equal("'Nome' must not be empty.", result.Errors[0].ErrorMessage);        
+            Assert.Equal("NotEmptyValidator", result.Errors[0].ErrorCode);
+            Assert.Equal("'Nome' deve ser informado.", result.Errors[0].ErrorMessage);
         }
-        [Theory]  
+
+        [Theory]
         [InlineData("9 9788 8081")]
         [InlineData("9 9788-8081")]
         [InlineData("3327 6108")]
         [InlineData("33276108")]
         [InlineData("3327-6108")]
-        // validacao de telefones com espaços e hífens
         public void ContatoValidator_Telefone_OK(string tel)
         {
             //arrange
@@ -86,9 +87,10 @@ namespace PosTech.Fase1.Contatos.Tests.Application
             var contatoValidator = new ContatoValidator();
             var result = contatoValidator.Validate(contatoDto);
             //assert
-            Assert.True(result.IsValid);     
+            Assert.True(result.IsValid);
         }
-        [Fact]  
+
+        [Fact]
         public void ContatoValidator_TelefoneEmpty_Error()
         {
             //arrange
@@ -104,10 +106,11 @@ namespace PosTech.Fase1.Contatos.Tests.Application
             var result = contatoValidator.Validate(contatoDto);
             //assert
             Assert.False(result.IsValid);
-            Assert.Equal("NotEmptyValidator", result.Errors[0].ErrorCode);        
-            Assert.Equal("Informe o número do telegone de contato", result.Errors[0].ErrorMessage);        
+            Assert.Equal("NotEmptyValidator", result.Errors[0].ErrorCode);
+            Assert.Equal("Informe o número do telegone de contato", result.Errors[0].ErrorMessage);
         }
-        [Fact]  
+
+        [Fact]
         public void ContatoValidator_TelefoneNotInformed_Error()
         {
             //arrange
@@ -122,10 +125,11 @@ namespace PosTech.Fase1.Contatos.Tests.Application
             var result = contatoValidator.Validate(contatoDto);
             //assert
             Assert.False(result.IsValid);
-            Assert.Equal("NotEmptyValidator", result.Errors[0].ErrorCode);        
-            Assert.Equal("Informe o número do telegone de contato", result.Errors[0].ErrorMessage);        
+            Assert.Equal("NotEmptyValidator", result.Errors[0].ErrorCode);
+            Assert.Equal("Informe o número do telegone de contato", result.Errors[0].ErrorMessage);
         }
-        [Fact]  
+
+        [Fact]
         public void ContatoValidator_EmailEmpty_Error()
         {
             //arrange
@@ -142,9 +146,10 @@ namespace PosTech.Fase1.Contatos.Tests.Application
             //assert
             Assert.False(result.IsValid);
             // Assert.Equal("NotEmptyValidator", result.Errors[0].ErrorCode);        
-            Assert.Equal("Informe o e-mail do cliente", result.Errors[0].ErrorMessage);        
+            Assert.Equal("Informe o e-mail do cliente", result.Errors[0].ErrorMessage);
         }
-        [Fact]  
+
+        [Fact]
         public void ContatoValidator_EmailNotInformed_Error()
         {
             //arrange
@@ -161,9 +166,10 @@ namespace PosTech.Fase1.Contatos.Tests.Application
             //assert
             Assert.False(result.IsValid);
             // Assert.Equal("NotEmptyValidator", result.Errors[0].ErrorCode);        
-            Assert.Equal("Informe o e-mail do cliente", result.Errors[0].ErrorMessage);        
+            Assert.Equal("Informe o e-mail do cliente", result.Errors[0].ErrorMessage);
         }
-        [Fact]  
+
+        [Fact]
         public void ContatoValidator_EmailInvalid_Error()
         {
             //arrange
@@ -181,9 +187,10 @@ namespace PosTech.Fase1.Contatos.Tests.Application
             //assert
             Assert.False(result.IsValid);
             // Assert.Equal("NotEmptyValidator", result.Errors[0].ErrorCode);        
-            Assert.Equal("E-mail inválido", result.Errors[0].ErrorMessage);        
+            Assert.Equal("E-mail inválido", result.Errors[0].ErrorMessage);
         }
-        [Fact]  
+
+        [Fact]
         public void ContatoValidator_DDDId_Invalid_Error()
         {
             //arrange
@@ -201,9 +208,10 @@ namespace PosTech.Fase1.Contatos.Tests.Application
             //assert
             Assert.False(result.IsValid);
             // Assert.Equal("NotEmptyValidator", result.Errors[0].ErrorCode);        
-            Assert.Equal("o código de área deve ser um inteiro de 2 dígitos.", result.Errors[0].ErrorMessage);        
+            Assert.Equal("o código de área deve ser um inteiro de 2 dígitos.", result.Errors[0].ErrorMessage);
         }
-        [Fact]  
+
+        [Fact]
         public void ContatoValidator_DDDId_NotInformed_Error()
         {
             //arrange
@@ -220,7 +228,7 @@ namespace PosTech.Fase1.Contatos.Tests.Application
             //assert
             Assert.False(result.IsValid);
             // Assert.Equal("NotEmptyValidator", result.Errors[0].ErrorCode);        
-            Assert.Equal("o código de área deve ser um inteiro de 2 dígitos.", result.Errors[0].ErrorMessage);        
+            Assert.Equal("o código de área deve ser um inteiro de 2 dígitos.", result.Errors[0].ErrorMessage);
         }
     }
 }
