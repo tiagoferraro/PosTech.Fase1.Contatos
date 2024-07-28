@@ -42,7 +42,7 @@ public class ContatoService(IContatoRepository _contatoRepository,IMapper _mappe
                 return new ServiceResult<bool>(new ValidacaoException("DDD não existe"));
 
             var contatoExiste = await _contatoRepository.Obter(c.ContatoId!.Value);
-            if (contatoExiste is not null)
+            if (contatoExiste is null)
                 return new ServiceResult<bool>(new ValidacaoException("Contato não pode ser alterado"));
 
             var contato = _mapper.Map<Contato>(c);
@@ -55,10 +55,6 @@ public class ContatoService(IContatoRepository _contatoRepository,IMapper _mappe
             return new ServiceResult<bool>(ex);
         }
     }
-
-    
-
-  
 
     public async Task<ServiceResult<bool>> Excluir(int ContatoId)
     {
@@ -75,8 +71,6 @@ public class ContatoService(IContatoRepository _contatoRepository,IMapper _mappe
             return new ServiceResult<bool>(ex);
         }
     }
-
-
 
     public async Task<ServiceResult<IEnumerable<ContatoDTO>>> Listar()
     {
