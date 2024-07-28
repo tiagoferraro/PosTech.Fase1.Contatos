@@ -2,24 +2,17 @@
 using Moq;
 using PosTech.Fase1.Contatos.Application.DTO;
 using PosTech.Fase1.Contatos.Application.Mappins;
-using PosTech.Fase1.Contatos.Infra.Interfaces;
-using PosTech.Fase1.Contatos.Domain.Entities;
-using PosTech.Fase1.Contatos.Application;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using PosTech.Fase1.Contatos.Application.Services;
 using PosTech.Fase1.Contatos.Application.Model;
-using PosTech.Fase1.Contatos.Application.Result;
+using PosTech.Fase1.Contatos.Application.Services;
+using PosTech.Fase1.Contatos.Domain.Entities;
+using PosTech.Fase1.Contatos.Infra.Interfaces;
 
 namespace PosTech.Fase1.Contatos.Tests.Application
 {
     public class ContatoServiceTest
     {
         [Fact]
-        public async void ContatoService_Adiconar_ContatoServiceAdicionadoComSucesso()
+        public async void ContatoService_Adicionar_ContatoServiceAdicionadoComSucesso()
         {
             //arrange
             var ContatoRepository = new Mock<IContatoRepository>();
@@ -72,7 +65,7 @@ namespace PosTech.Fase1.Contatos.Tests.Application
         }
 
         [Fact]
-        public async void ContatoService_Adiconar_ContatoServiceAdicionadoComErroDDDNaoExiste()
+        public async void ContatoService_Adicionar_ContatoServiceAdicionadoComErroDDDNaoExiste()
         {
             //arrange
             var ContatoRepository = new Mock<IContatoRepository>();
@@ -126,62 +119,62 @@ namespace PosTech.Fase1.Contatos.Tests.Application
             Assert.Equal("DDD não existe", ex.Message);
         }
 
-        //[Fact]
-        //public async void ContatoService_Adiconar_ContatoServiceAdicionadoComErroContatoJaExistente()
-        //{
-        //    //arrange
-        //    var ContatoRepository = new Mock<IContatoRepository>();
-        //    var DddRepository = new Mock<IDDDRepository>();
+        [Fact]
+        public async void ContatoService_Adicionar_ContatoServiceAdicionadoComErroContatoJaExistente()
+        {
+            //arrange
+            var ContatoRepository = new Mock<IContatoRepository>();
+            var DddRepository = new Mock<IDDDRepository>();
 
-        //    var ContatoDTO = new ContatoDTO()
-        //    {
-        //        ContatoId = 2,
-        //        Nome = "Mario",
-        //        Telefone = "7198875566",
-        //        Email = "mario.silveira@gmail.com",
-        //        Ativo = true,
-        //        DddId = 71,
-        //        Ddd = new DDDDto
-        //        {
-        //            DddId = 71,
-        //            UfSigla = "BA",
-        //            UfNome = "Bahia",
-        //            Regiao = "Salvador"
-        //        }
-        //    };
+            var ContatoDTO = new ContatoDTO()
+            {
+                ContatoId = 2,
+                Nome = "Mario",
+                Telefone = "7198875566",
+                Email = "mario.silveira@gmail.com",
+                Ativo = true,
+                DddId = 71,
+                Ddd = new DDDDto
+                {
+                    DddId = 71,
+                    UfSigla = "BA",
+                    UfNome = "Bahia",
+                    Regiao = "Salvador"
+                }
+            };
 
-        //    var configMapper = new MapperConfiguration(cfg =>
-        //    {
-        //        cfg.AddProfile(new ContatoMapingProfile());
-        //        cfg.AddProfile(new DDDMapingProfile());
-        //    });
+            var configMapper = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile(new ContatoMapingProfile());
+                cfg.AddProfile(new DDDMapingProfile());
+            });
 
-        //    var _mapper = configMapper.CreateMapper();
+            var _mapper = configMapper.CreateMapper();
 
-        //    var ContatoMap = _mapper.Map<Contato>(ContatoDTO);
-        //    var DddMap = _mapper.Map<DDD>(ContatoDTO.Ddd);
+            var ContatoMap = _mapper.Map<Contato>(ContatoDTO);
+            var DddMap = _mapper.Map<DDD>(ContatoDTO.Ddd);
 
-        //    DddRepository
-        //        .Setup(DDDRepositoryMock => DDDRepositoryMock.Obter(DddMap.DddId))
-        //        .ReturnsAsync(DddMap);
+            DddRepository
+                .Setup(DDDRepositoryMock => DDDRepositoryMock.Obter(DddMap.DddId))
+                .ReturnsAsync(DddMap);
 
-        //    ContatoRepository //NAO ESTOU CONSEGUINDO FAZER COM QUE ESTE MÉTODO RETORNE "TRUE" PARA ENTRAR NA CONDICIONAL E RETORNAR "ValidacaoException".
-        //        .Setup(ContatoRepositoryMock => ContatoRepositoryMock.Existe(ContatoMap))
-        //        .ReturnsAsync(true);
+            ContatoRepository
+                .Setup(contatoRepositoryMock => contatoRepositoryMock.Existe(It.IsAny<Contato>()))
+                .ReturnsAsync(true);
 
-        //    var ContatoService = new ContatoService(ContatoRepository.Object, _mapper, DddRepository.Object);
+            var ContatoService = new ContatoService(ContatoRepository.Object, _mapper, DddRepository.Object);
 
-        //    //act
-        //    var ContatoResult = await ContatoService.Adicionar(ContatoDTO);
+            //act
+            var ContatoResult = await ContatoService.Adicionar(ContatoDTO);
 
-        //    //assert
-        //    Assert.False(ContatoResult.IsSuccess);
-        //    var ex = Assert.IsType<ValidacaoException>(ContatoResult.Error);
-        //    Assert.Equal("Cadastro de contato ja existe", ex.Message);
-        //}
+            //assert
+            Assert.False(ContatoResult.IsSuccess);
+            var ex = Assert.IsType<ValidacaoException>(ContatoResult.Error);
+            Assert.Equal("Cadastro de contato ja existe", ex.Message);
+        }
 
         [Fact]
-        public async void ContatoService_Adiconar_ContatoServiceAdicionadoComErro()
+        public async void ContatoService_Adicionar_ContatoServiceAdicionadoComErro()
         {
             //arrange
             var ContatoRepository = new Mock<IContatoRepository>();
