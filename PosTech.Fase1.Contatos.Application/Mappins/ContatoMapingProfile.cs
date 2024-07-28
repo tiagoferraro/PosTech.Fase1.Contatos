@@ -22,7 +22,7 @@ public class ContatoMapingProfile : Profile
                 ContatoId = x.ContatoId,
                 Email = x.Email,
                 Telefone = x.Telefone,
-                Ddd = new DDDDto() { UfNome = x.Ddd.UnidadeFederativa.Nome , UfSigla = x.Ddd.UnidadeFederativa.Sigla ,DddId = x.DddId,Regiao = x.Ddd.Regiao }
+                Ddd = x.Ddd == null ? null : new DDDDto() { UfNome = x.Ddd.UnidadeFederativa.Nome, UfSigla = x.Ddd.UnidadeFederativa.Sigla, DddId = x.DddId, Regiao = x.Ddd.Regiao }
             });
         CreateMap<ContatoDTO, Contato>()
             .ConstructUsing(x =>

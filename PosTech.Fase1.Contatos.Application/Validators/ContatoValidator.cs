@@ -8,10 +8,15 @@ namespace PosTech.Fase1.Contatos.Application.Validators
     {
         public ContatoValidator()
         {
-            RuleFor(x => x.Nome).NotEmpty().MaximumLength(150).WithMessage("Informe o nome do contato");
+            RuleFor(x => x.Nome)
+                .NotEmpty()
+                .WithMessage("Informe o nome do contato")
+                .MaximumLength(150);
+            
+            //RuleFor(x => x.Nome).NotEmpty().MaximumLength(150).WithMessage("Informe o nome do contato");
 
             RuleFor(x => x.Telefone ?? "" )
-                .NotEmpty().WithMessage("Informe o número do telegone de contato") 
+                .NotEmpty().WithMessage("Informe o número do telefone de contato") 
                 .Must(x => int.TryParse(x.Replace(" ","").Replace("-",""), out var val) && val > 9999999 && val <= 999999999 );
 
             RuleFor(x => x.Email).NotEmpty().WithMessage("Informe o e-mail do cliente")  

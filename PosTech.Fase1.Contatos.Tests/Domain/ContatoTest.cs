@@ -14,6 +14,19 @@ namespace PosTech.Fase1.Contatos.Tests.Domain
             //Assert
             Assert.False(contato.Ativo);
 
+
+        }
+        [Fact]
+        public void Contato_Criar_VerificaDataInclusao()
+        {
+            //Arrange
+            var contato = new Contato(1, "tiago", "321321312", "tiago@gmail.com", 11);
+            //Action
+          
+            //Assert
+            Assert.IsType<DateTime>(contato.DataInclusao);
+
+
         }
     }
 }

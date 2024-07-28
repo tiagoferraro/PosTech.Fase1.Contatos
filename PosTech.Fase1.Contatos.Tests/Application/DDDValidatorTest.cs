@@ -24,6 +24,7 @@ namespace PosTech.Fase1.Contatos.Tests.Application
             //assert
             Assert.True(result.IsValid);
         }
+   
 
         [Fact]
         public void DDDValidator_UfSiglaNaoInformada_DeveRetornarErro()
@@ -149,6 +150,21 @@ namespace PosTech.Fase1.Contatos.Tests.Application
             //assert
             Assert.False(result.IsValid);
             Assert.Equal("UfRegiao é a principal cidade da área de abrangência, precisa ser informada, e conter no máximo 100 caracteres", result.Errors[0].ErrorMessage);
+        }
+        [Fact]
+        public void DDDDto_VerificaNome_DeveRetornarSucesso()
+        {
+            //arrange
+            var dddDto = new DDDDto()
+            {
+                DddId = 11,
+                Regiao = "São Paulo, Campinas, Jundiaí, São José dos Campos, Guarulhos, Osasco, Santo André, São Bernardo do Campo",
+                UfNome = "São Paulo",
+                UfSigla = "SP"
+            };
+
+            //assert
+            Assert.Equal("São Paulo",dddDto.UfNome);
         }
     }
 }

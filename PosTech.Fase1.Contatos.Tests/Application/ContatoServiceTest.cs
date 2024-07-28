@@ -2,853 +2,420 @@
 using Moq;
 using PosTech.Fase1.Contatos.Application.DTO;
 using PosTech.Fase1.Contatos.Application.Mappins;
-using PosTech.Fase1.Contatos.Infra.Interfaces;
-using PosTech.Fase1.Contatos.Domain.Entities;
-using PosTech.Fase1.Contatos.Application;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using PosTech.Fase1.Contatos.Application.Services;
 using PosTech.Fase1.Contatos.Application.Model;
-using PosTech.Fase1.Contatos.Application.Result;
+using PosTech.Fase1.Contatos.Application.Services;
+using PosTech.Fase1.Contatos.Domain.Entities;
+using PosTech.Fase1.Contatos.Infra.Interfaces;
 
-namespace PosTech.Fase1.Contatos.Tests.Application
+namespace PosTech.Fase1.Contatos.Tests.Application;
+
+public class ContatoServiceTest
 {
-    public class ContatoServiceTest
+    private readonly IMapper _mapper;
+    private readonly ContatoDTO _contatoDto;
+    private readonly Contato _contato;
+    private readonly DDD _ddd;
+    private readonly ContatoDTO _contatoListaDto;
+
+    public ContatoServiceTest()
     {
-        [Fact]
-        public async void ContatoService_Adiconar_ContatoServiceAdicionadoComSucesso()
+        var configMapper = new MapperConfiguration(cfg =>
         {
-            //arrange
-            var ContatoRepository = new Mock<IContatoRepository>();
-            var DddRepository = new Mock<IDDDRepository>();
-
-            var ContatoDTO = new ContatoDTO()
-            {
-                ContatoId = 2,
-                Nome = "Mario",
-                Telefone = "7198875566",
-                Email = "mario.silveira@gmail.com",
-                Ativo = true,
-                DddId = 71
-            };
-
-            var DddDTO = new DDDDto
-            {
-                DddId = 71,
-                UfSigla = "BA",
-                UfNome = "Bahia",
-                Regiao = "Salvador"
-            };
-
-            var configMapper = new MapperConfiguration(cfg =>
-            {
-                cfg.AddProfile(new ContatoMapingProfile());
-                cfg.AddProfile(new DDDMapingProfile());
-            });
-
-            var _mapper = configMapper.CreateMapper();
-
-            var ContatoMap = _mapper.Map<Contato>(ContatoDTO);
-            var DddMap = _mapper.Map<DDD>(DddDTO);
-
-            //ContatoRepository
-            //    .Setup(ContatoRepositoryMock => ContatoRepositoryMock.Obter(ContatoMap.ContatoId.Value))
-            //    .ReturnsAsync(ContatoMap);
-
-            DddRepository
-                .Setup(DDDRepositoryMock => DDDRepositoryMock.Obter(DddMap.DddId))
-                .ReturnsAsync(DddMap);
-
-            var ContatoService = new ContatoService(ContatoRepository.Object, _mapper, DddRepository.Object);
-
-            //act
-            var ContatoResult = await ContatoService.Adicionar(ContatoDTO);
-
-            //assert
-            Assert.True(ContatoResult.IsSuccess);
-        }
-
-        [Fact]
-        public async void ContatoService_Adiconar_ContatoServiceAdicionadoComErroDDDNaoExiste()
+            cfg.AddProfile(new ContatoMapingProfile());
+            cfg.AddProfile(new DDDMapingProfile());
+        });
+        _ddd = new DDD(71, "BA", "Salvador");
+        _mapper = configMapper.CreateMapper();
+        _contatoDto = new ContatoDTO()
         {
-            //arrange
-            var ContatoRepository = new Mock<IContatoRepository>();
-            var DddRepository = new Mock<IDDDRepository>();
-
-            var ContatoDTO = new ContatoDTO()
-            {
-                ContatoId = 2,
-                Nome = "Mario",
-                Telefone = "7198875566",
-                Email = "mario.silveira@gmail.com",
-                Ativo = true,
-                DddId = 888
-            };
-
-            var DddDTO = new DDDDto //Nao Mocado, para que o método Obter retorne null.
-            {
-                DddId = 71,
-                UfSigla = "BA",
-                UfNome = "Bahia",
-                Regiao = "Salvador"
-            };
-
-            var configMapper = new MapperConfiguration(cfg =>
-            {
-                cfg.AddProfile(new ContatoMapingProfile());
-                cfg.AddProfile(new DDDMapingProfile());
-            });
-
-            var _mapper = configMapper.CreateMapper();
-
-            var ContatoMap = _mapper.Map<Contato>(ContatoDTO);
-            var DddMap = _mapper.Map<DDD>(DddDTO);
-
-            ContatoRepository
-                .Setup(ContatoRepositoryMock => ContatoRepositoryMock.Obter(ContatoMap.ContatoId.Value))
-                .ReturnsAsync(ContatoMap);
-
-            //DddRepository
-            //    .Setup(DDDRepositoryMock => DDDRepositoryMock.Obter(DddMap.DddId))
-            //    .ReturnsAsync(DddMap);
-
-            var ContatoService = new ContatoService(ContatoRepository.Object, _mapper, DddRepository.Object);
-
-            //act
-            var ContatoResult = await ContatoService.Adicionar(ContatoDTO);
-
-            //assert
-            Assert.False(ContatoResult.IsSuccess);
-            var ex = Assert.IsType<ValidacaoException>(ContatoResult.Error);
-            Assert.Equal("DDD não existe", ex.Message);
-        }
-
-        //[Fact]
-        //public async void ContatoService_Adiconar_ContatoServiceAdicionadoComErroContatoJaExistente()
-        //{
-        //    //arrange
-        //    var ContatoRepository = new Mock<IContatoRepository>();
-        //    var DddRepository = new Mock<IDDDRepository>();
-
-        //    var ContatoDTO = new ContatoDTO()
-        //    {
-        //        ContatoId = 2,
-        //        Nome = "Mario",
-        //        Telefone = "7198875566",
-        //        Email = "mario.silveira@gmail.com",
-        //        Ativo = true,
-        //        DddId = 71,
-        //        Ddd = new DDDDto
-        //        {
-        //            DddId = 71,
-        //            UfSigla = "BA",
-        //            UfNome = "Bahia",
-        //            Regiao = "Salvador"
-        //        }
-        //    };
-
-        //    var configMapper = new MapperConfiguration(cfg =>
-        //    {
-        //        cfg.AddProfile(new ContatoMapingProfile());
-        //        cfg.AddProfile(new DDDMapingProfile());
-        //    });
-
-        //    var _mapper = configMapper.CreateMapper();
-
-        //    var ContatoMap = _mapper.Map<Contato>(ContatoDTO);
-        //    var DddMap = _mapper.Map<DDD>(ContatoDTO.Ddd);
-
-        //    DddRepository
-        //        .Setup(DDDRepositoryMock => DDDRepositoryMock.Obter(DddMap.DddId))
-        //        .ReturnsAsync(DddMap);
-
-        //    ContatoRepository //NAO ESTOU CONSEGUINDO FAZER COM QUE ESTE MÉTODO RETORNE "TRUE" PARA ENTRAR NA CONDICIONAL E RETORNAR "ValidacaoException".
-        //        .Setup(ContatoRepositoryMock => ContatoRepositoryMock.Existe(ContatoMap))
-        //        .ReturnsAsync(true);
-
-        //    var ContatoService = new ContatoService(ContatoRepository.Object, _mapper, DddRepository.Object);
-
-        //    //act
-        //    var ContatoResult = await ContatoService.Adicionar(ContatoDTO);
-
-        //    //assert
-        //    Assert.False(ContatoResult.IsSuccess);
-        //    var ex = Assert.IsType<ValidacaoException>(ContatoResult.Error);
-        //    Assert.Equal("Cadastro de contato ja existe", ex.Message);
-        //}
-
-        [Fact]
-        public async void ContatoService_Adiconar_ContatoServiceAdicionadoComErro()
+            ContatoId = 2,
+            Nome = "Mario",
+            Telefone = "7198875566",
+            Email = "mario.silveira@gmail.com",
+            Ativo = true,
+            DddId = 71
+        };
+        
+        _contatoListaDto = new ContatoDTO()
         {
-            //arrange
-            var ContatoRepository = new Mock<IContatoRepository>();
-            var DddRepository = new Mock<IDDDRepository>();
-
-            var ContatoDTO = new ContatoDTO()
-            {
-                ContatoId = 2,
-                Nome = "Mario",
-                Telefone = "7198875566",
-                Email = "mario.silveira@gmail.com",
-                Ativo = true,
-                DddId = 71
-            };
-
-            var DddDTO = new DDDDto //Nao Mocado, para que o método Obter retorne null.
-            {
-                DddId = 71,
-                UfSigla = "BA",
-                UfNome = "Bahia",
-                Regiao = "Salvador"
-            };
-
-            var configMapper = new MapperConfiguration(cfg =>
-            {
-                cfg.AddProfile(new ContatoMapingProfile());
-                cfg.AddProfile(new DDDMapingProfile());
-            });
-
-            var _mapper = configMapper.CreateMapper();
-
-            var ContatoMap = _mapper.Map<Contato>(ContatoDTO);
-            var DddMap = _mapper.Map<DDD>(DddDTO);
-
-            DddRepository
-                .Setup(DDDRepositoryMock => DDDRepositoryMock.Obter(DddMap.DddId))
-                .Throws(new Exception());
-
-            var ContatoService = new ContatoService(ContatoRepository.Object, _mapper, DddRepository.Object);
-
-            //act
-            var ContatoResult = await ContatoService.Adicionar(ContatoDTO);
-
-            //assert
-            Assert.False(ContatoResult.IsSuccess);
-            var ex = Assert.IsType<Exception>(ContatoResult.Error);
-        }
-
-
-
-        [Fact]
-        public async void ContatoService_Atualizar_ContatoServiceAtualizadoComSucesso()
-        {
-            //arrange
-            var ContatoRepository = new Mock<IContatoRepository>();
-            var DddRepository = new Mock<IDDDRepository>();
-
-            var ContatoDTO = new ContatoDTO()
-            {
-                ContatoId = 2,
-                Nome = "Mario",
-                Telefone = "7198875566",
-                Email = "mario.silveira@gmail.com",
-                Ativo = true,
-                DddId = 71,
-                Ddd = new DDDDto
-                {
-                    DddId = 71,
-                    UfSigla = "BA",
-                    UfNome = "Bahia",
-                    Regiao = "Salvador"
-                }
-            };
-
-            var configMapper = new MapperConfiguration(cfg =>
-            {
-                cfg.AddProfile(new ContatoMapingProfile());
-                cfg.AddProfile(new DDDMapingProfile());
-            });
-
-            var _mapper = configMapper.CreateMapper();
-
-            var ContatoMap = _mapper.Map<Contato>(ContatoDTO);
-            var DddMap = _mapper.Map<DDD>(ContatoDTO.Ddd);
-
-            DddRepository
-                .Setup(DDDRepositoryMock => DDDRepositoryMock.Obter(DddMap.DddId))
-                .ReturnsAsync(DddMap);
-
-            ContatoRepository
-                .Setup(ContatoRepositoryMock => ContatoRepositoryMock.Obter(ContatoMap.ContatoId!.Value))
-                .ReturnsAsync(ContatoMap);
-
-            var ContatoService = new ContatoService(ContatoRepository.Object, _mapper, DddRepository.Object);
-
-            //act
-            var ContatoResult = await ContatoService.Atualizar(ContatoDTO);
-
-            //assert
-            Assert.True(ContatoResult.IsSuccess);
-        }
-
-        [Fact]
-        public async void ContatoService_Atualizar_ContatoServiceAtualizadoComErroDDDNaoExiste()
-        {
-            //arrange
-            var ContatoRepository = new Mock<IContatoRepository>();
-            var DddRepository = new Mock<IDDDRepository>();
-
-            var ContatoDTO = new ContatoDTO()
-            {
-                ContatoId = 2,
-                Nome = "Mario",
-                Telefone = "7198875566",
-                Email = "mario.silveira@gmail.com",
-                Ativo = true,
-                DddId = 888
-            };
-
-            var DddDTO = new DDDDto //Nao Mocado, para que o método Obter retorne null.
-            {
-                DddId = 71,
-                UfSigla = "BA",
-                UfNome = "Bahia",
-                Regiao = "Salvador"
-            };
-
-            var configMapper = new MapperConfiguration(cfg =>
-            {
-                cfg.AddProfile(new ContatoMapingProfile());
-                cfg.AddProfile(new DDDMapingProfile());
-            });
-
-            var _mapper = configMapper.CreateMapper();
-
-            var ContatoMap = _mapper.Map<Contato>(ContatoDTO);
-            var DddMap = _mapper.Map<DDD>(DddDTO);
-
-            ContatoRepository
-                .Setup(ContatoRepositoryMock => ContatoRepositoryMock.Obter(ContatoMap.ContatoId.Value))
-                .ReturnsAsync(ContatoMap);
-
-            //DddRepository
-            //    .Setup(DDDRepositoryMock => DDDRepositoryMock.Obter(DddMap.DddId))
-            //    .ReturnsAsync(DddMap);
-
-            var ContatoService = new ContatoService(ContatoRepository.Object, _mapper, DddRepository.Object);
-
-            //act
-            var ContatoResult = await ContatoService.Atualizar(ContatoDTO);
-
-            //assert
-            Assert.False(ContatoResult.IsSuccess);
-            var ex = Assert.IsType<ValidacaoException>(ContatoResult.Error);
-            Assert.Equal("DDD não existe", ex.Message);
-        }
-
-        [Fact]
-        public async void ContatoService_Atualizar_ContatoServiceAtualizadoComErroContatoNaoPodeSerAlterado()
-        {
-            //arrange
-            var ContatoRepository = new Mock<IContatoRepository>();
-            var DddRepository = new Mock<IDDDRepository>();
-
-            var ContatoDTO = new ContatoDTO()
-            {
-                ContatoId = 2,
-                Nome = "Mario",
-                Telefone = "7198875566",
-                Email = "mario.silveira@gmail.com",
-                Ativo = true,
-                DddId = 71,
-                Ddd = new DDDDto
-                {
-                    DddId = 71,
-                    UfSigla = "BA",
-                    UfNome = "Bahia",
-                    Regiao = "Salvador"
-                }
-            };
-
-            var configMapper = new MapperConfiguration(cfg =>
-            {
-                cfg.AddProfile(new ContatoMapingProfile());
-                cfg.AddProfile(new DDDMapingProfile());
-            });
-
-            var _mapper = configMapper.CreateMapper();
-
-            var ContatoMap = _mapper.Map<Contato>(ContatoDTO);
-            var DddMap = _mapper.Map<DDD>(ContatoDTO.Ddd);
-
-            DddRepository
-                .Setup(DDDRepositoryMock => DDDRepositoryMock.Obter(DddMap.DddId))
-                .ReturnsAsync(DddMap);
-
-            ContatoRepository
-                .Setup(ContatoRepositoryMock => ContatoRepositoryMock.Obter(ContatoMap.ContatoId!.Value));
-
-            var ContatoService = new ContatoService(ContatoRepository.Object, _mapper, DddRepository.Object);
-
-            //act
-            var ContatoResult = await ContatoService.Atualizar(ContatoDTO);
-
-            //assert
-            Assert.False(ContatoResult.IsSuccess);
-            var ex = Assert.IsType<ValidacaoException>(ContatoResult.Error);
-            Assert.Equal("Contato não pode ser alterado", ex.Message);
-        }
-
-        [Fact]
-        public async void ContatoService_Atualizar_ContatoServiceAtualizadoComErro()
-        {
-            //arrange
-            var ContatoRepository = new Mock<IContatoRepository>();
-            var DddRepository = new Mock<IDDDRepository>();
-
-            var ContatoDTO = new ContatoDTO()
-            {
-                ContatoId = 2,
-                Nome = "Mario",
-                Telefone = "7198875566",
-                Email = "mario.silveira@gmail.com",
-                Ativo = true,
-                DddId = 71
-            };
-
-            var DddDTO = new DDDDto //Nao Mocado, para que o método Obter retorne null.
-            {
-                DddId = 71,
-                UfSigla = "BA",
-                UfNome = "Bahia",
-                Regiao = "Salvador"
-            };
-
-            var configMapper = new MapperConfiguration(cfg =>
-            {
-                cfg.AddProfile(new ContatoMapingProfile());
-                cfg.AddProfile(new DDDMapingProfile());
-            });
-
-            var _mapper = configMapper.CreateMapper();
-
-            var ContatoMap = _mapper.Map<Contato>(ContatoDTO);
-            var DddMap = _mapper.Map<DDD>(DddDTO);
-
-            DddRepository
-                .Setup(DDDRepositoryMock => DDDRepositoryMock.Obter(DddMap.DddId))
-                .Throws(new Exception());
-
-            var ContatoService = new ContatoService(ContatoRepository.Object, _mapper, DddRepository.Object);
-
-            //act
-            var ContatoResult = await ContatoService.Adicionar(ContatoDTO);
-
-            //assert
-            Assert.False(ContatoResult.IsSuccess);
-            var ex = Assert.IsType<Exception>(ContatoResult.Error);
-        }
-
-
-
-        [Fact]
-        public async void ContatoService_Excluir_ContatoServiceExcluidoComSucesso()
-        {
-            //arrange
-            var ContatoRepository = new Mock<IContatoRepository>();
-            var DddRepository = new Mock<IDDDRepository>();
-
-            var ContatoDTO = new ContatoDTO()
-            {
-                ContatoId = 2,
-                Nome = "Mario",
-                Telefone = "7198875566",
-                Email = "mario.silveira@gmail.com",
-                Ativo = true,
-                DddId = 71
-            };
-
-            var DddDTO = new DDDDto
-            {
-                DddId = 71,
-                UfSigla = "BA",
-                UfNome = "Bahia",
-                Regiao = "Salvador"
-            };
-
-            var configMapper = new MapperConfiguration(cfg =>
-            {
-                cfg.AddProfile(new ContatoMapingProfile());
-                cfg.AddProfile(new DDDMapingProfile());
-            });
-
-            var _mapper = configMapper.CreateMapper();
-
-            var ContatoMap = _mapper.Map<Contato>(ContatoDTO);
-            var DddMap = _mapper.Map<DDD>(DddDTO);
-
-            ContatoRepository
-                .Setup(ContatoRepositoryMock => ContatoRepositoryMock.Obter(ContatoMap.ContatoId.Value))
-                .ReturnsAsync(ContatoMap);
-
-            ContatoRepository
-                .Setup(ContatoRepositoryMock => ContatoRepositoryMock.Atualizar(ContatoMap));
-
-            var ContatoService = new ContatoService(ContatoRepository.Object, _mapper, DddRepository.Object);
-
-            //act
-            var ContatoResult = await ContatoService.Excluir(ContatoDTO.ContatoId.Value);
-
-            //assert
-            Assert.True(ContatoResult.IsSuccess);
-        }
-
-        [Fact]
-        public async void ContatoService_Excluir_ContatoServiceExcluidoComErro()
-        {
-            //arrange
-            var ContatoRepository = new Mock<IContatoRepository>();
-            var DddRepository = new Mock<IDDDRepository>();
-
-            var ContatoDTO = new ContatoDTO()
-            {
-                ContatoId = 2,
-                Nome = "Mario",
-                Telefone = "7198875566",
-                Email = "mario.silveira@gmail.com",
-                Ativo = true,
-                DddId = 71
-            };
-
-            var DddDTO = new DDDDto //Nao Mocado, para que o método Obter retorne null.
-            {
-                DddId = 71,
-                UfSigla = "BA",
-                UfNome = "Bahia",
-                Regiao = "Salvador"
-            };
-
-            var configMapper = new MapperConfiguration(cfg =>
-            {
-                cfg.AddProfile(new ContatoMapingProfile());
-                cfg.AddProfile(new DDDMapingProfile());
-            });
-
-            var _mapper = configMapper.CreateMapper();
-
-            var ContatoMap = _mapper.Map<Contato>(ContatoDTO);
-            var DddMap = _mapper.Map<DDD>(DddDTO);
-
-            ContatoRepository
-                .Setup(ContatoRepositoryMock => ContatoRepositoryMock.Obter(ContatoMap.ContatoId.Value))
-                .Throws(new Exception());
-
-            var ContatoService = new ContatoService(ContatoRepository.Object, _mapper, DddRepository.Object);
-
-            //act
-            var ContatoResult = await ContatoService.Excluir(ContatoDTO.ContatoId.Value);
-
-            //assert
-            Assert.False(ContatoResult.IsSuccess);
-            var ex = Assert.IsType<Exception>(ContatoResult.Error);
-        }
-
-
-
-        [Fact]
-        public async void ContatoService_Listar_ContatoServiceListadoComSucesso()
-        {
-            //arrange
-            var ContatoRepository = new Mock<IContatoRepository>();
-            var DddRepository = new Mock<IDDDRepository>();
-
-            var ContatoDTO = new ContatoDTO()
-            {
-                ContatoId = 2,
-                Nome = "Mario",
-                Telefone = "7198875566",
-                Email = "mario.silveira@gmail.com",
-                Ativo = true,
-                DddId = 71
-            };
-
-            var DddDTO = new DDDDto
-            {
-                DddId = 71,
-                UfSigla = "BA",
-                UfNome = "Bahia",
-                Regiao = "Salvador"
-            };
-
-            var configMapper = new MapperConfiguration(cfg =>
-            {
-                cfg.AddProfile(new ContatoMapingProfile());
-                cfg.AddProfile(new DDDMapingProfile());
-            });
-
-            var _mapper = configMapper.CreateMapper();
-
-            var ContatoMap = _mapper.Map<Contato>(ContatoDTO);
-            var DddMap = _mapper.Map<DDD>(DddDTO);
-
-            //ContatoRepository
-            //    .Setup(ContatoRepositoryMock => ContatoRepositoryMock.Obter(ContatoMap.ContatoId.Value))
-            //    .ReturnsAsync(ContatoMap);
-
-            ContatoRepository
-                .Setup(ContatoRepositoryMock => ContatoRepositoryMock.Listar())
-                .ReturnsAsync(new List<Contato>());
-
-            var ContatoService = new ContatoService(ContatoRepository.Object, _mapper, DddRepository.Object);
-
-            //act
-            var ContatoResult = await ContatoService.Listar();
-
-            //assert
-            Assert.True(ContatoResult.IsSuccess);
-        }
-
-        [Fact]
-        public async void ContatoService_Listar_ContatoServiceListadoComErro()
-        {
-            //arrange
-            var ContatoRepository = new Mock<IContatoRepository>();
-            var DddRepository = new Mock<IDDDRepository>();
-
-            var ContatoDTO = new ContatoDTO()
-            {
-                ContatoId = 2,
-                Nome = "Mario",
-                Telefone = "7198875566",
-                Email = "mario.silveira@gmail.com",
-                Ativo = true,
-                DddId = 71
-            };
-
-            var DddDTO = new DDDDto
-            {
-                DddId = 71,
-                UfSigla = "BA",
-                UfNome = "Bahia",
-                Regiao = "Salvador"
-            };
-
-            var configMapper = new MapperConfiguration(cfg =>
-            {
-                cfg.AddProfile(new ContatoMapingProfile());
-                cfg.AddProfile(new DDDMapingProfile());
-            });
-
-            var _mapper = configMapper.CreateMapper();
-
-            var ContatoMap = _mapper.Map<Contato>(ContatoDTO);
-            var DddMap = _mapper.Map<DDD>(DddDTO);
-
-            ContatoRepository
-                .Setup(ContatoRepositoryMock => ContatoRepositoryMock.Listar())
-                .Throws(new Exception());
-
-            var ContatoService = new ContatoService(ContatoRepository.Object, _mapper, DddRepository.Object);
-
-            //act
-            var ContatoResult = await ContatoService.Listar();
-
-            //assert
-            Assert.False(ContatoResult.IsSuccess);
-            var ex = Assert.IsType<Exception>(ContatoResult.Error);
-        }
-
-
-
-        [Fact]
-        public async void ContatoService_ListarComDDD_ContatoServiceListadoComSucesso()
-        {
-            //arrange
-            var ContatoRepository = new Mock<IContatoRepository>();
-            var DddRepository = new Mock<IDDDRepository>();
-
-            var ContatoDTO = new ContatoDTO()
-            {
-                ContatoId = 2,
-                Nome = "Mario",
-                Telefone = "7198875566",
-                Email = "mario.silveira@gmail.com",
-                Ativo = true,
-                DddId = 71
-            };
-
-            var DddDTO = new DDDDto
-            {
-                DddId = 71,
-                UfSigla = "BA",
-                UfNome = "Bahia",
-                Regiao = "Salvador"
-            };
-
-            var configMapper = new MapperConfiguration(cfg =>
-            {
-                cfg.AddProfile(new ContatoMapingProfile());
-                cfg.AddProfile(new DDDMapingProfile());
-            });
-
-            var _mapper = configMapper.CreateMapper();
-
-            var ContatoMap = _mapper.Map<Contato>(ContatoDTO);
-            var DddMap = _mapper.Map<DDD>(DddDTO);
-
-            ContatoRepository
-                .Setup(ContatoRepositoryMock => ContatoRepositoryMock.ListarComDDD(ContatoMap.DddId))
-                .ReturnsAsync(new List<Contato>());
-
-            var ContatoService = new ContatoService(ContatoRepository.Object, _mapper, DddRepository.Object);
-
-            //act
-            var ContatoResult = await ContatoService.ListarComDDD(ContatoDTO.DddId);
-
-            //assert
-            Assert.True(ContatoResult.IsSuccess);
-        }
-
-        [Fact]
-        public async void ContatoService_ListarComDDD_ContatoServiceListadoComErro()
-        {
-            //arrange
-            var ContatoRepository = new Mock<IContatoRepository>();
-            var DddRepository = new Mock<IDDDRepository>();
-
-            var ContatoDTO = new ContatoDTO()
-            {
-                ContatoId = 2,
-                Nome = "Mario",
-                Telefone = "7198875566",
-                Email = "mario.silveira@gmail.com",
-                Ativo = true,
-                DddId = 71
-            };
-
-            var DddDTO = new DDDDto
-            {
-                DddId = 71,
-                UfSigla = "BA",
-                UfNome = "Bahia",
-                Regiao = "Salvador"
-            };
-
-            var configMapper = new MapperConfiguration(cfg =>
-            {
-                cfg.AddProfile(new ContatoMapingProfile());
-                cfg.AddProfile(new DDDMapingProfile());
-            });
-
-            var _mapper = configMapper.CreateMapper();
-
-            var ContatoMap = _mapper.Map<Contato>(ContatoDTO);
-            var DddMap = _mapper.Map<DDD>(DddDTO);
-
-            ContatoRepository
-                .Setup(ContatoRepositoryMock => ContatoRepositoryMock.ListarComDDD(ContatoMap.DddId))
-                .Throws(new Exception());
-
-            var ContatoService = new ContatoService(ContatoRepository.Object, _mapper, DddRepository.Object);
-
-            //act
-            var ContatoResult = await ContatoService.ListarComDDD(ContatoDTO.DddId);
-
-            //assert
-            Assert.False(ContatoResult.IsSuccess);
-            var ex = Assert.IsType<Exception>(ContatoResult.Error);
-        }
-
-
-
-        [Fact]
-        public async void ContatoService_Obter_ContatoServiceObtendoComSucesso()
-        {
-            //arrange
-            var ContatoRepository = new Mock<IContatoRepository>();
-            var DddRepository = new Mock<IDDDRepository>();
-
-            var ContatoDTO = new ContatoDTO()
-            {
-                ContatoId = 2,
-                Nome = "Mario",
-                Telefone = "7198875566",
-                Email = "mario.silveira@gmail.com",
-                Ativo = true,
-                DddId = 71,
-                Ddd = new DDDDto
-                {
-                    DddId = 71,
-                    UfSigla = "BA",
-                    UfNome = "Bahia",
-                    Regiao = "Salvador"
-                }
-            };
-
-            var configMapper = new MapperConfiguration(cfg =>
-            {
-                cfg.AddProfile(new ContatoMapingProfile());
-                cfg.AddProfile(new DDDMapingProfile());
-            });
-
-            var _mapper = configMapper.CreateMapper();
-
-            var ContatoMap = _mapper.Map<Contato>(ContatoDTO);
-            var DddMap = _mapper.Map<DDD>(ContatoDTO.Ddd);
-
-            ContatoRepository
-                .Setup(ContatoRepositoryMock => ContatoRepositoryMock.Obter(ContatoMap.ContatoId.Value))
-                .ReturnsAsync(ContatoMap);
-
-            var ContatoService = new ContatoService(ContatoRepository.Object, _mapper, DddRepository.Object);
-
-            //act
-            var ContatoResult = await ContatoService.Obter(ContatoDTO.ContatoId.Value);
-
-            //assert
-            Assert.True(ContatoResult.IsSuccess);
-        }
-
-        [Fact]
-        public async void ContatoService_Obter_ContatoServiceObtendoComErro()
-        {
-            //arrange
-            var ContatoRepository = new Mock<IContatoRepository>();
-            var DddRepository = new Mock<IDDDRepository>();
-
-            var ContatoDTO = new ContatoDTO()
-            {
-                ContatoId = 2,
-                Nome = "Mario",
-                Telefone = "7198875566",
-                Email = "mario.silveira@gmail.com",
-                Ativo = true,
-                DddId = 71,
-                Ddd = new DDDDto
-                {
-                    DddId = 71,
-                    UfSigla = "BA",
-                    UfNome = "Bahia",
-                    Regiao = "Salvador"
-                }
-            };
-
-            var configMapper = new MapperConfiguration(cfg =>
-            {
-                cfg.AddProfile(new ContatoMapingProfile());
-                cfg.AddProfile(new DDDMapingProfile());
-            });
-
-            var _mapper = configMapper.CreateMapper();
-
-            var ContatoMap = _mapper.Map<Contato>(ContatoDTO);
-            var DddMap = _mapper.Map<DDD>(ContatoDTO.Ddd);
-
-            ContatoRepository
-                .Setup(ContatoRepositoryMock => ContatoRepositoryMock.Obter(ContatoMap.ContatoId.Value))
-                .Throws(new Exception());
-
-            var ContatoService = new ContatoService(ContatoRepository.Object, _mapper, DddRepository.Object);
-
-            //act
-            var ContatoResult = await ContatoService.Obter(ContatoDTO.ContatoId.Value);
-
-            //assert
-            Assert.False(ContatoResult.IsSuccess);
-            var ex = Assert.IsType<Exception>(ContatoResult.Error);
-        }
+            ContatoId = 2,
+            Nome = "Mario",
+            Telefone = "7198875566",
+            Email = "mario.silveira@gmail.com",
+            Ativo = true,
+            DddId = 71,
+            Ddd = _mapper.Map<DDDDto>(_ddd)
+        };
+        
+
+        _contato = _mapper.Map<Contato>(_contatoDto);
+
+    
+    }
+    [Fact]
+    public async void ContatoService_Adiconar_ComSucesso()
+    {
+        //arrange
+        var contatoRepository = new Mock<IContatoRepository>();
+        var dddRepository = new Mock<IDDDRepository>();
+
+        contatoRepository
+            .Setup(x => x.Adicionar(_contato))
+            .ReturnsAsync(_contato);
+
+        dddRepository
+            .Setup(x => x.Obter(_contato.DddId))
+            .ReturnsAsync(_ddd);
+
+        var ContatoService = new ContatoService(contatoRepository.Object, _mapper, dddRepository.Object);
+
+        //act
+        var ContatoResult = await ContatoService.Adicionar(_contatoDto);
+
+        //assert
+        Assert.True(ContatoResult.IsSuccess);
+    }
+
+    [Fact]
+    public async void ContatoService_Adiconar_ComErroDDDNaoExiste()
+    {
+        //arrange
+        var contatoRepository = new Mock<IContatoRepository>();
+        var dddRepository = new Mock<IDDDRepository>();
+
+        dddRepository
+            .Setup(x => x.Obter(_ddd.DddId));
+
+
+        var contatoService = new ContatoService(contatoRepository.Object, _mapper, dddRepository.Object);
+
+        //act
+        var contatoResult = await contatoService.Adicionar(_contatoDto);
+
+        //assert
+        Assert.False(contatoResult.IsSuccess);
+        var ex = Assert.IsType<ValidacaoException>(contatoResult.Error);
+        Assert.Equal("DDD não existe", ex.Message);
+    }
+
+    [Fact]
+    public async void ContatoService_Adiconar_ComErroContatoJaExistente()
+    {
+        //arrange
+        var contatoRepository = new Mock<IContatoRepository>();
+        var dddRepository = new Mock<IDDDRepository>();
+
+
+
+        dddRepository
+            .Setup(x => x.Obter(_contato.DddId))
+            .ReturnsAsync(_ddd);
+
+        contatoRepository
+            .Setup(x => x.Existe(It.IsAny<Contato>()))
+            .ReturnsAsync(true);
+
+        var contatoService = new ContatoService(contatoRepository.Object, _mapper, dddRepository.Object);
+
+        //act
+        var contatoResult = await contatoService.Adicionar(_contatoDto);
+
+        //assert
+        Assert.False(contatoResult.IsSuccess);
+        var ex = Assert.IsType<ValidacaoException>(contatoResult.Error);
+        Assert.Equal("Cadastro de contato ja existe", ex.Message);
+    }
+
+    [Fact]
+    public async void ContatoService_Adicionar_ComErro()
+    {
+        //arrange
+        var contatoRepository = new Mock<IContatoRepository>();
+        var dddRepository = new Mock<IDDDRepository>();
+
+
+        dddRepository
+            .Setup(x => x.Obter(_contatoDto.DddId))
+            .Throws(new Exception());
+
+        var contatoService = new ContatoService(contatoRepository.Object, _mapper, dddRepository.Object);
+
+        //act
+        var contatoResult = await contatoService.Adicionar(_contatoDto);
+
+        //assert
+        Assert.False(contatoResult.IsSuccess);
+        Assert.IsType<Exception>(contatoResult.Error);
+    }
+
+
+
+    [Fact]
+    public async void ContatoService_Atualizar_ContatoServiceAtualizadoComSucesso()
+    {
+        //arrange
+        var contatoRepository = new Mock<IContatoRepository>();
+        var dddRepository = new Mock<IDDDRepository>();
+
+
+        dddRepository
+            .Setup(x => x.Obter(_ddd.DddId))
+            .ReturnsAsync(_ddd);
+
+        contatoRepository
+            .Setup(x => x.Obter(_contato.ContatoId!.Value))
+            .ReturnsAsync(_contato);
+
+        var contatoService = new ContatoService(contatoRepository.Object, _mapper, dddRepository.Object);
+
+        //act
+        var contatoResult = await contatoService.Atualizar(_contatoDto);
+
+        //assert
+        Assert.True(contatoResult.IsSuccess);
+    }
+
+    [Fact]
+    public async void ContatoService_Atualizar_ComErroDDDNaoExiste()
+    {
+        //arrange
+        var contatoRepository = new Mock<IContatoRepository>();
+        var dddRepository = new Mock<IDDDRepository>();
+
+        dddRepository
+            .Setup(x => x.Obter(_ddd.DddId));
+        
+        var contatoService = new ContatoService(contatoRepository.Object, _mapper, dddRepository.Object);
+
+        //act
+        var contatoResult = await contatoService.Atualizar(_contatoDto);
+
+        //assert
+        Assert.False(contatoResult.IsSuccess);
+        var ex = Assert.IsType<ValidacaoException>(contatoResult.Error);
+        Assert.Equal("DDD não existe", ex.Message);
+    }
+
+    [Fact]
+    public async void ContatoService_Atualizar_ComErroContatoNaoExiste()
+    {
+        //arrange
+        var contatoRepository = new Mock<IContatoRepository>();
+        var dddRepository = new Mock<IDDDRepository>();
+
+        dddRepository
+            .Setup(x => x.Obter(_ddd.DddId))
+            .ReturnsAsync(_ddd);
+
+        contatoRepository
+            .Setup(x => x.Obter(_contato.ContatoId!.Value));
+
+        var contatoService = new ContatoService(contatoRepository.Object, _mapper, dddRepository.Object);
+
+        //act
+        var contatoResult = await contatoService.Atualizar(_contatoDto);
+
+        //assert
+        Assert.False(contatoResult.IsSuccess);
+        var ex = Assert.IsType<ValidacaoException>(contatoResult.Error);
+        Assert.Equal("Contato não existe", ex.Message);
+    }
+
+    [Fact]
+    public async void ContatoService_Atualizar_AtualizadoComErro()
+    {
+        //arrange
+        var contatoRepository = new Mock<IContatoRepository>();
+        var dddRepository = new Mock<IDDDRepository>();
+
+        dddRepository
+            .Setup(x => x.Obter(_contatoDto.DddId))
+            .Throws(new Exception());
+
+        var contatoService = new ContatoService(contatoRepository.Object, _mapper, dddRepository.Object);
+
+        //act
+        var contatoResult = await contatoService.Atualizar(_contatoDto);
+
+        //assert
+        Assert.False(contatoResult.IsSuccess);
+        Assert.IsType<Exception>(contatoResult.Error);
+    }
+
+    [Fact]
+    public async void ContatoService_Excluir_ComSucesso()
+    {
+        //arrange
+        var contatoRepository = new Mock<IContatoRepository>();
+        var dddRepository = new Mock<IDDDRepository>();
+
+
+        contatoRepository
+            .Setup(x => x.Obter(_contato.ContatoId!.Value))
+            .ReturnsAsync(_contato);
+
+        contatoRepository
+            .Setup(x => x.Atualizar(_contato));
+
+        var contatoService = new ContatoService(contatoRepository.Object, _mapper, dddRepository.Object);
+
+        //act
+        var contatoResult = await contatoService.Excluir(_contatoDto.ContatoId!.Value);
+
+        //assert
+        Assert.True(contatoResult.IsSuccess);
+    }
+
+    [Fact]
+    public async void ContatoService_Excluir_ComErro()
+    {
+        //arrange
+        var contatoRepository = new Mock<IContatoRepository>();
+        var dddRepository = new Mock<IDDDRepository>();
+
+        contatoRepository
+            .Setup(x => x.Obter(_contato.ContatoId.Value))
+            .Throws(new Exception());
+
+        var contatoService = new ContatoService(contatoRepository.Object, _mapper, dddRepository.Object);
+
+        //act
+        var contatoResult = await contatoService.Excluir(_contatoDto.ContatoId!.Value);
+
+        //assert
+        Assert.False(contatoResult.IsSuccess);
+        Assert.IsType<Exception>(contatoResult.Error);
+    }
+
+    [Fact]
+    public async void ContatoService_Listar_ComSucesso()
+    {
+        //arrange
+        var contatoRepository = new Mock<IContatoRepository>();
+        var dddRepository = new Mock<IDDDRepository>();
+
+        
+        
+        contatoRepository
+            .Setup(x => x.Listar())
+            .ReturnsAsync(new List<Contato>());
+
+        var contatoService = new ContatoService(contatoRepository.Object, _mapper, dddRepository.Object);
+
+        //act
+        var contatoResult = await contatoService.Listar();
+
+        //assert
+        Assert.True(contatoResult.IsSuccess);
+    }
+
+    [Fact]
+    public async void ContatoService_Listar_ComErro()
+    {
+        //arrange
+        var contatoRepository = new Mock<IContatoRepository>();
+        var dddRepository = new Mock<IDDDRepository>();
+
+        contatoRepository
+            .Setup(x => x.Listar())
+            .Throws(new Exception());
+
+        var contatoService = new ContatoService(contatoRepository.Object, _mapper, dddRepository.Object);
+
+        //act
+        var contatoResult = await contatoService.Listar();
+
+        //assert
+        Assert.False(contatoResult.IsSuccess);
+        Assert.IsType<Exception>(contatoResult.Error);
+    }
+
+
+
+    [Fact]
+    public async void ContatoService_ListarComDDD_ComSucesso()
+    {
+        //arrange
+        var contatoRepository = new Mock<IContatoRepository>();
+        var dddRepository = new Mock<IDDDRepository>();
+
+        contatoRepository
+            .Setup(x => x.ListarComDDD(_contatoDto.DddId))
+            .ReturnsAsync(new List<Contato>() );
+
+        var contatoService = new ContatoService(contatoRepository.Object, _mapper, dddRepository.Object);
+
+        //act
+        var contatoResult = await contatoService.ListarComDDD(_contatoDto.DddId);
+
+        //assert
+        Assert.True(contatoResult.IsSuccess);
+  
+    }
+
+    [Fact]
+    public async void ContatoService_ListarComDDD_ListadoComErro()
+    {
+        //arrange
+        var contatoRepository = new Mock<IContatoRepository>();
+        var dddRepository = new Mock<IDDDRepository>();
+
+        contatoRepository
+            .Setup(x => x.ListarComDDD(_contato.DddId))
+            .Throws(new Exception());
+
+        var contatoService = new ContatoService(contatoRepository.Object, _mapper, dddRepository.Object);
+
+        //act
+        var contatoResult = await contatoService.ListarComDDD(_contatoDto.DddId);
+
+        //assert
+        Assert.False(contatoResult.IsSuccess);
+        Assert.IsType<Exception>(contatoResult.Error);
+    }
+
+
+
+    [Fact]
+    public async void ContatoService_Obter_ComSucesso()
+    {
+        //arrange
+        var contatoRepository = new Mock<IContatoRepository>();
+        var dddRepository = new Mock<IDDDRepository>();
+
+        contatoRepository
+            .Setup(x => x.Obter(_contatoListaDto.ContatoId!.Value))
+            .ReturnsAsync(_contato);
+
+        var contatoService = new ContatoService(contatoRepository.Object, _mapper, dddRepository.Object);
+
+        //act
+        var contatoResult = await contatoService.Obter(_contatoListaDto.ContatoId!.Value);
+
+        //assert
+        Assert.True(contatoResult.IsSuccess);
+    }
+
+    [Fact]
+    public async void ContatoService_Obter_ComErro()
+    {
+        //arrange
+        var contatoRepository = new Mock<IContatoRepository>();
+        var dddRepository = new Mock<IDDDRepository>();
+
+
+        contatoRepository
+            .Setup(x => x.Obter(_contatoDto.ContatoId!.Value))
+            .Throws(new Exception());
+
+        var contatoService = new ContatoService(contatoRepository.Object, _mapper, dddRepository.Object);
+
+        //act
+        var contatoResult = await contatoService.Obter(_contatoDto.ContatoId!.Value);
+
+        //assert
+        Assert.False(contatoResult.IsSuccess);
+        Assert.IsType<Exception>(contatoResult.Error);
     }
 }
+

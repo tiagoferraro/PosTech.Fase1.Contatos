@@ -7,7 +7,7 @@ public class Contato
     public string Telefone { get; private set; }
     public string Email { get; private set; }
     public int DddId { get; private set; }
-    public DDD Ddd { get; private set; }
+    public DDD? Ddd { get; private set; }
     public bool Ativo { get; private set; }
     public DateTime DataInclusao { get; private set; }
 

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.Extensions.WebEncoders.Testing;
 using PosTech.Fase1.Contatos.Application.DTO;
 using PosTech.Fase1.Contatos.Application.Interfaces;
 using PosTech.Fase1.Contatos.Application.Model;
@@ -19,6 +20,7 @@ public class ContatoService(IContatoRepository _contatoRepository,IMapper _mappe
             var ddd = await _dddRepository.Obter(c.DddId);
             if (ddd is null)
                 return new ServiceResult<ContatoDTO>(new ValidacaoException("DDD não existe"));
+
 
             if (await _contatoRepository.Existe(contato))
                 return new ServiceResult<ContatoDTO>(new ValidacaoException("Cadastro de contato ja existe"));
@@ -43,7 +45,7 @@ public class ContatoService(IContatoRepository _contatoRepository,IMapper _mappe
 
             var contatoExiste = await _contatoRepository.Obter(c.ContatoId!.Value);
             if (contatoExiste is null)
-                return new ServiceResult<bool>(new ValidacaoException("Contato não pode ser alterado"));
+                return new ServiceResult<bool>(new ValidacaoException("Contato não existe"));
 
             var contato = _mapper.Map<Contato>(c);
             await _contatoRepository.Atualizar(contato);
@@ -77,7 +79,7 @@ public class ContatoService(IContatoRepository _contatoRepository,IMapper _mappe
         try
         {
             var contatos = await _contatoRepository.Listar();
-            var listaContatosDto = _mapper.Map<IEnumerable<ContatoDTO>>(contatos);
+            var listaContatosDto = _mapper.Map<IEnumerable<Contato>, IEnumerable<ContatoDTO>>(contatos);
 
             return new ServiceResult<IEnumerable<ContatoDTO>>(listaContatosDto);
         }

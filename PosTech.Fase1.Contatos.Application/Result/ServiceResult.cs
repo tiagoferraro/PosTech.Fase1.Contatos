@@ -17,13 +17,7 @@
             Error = error;
         }
 
-        // operador Implicito para os dados
-        public static implicit operator ServiceResult<T>(T data)
-            => new ServiceResult<T>(data);
-
-        // operador implicito para exceção
-        public static implicit operator ServiceResult<T>(Exception ex)
-            => new ServiceResult<T>(ex);
+      
     }
 
 

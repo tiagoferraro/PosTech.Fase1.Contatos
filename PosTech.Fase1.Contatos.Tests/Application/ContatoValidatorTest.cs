@@ -43,7 +43,7 @@ namespace PosTech.Fase1.Contatos.Tests.Application
             //assert
             Assert.False(result.IsValid);
             Assert.Equal("NotEmptyValidator", result.Errors[0].ErrorCode);
-            Assert.Equal("'Nome' deve ser informado.", result.Errors[0].ErrorMessage);
+            Assert.Equal("Informe o nome do contato", result.Errors[0].ErrorMessage);
         }
 
         [Fact]
@@ -52,6 +52,7 @@ namespace PosTech.Fase1.Contatos.Tests.Application
             //arrange
             ContatoDTO contatoDto = new ContatoDTO()
             {
+                
                 Telefone = "988808182",
                 Email = "Joao.Barro@acme.com",
                 Ativo = true,
@@ -63,7 +64,7 @@ namespace PosTech.Fase1.Contatos.Tests.Application
             //assert
             Assert.False(result.IsValid);
             Assert.Equal("NotEmptyValidator", result.Errors[0].ErrorCode);
-            Assert.Equal("'Nome' deve ser informado.", result.Errors[0].ErrorMessage);
+            Assert.Equal("Informe o nome do contato", result.Errors[0].ErrorMessage);
         }
 
         [Theory]
@@ -107,7 +108,7 @@ namespace PosTech.Fase1.Contatos.Tests.Application
             //assert
             Assert.False(result.IsValid);
             Assert.Equal("NotEmptyValidator", result.Errors[0].ErrorCode);
-            Assert.Equal("Informe o número do telegone de contato", result.Errors[0].ErrorMessage);
+            Assert.Equal("Informe o número do telefone de contato", result.Errors[0].ErrorMessage);
         }
 
         [Fact]
@@ -126,7 +127,7 @@ namespace PosTech.Fase1.Contatos.Tests.Application
             //assert
             Assert.False(result.IsValid);
             Assert.Equal("NotEmptyValidator", result.Errors[0].ErrorCode);
-            Assert.Equal("Informe o número do telegone de contato", result.Errors[0].ErrorMessage);
+            Assert.Equal("Informe o número do telefone de contato", result.Errors[0].ErrorMessage);
         }
 
         [Fact]
