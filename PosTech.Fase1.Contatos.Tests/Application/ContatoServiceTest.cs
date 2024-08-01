@@ -16,6 +16,9 @@ public class ContatoServiceTest
     private readonly Contato _contato;
     private readonly DDD _ddd;
     private readonly ContatoDTO _contatoListaDto;
+    private readonly Mock<IContatoRepository> contatoRepository;
+    private readonly Mock<IDDDRepository> dddRepository;
+
 
     public ContatoServiceTest()
     {
@@ -50,14 +53,13 @@ public class ContatoServiceTest
 
         _contato = _mapper.Map<Contato>(_contatoDto);
 
-    
+        contatoRepository = new Mock<IContatoRepository>();
+        dddRepository = new Mock<IDDDRepository>();
     }
     [Fact]
     public async void ContatoService_Adiconar_ComSucesso()
     {
         //arrange
-        var contatoRepository = new Mock<IContatoRepository>();
-        var dddRepository = new Mock<IDDDRepository>();
 
         contatoRepository
             .Setup(x => x.Adicionar(_contato))
@@ -80,9 +82,6 @@ public class ContatoServiceTest
     public async void ContatoService_Adiconar_ComErroDDDNaoExiste()
     {
         //arrange
-        var contatoRepository = new Mock<IContatoRepository>();
-        var dddRepository = new Mock<IDDDRepository>();
-
         dddRepository
             .Setup(x => x.Obter(_ddd.DddId));
 
@@ -102,11 +101,6 @@ public class ContatoServiceTest
     public async void ContatoService_Adiconar_ComErroContatoJaExistente()
     {
         //arrange
-        var contatoRepository = new Mock<IContatoRepository>();
-        var dddRepository = new Mock<IDDDRepository>();
-
-
-
         dddRepository
             .Setup(x => x.Obter(_contato.DddId))
             .ReturnsAsync(_ddd);
@@ -130,10 +124,6 @@ public class ContatoServiceTest
     public async void ContatoService_Adicionar_ComErro()
     {
         //arrange
-        var contatoRepository = new Mock<IContatoRepository>();
-        var dddRepository = new Mock<IDDDRepository>();
-
-
         dddRepository
             .Setup(x => x.Obter(_contatoDto.DddId))
             .Throws(new Exception());
@@ -154,10 +144,6 @@ public class ContatoServiceTest
     public async void ContatoService_Atualizar_ContatoServiceAtualizadoComSucesso()
     {
         //arrange
-        var contatoRepository = new Mock<IContatoRepository>();
-        var dddRepository = new Mock<IDDDRepository>();
-
-
         dddRepository
             .Setup(x => x.Obter(_ddd.DddId))
             .ReturnsAsync(_ddd);
@@ -179,9 +165,6 @@ public class ContatoServiceTest
     public async void ContatoService_Atualizar_ComErroDDDNaoExiste()
     {
         //arrange
-        var contatoRepository = new Mock<IContatoRepository>();
-        var dddRepository = new Mock<IDDDRepository>();
-
         dddRepository
             .Setup(x => x.Obter(_ddd.DddId));
         
@@ -200,9 +183,6 @@ public class ContatoServiceTest
     public async void ContatoService_Atualizar_ComErroContatoNaoExiste()
     {
         //arrange
-        var contatoRepository = new Mock<IContatoRepository>();
-        var dddRepository = new Mock<IDDDRepository>();
-
         dddRepository
             .Setup(x => x.Obter(_ddd.DddId))
             .ReturnsAsync(_ddd);
@@ -225,9 +205,6 @@ public class ContatoServiceTest
     public async void ContatoService_Atualizar_AtualizadoComErro()
     {
         //arrange
-        var contatoRepository = new Mock<IContatoRepository>();
-        var dddRepository = new Mock<IDDDRepository>();
-
         dddRepository
             .Setup(x => x.Obter(_contatoDto.DddId))
             .Throws(new Exception());
@@ -246,10 +223,6 @@ public class ContatoServiceTest
     public async void ContatoService_Excluir_ComSucesso()
     {
         //arrange
-        var contatoRepository = new Mock<IContatoRepository>();
-        var dddRepository = new Mock<IDDDRepository>();
-
-
         contatoRepository
             .Setup(x => x.Obter(_contato.ContatoId!.Value))
             .ReturnsAsync(_contato);
@@ -265,14 +238,24 @@ public class ContatoServiceTest
         //assert
         Assert.True(contatoResult.IsSuccess);
     }
+    [Fact]
+    public async void ContatoService_Excluir_ComErroRegistroNaoExiste()
+    {
+        //arrange
+        var contatoService = new ContatoService(contatoRepository.Object, _mapper, dddRepository.Object);
+
+        //act
+        var contatoResult = await contatoService.Excluir(_contatoDto.ContatoId!.Value);
+
+        //assert
+        Assert.False(contatoResult.IsSuccess);
+        Assert.IsType<ValidacaoException>(contatoResult.Error);
+    }
 
     [Fact]
     public async void ContatoService_Excluir_ComErro()
     {
         //arrange
-        var contatoRepository = new Mock<IContatoRepository>();
-        var dddRepository = new Mock<IDDDRepository>();
-
         contatoRepository
             .Setup(x => x.Obter(_contato.ContatoId.Value))
             .Throws(new Exception());
@@ -291,11 +274,6 @@ public class ContatoServiceTest
     public async void ContatoService_Listar_ComSucesso()
     {
         //arrange
-        var contatoRepository = new Mock<IContatoRepository>();
-        var dddRepository = new Mock<IDDDRepository>();
-
-        
-        
         contatoRepository
             .Setup(x => x.Listar())
             .ReturnsAsync(new List<Contato>());
@@ -313,9 +291,6 @@ public class ContatoServiceTest
     public async void ContatoService_Listar_ComErro()
     {
         //arrange
-        var contatoRepository = new Mock<IContatoRepository>();
-        var dddRepository = new Mock<IDDDRepository>();
-
         contatoRepository
             .Setup(x => x.Listar())
             .Throws(new Exception());
@@ -336,9 +311,6 @@ public class ContatoServiceTest
     public async void ContatoService_ListarComDDD_ComSucesso()
     {
         //arrange
-        var contatoRepository = new Mock<IContatoRepository>();
-        var dddRepository = new Mock<IDDDRepository>();
-
         contatoRepository
             .Setup(x => x.ListarComDDD(_contatoDto.DddId))
             .ReturnsAsync(new List<Contato>() );
@@ -357,9 +329,6 @@ public class ContatoServiceTest
     public async void ContatoService_ListarComDDD_ListadoComErro()
     {
         //arrange
-        var contatoRepository = new Mock<IContatoRepository>();
-        var dddRepository = new Mock<IDDDRepository>();
-
         contatoRepository
             .Setup(x => x.ListarComDDD(_contato.DddId))
             .Throws(new Exception());
@@ -380,9 +349,6 @@ public class ContatoServiceTest
     public async void ContatoService_Obter_ComSucesso()
     {
         //arrange
-        var contatoRepository = new Mock<IContatoRepository>();
-        var dddRepository = new Mock<IDDDRepository>();
-
         contatoRepository
             .Setup(x => x.Obter(_contatoListaDto.ContatoId!.Value))
             .ReturnsAsync(_contato);
@@ -400,10 +366,6 @@ public class ContatoServiceTest
     public async void ContatoService_Obter_ComErro()
     {
         //arrange
-        var contatoRepository = new Mock<IContatoRepository>();
-        var dddRepository = new Mock<IDDDRepository>();
-
-
         contatoRepository
             .Setup(x => x.Obter(_contatoDto.ContatoId!.Value))
             .Throws(new Exception());

@@ -63,6 +63,8 @@ public class ContatoService(IContatoRepository _contatoRepository,IMapper _mappe
         try
         {
             var contato = await _contatoRepository.Obter(ContatoId);
+            if (contato is null)
+                return new ServiceResult<bool>(new ValidacaoException("Contato não existe"));
             contato.DesativarContato();
             await _contatoRepository.Atualizar(contato);
 
