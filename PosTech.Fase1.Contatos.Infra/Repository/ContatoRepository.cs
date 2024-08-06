@@ -18,7 +18,7 @@ public class ContatoRepository(AppDBContext context) : IContatoRepository
 
     public async Task Atualizar(Contato c)
     {
-        context.Contatos.Update(c);
+        context.Entry(c).State = EntityState.Modified;
         await context.SaveChangesAsync();
     }
 
@@ -35,7 +35,7 @@ public class ContatoRepository(AppDBContext context) : IContatoRepository
 
     public async Task<Contato?> Obter(int contatoId)
     {
-        return await context.Contatos.Include(c => c.Ddd).FirstOrDefaultAsync(c => c.ContatoId == contatoId && c.Ativo);
+        return await context.Contatos.Include(c => c.Ddd).AsNoTracking().FirstOrDefaultAsync(c => c.ContatoId == contatoId && c.Ativo);
     }
 
     public async Task<bool> Existe(Contato c)

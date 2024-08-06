@@ -10,6 +10,7 @@ namespace PosTech.Fase1.Contatos.Infra.Mappins
         {
             builder.ToTable("Contato");
             builder.HasKey(c => c.ContatoId);
+            builder.Property(c => c.ContatoId).HasColumnName("ContatoId");
             builder.Property(c => c.Nome).HasMaxLength(50).IsRequired();
             builder.Property(c => c.Telefone).HasMaxLength(15).IsRequired();
             builder.Property(c => c.Email).HasMaxLength(200);
