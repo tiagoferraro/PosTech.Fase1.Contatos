@@ -10,6 +10,7 @@ public class DDDConfiguration : IEntityTypeConfiguration<DDD>
     {
         builder.ToTable("Ddd");
         builder.HasKey(x => x.DddId);
+        builder.Property(x => x.DddId).ValueGeneratedNever();
         builder.Property(x => x.Regiao).HasMaxLength(50).IsRequired();
         builder.OwnsOne(x => x.UnidadeFederativa, Uf =>
         {

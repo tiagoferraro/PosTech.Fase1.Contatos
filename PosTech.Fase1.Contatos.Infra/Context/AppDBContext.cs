@@ -1,15 +1,22 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using PosTech.Fase1.Contatos.Domain.Entities;
-using System.Reflection.Emit;
 
 namespace PosTech.Fase1.Contatos.Infra.Context;
 
-public class AppDBContext(IConfiguration _configuration) : DbContext
+public class AppDBContext : DbContext
 {
+    private readonly IConfiguration _configuration;
+    public AppDBContext(DbContextOptions<AppDBContext> options, IConfiguration configuration) : base(options) { 
+    _configuration = configuration;
+    }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlServer(_configuration.GetConnectionString("DefaultConnection"));
+        if (!optionsBuilder.IsConfigured)
+        {
+            optionsBuilder.UseSqlServer(_configuration.GetConnectionString("DefaultConnection"));
+        }
+
     }
     protected override void OnModelCreating(ModelBuilder builder)
     {
