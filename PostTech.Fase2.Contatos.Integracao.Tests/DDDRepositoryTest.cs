@@ -3,9 +3,12 @@ using PosTech.Fase1.Contatos.Domain.Entities;
 using PosTech.Fase1.Contatos.Infra.Context;
 using PosTech.Fase1.Contatos.Infra.Repository;
 using PostTech.Fase2.Contatos.Integracao.Tests.Fixture;
+using Xunit.Extensions.Ordering;
+
 
 namespace PostTech.Fase2.Contatos.Integracao.Tests;
-[Collection(nameof(ContextDbCollection))]
+
+[Collection(nameof(ContextDbCollection)),Order(1)]
 public class DDDRepositoryTest
 {
     private readonly AppDBContext context;
@@ -14,6 +17,7 @@ public class DDDRepositoryTest
     {
         context = fixture.Context;
         repository = new DDDRepository(context);
+        context.Database.ExecuteSqlRaw("DELETE FROM DDD");
     }
 
     [Fact]
@@ -67,7 +71,7 @@ public class DDDRepositoryTest
     [Fact]
     public async Task DDDRepository_ListarDDD_ComSucesso()
     {
-        context.Database.ExecuteSqlRaw("DELETE FROM DDD");
+      
         // Arrange
         var ddd = new DDD(32, "MG", "Minas Gerais");
         await repository.Adicionar(ddd);
