@@ -31,7 +31,7 @@ namespace PosTech.Fase1.Contatos.Tests.Presentation
             var context = new ActionExecutingContext(
                 GetActionContext(),
                 new List<IFilterMetadata>(),
-                new Dictionary<string, object>(),
+                new Dictionary<string, object>()!,
                 new Mock<Controller>().Object
             );
             context.ModelState.AddModelError("Error", "Invalid model state");
@@ -53,7 +53,7 @@ namespace PosTech.Fase1.Contatos.Tests.Presentation
             var context = new ActionExecutingContext(
                 GetActionContext(),
                 new List<IFilterMetadata>(),
-                new Dictionary<string, object>(),
+                new Dictionary<string, object>()!,
                 new Mock<Controller>().Object
             );
 

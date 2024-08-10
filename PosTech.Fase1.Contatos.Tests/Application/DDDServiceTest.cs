@@ -33,7 +33,7 @@ public class DDDServiceTest
     }
     
     [Fact]
-    public async void DDDService_Adiconar_SucessoAdicionarDDD()
+    public async Task DDDService_Adiconar_SucessoAdicionarDDD()
     {
         //arrange
         var dddRepository = new Mock<IDDDRepository>();
@@ -47,7 +47,7 @@ public class DDDServiceTest
     }
     
     [Fact]
-    public async void DDDService_Adiconar_ErroAdicionarDDD()
+    public async Task DDDService_Adiconar_ErroAdicionarDDD()
     {
         //arrange
         var dddRepository = new Mock<IDDDRepository>();
@@ -63,11 +63,11 @@ public class DDDServiceTest
 
         //assert
         Assert.False(dddResult.IsSuccess);
-        var ex = Assert.IsType<Exception>(dddResult.Error);
+        Assert.IsType<Exception>(dddResult.Error);
     }
     
     [Fact]
-    public async void DDDService_Adicionar_ErroDDDJaExiste()
+    public async Task DDDService_Adicionar_ErroDDDJaExiste()
     {
         //arrange
         var dddRepository = new Mock<IDDDRepository>();
@@ -89,11 +89,10 @@ public class DDDServiceTest
     }
     
     [Fact]
-    public async void DDDService_Atualizar_SucessoAtualizadoDDD()
+    public async Task DDDService_Atualizar_SucessoAtualizadoDDD()
     {
         //arrange
         var dddRepository = new Mock<IDDDRepository>();
-        var ddd = _mapper.Map<DDD>(_dddDto);
 
         var dddService = new DDDService(dddRepository.Object, _mapper);
 
@@ -105,7 +104,7 @@ public class DDDServiceTest
     }
     
     [Fact]
-    public async void DDDService_Atualizar_ErroAtualizarDDD()
+    public async Task DDDService_Atualizar_ErroAtualizarDDD()
     {
         //arrange
         var dddRepository = new Mock<IDDDRepository>();
@@ -126,7 +125,7 @@ public class DDDServiceTest
     }
 
     [Fact]
-    public async void DDDService_Listar_SucessoListar()
+    public async Task DDDService_Listar_SucessoListar()
     {
         //arrange
         var dddRepository = new Mock<IDDDRepository>();
@@ -140,7 +139,7 @@ public class DDDServiceTest
     }
 
     [Fact]
-    public async void DDDService_Listar_ErroListar()
+    public async Task DDDService_Listar_ErroListar()
     {
         //arrange
         var dddRepository = new Mock<IDDDRepository>();
@@ -158,7 +157,7 @@ public class DDDServiceTest
     }
 
     [Fact]
-    public async void DDDService_Obter_SucessoObterDDD()
+    public async Task DDDService_Obter_SucessoObterDDD()
     {
         //arrange
         var dddRepository = new Mock<IDDDRepository>();
@@ -178,7 +177,7 @@ public class DDDServiceTest
     }
  
     [Fact]
-    public async void DDDService_Obter_ErroObterDDD()
+    public async Task DDDService_Obter_ErroObterDDD()
     {
         //arrange
         var dddRepository = new Mock<IDDDRepository>();

@@ -7,6 +7,7 @@ using PosTech.Fase1.Contatos.Application.Validators;
 using PosTech.Fase1.Contatos.Infra.Context;
 using PosTech.Fase1.Contatos.IoC;
 using System.Reflection;
+#pragma warning disable S1118
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,4 +45,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.Run();
+await app.RunAsync();
+
+public partial class Program { }

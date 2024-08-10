@@ -15,7 +15,7 @@ public class DDDRepositoryTest
     private readonly DDDRepository repository;
     public DDDRepositoryTest(ContextDbFixture fixture)
     {
-        context = fixture.Context;
+        context = fixture.Context!;
         repository = new DDDRepository(context);
         context.Database.ExecuteSqlRaw("DELETE FROM DDD");
     }

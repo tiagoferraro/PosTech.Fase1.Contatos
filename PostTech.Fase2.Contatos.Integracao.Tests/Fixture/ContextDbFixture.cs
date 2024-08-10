@@ -6,10 +6,13 @@ using Testcontainers.MsSql;
 
 namespace PostTech.Fase2.Contatos.Integracao.Tests.Fixture;
 
+[CollectionDefinition(nameof(ContextDbCollection))]
+public class ContextDbCollection : ICollectionFixture<ContextDbFixture>;
+
 public class ContextDbFixture : IAsyncLifetime
 {
 
-    public AppDBContext Context { get; private set; }
+    public AppDBContext? Context { get; private set; }
     private readonly MsSqlContainer _msSqlContainer = new MsSqlBuilder()
         .Build();
     public async Task InitializeAsync()
@@ -21,7 +24,7 @@ public class ContextDbFixture : IAsyncLifetime
         var mockConfiguration = new Mock<IConfiguration>();
 
         Context = new AppDBContext(options, mockConfiguration.Object);
-        Context.Database.Migrate();
+        await Context.Database.MigrateAsync();
 
     }
     public async Task DisposeAsync()
@@ -32,4 +35,5 @@ public class ContextDbFixture : IAsyncLifetime
   
 
 }
+
 
