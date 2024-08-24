@@ -6,9 +6,9 @@ using PostTech.Fase2.Contatos.Integracao.Tests.Fixture;
 using Xunit.Extensions.Ordering;
 
 
-namespace PostTech.Fase2.Contatos.Integracao.Tests;
+namespace PostTech.Fase2.Contatos.Integracao.Tests.Infra;
 
-[Collection(nameof(ContextDbCollection)),Order(1)]
+[Collection(nameof(ContextDbCollection)), Order(1)]
 public class DDDRepositoryTest
 {
     private readonly AppDBContext context;
@@ -71,7 +71,7 @@ public class DDDRepositoryTest
     [Fact]
     public async Task DDDRepository_ListarDDD_ComSucesso()
     {
-      
+
         // Arrange
         var ddd = new DDD(32, "MG", "Minas Gerais");
         await repository.Adicionar(ddd);
@@ -84,7 +84,7 @@ public class DDDRepositoryTest
 
         // Assert
         Assert.NotNull(lista);
-        Assert.Equal(2,lista.Count());
+        Assert.Equal(2, lista.Count());
     }
 
 }

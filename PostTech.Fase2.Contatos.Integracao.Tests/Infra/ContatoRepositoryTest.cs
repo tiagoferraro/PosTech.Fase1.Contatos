@@ -5,8 +5,8 @@ using PosTech.Fase1.Contatos.Infra.Repository;
 using PostTech.Fase2.Contatos.Integracao.Tests.Fixture;
 using Xunit.Extensions.Ordering;
 
-namespace PostTech.Fase2.Contatos.Integracao.Tests;
-[Collection(nameof(ContextDbCollection)),Order(2)]
+namespace PostTech.Fase2.Contatos.Integracao.Tests.Infra;
+[Collection(nameof(ContextDbCollection)), Order(2)]
 public class ContatoRepositoryTest
 {
     private readonly AppDBContext context;
@@ -16,10 +16,10 @@ public class ContatoRepositoryTest
         context = fixture.Context;
         repository = new ContatoRepository(context);
         Incializadados();
-        
+
 
     }
- 
+
     private void Incializadados()
     {
         context.Database.ExecuteSqlRaw("DELETE FROM CONTATO");
@@ -29,7 +29,7 @@ public class ContatoRepositoryTest
     [Fact]
     public async Task Adicionar_DeveAdicionarContato()
     {
-        var contato = new Contato(null,"Nome 1","11999878587","teste@email.com.br",11);
+        var contato = new Contato(null, "Nome 1", "11999878587", "teste@email.com.br", 11);
         var result = await repository.Adicionar(contato);
 
         Assert.NotNull(result);
@@ -73,7 +73,7 @@ public class ContatoRepositoryTest
     [Fact]
     public async Task ListarComDDD_DeveRetornarContatosComDDD()
     {
-  
+
         context.Contatos.Add(new Contato(null, "Nome 3", "11999878582", "teste2@email.com.br", 12));
         context.Contatos.Add(new Contato(null, "Nome 1", "11999878587", "teste@email.com.br", 11));
         await context.SaveChangesAsync();
@@ -87,9 +87,9 @@ public class ContatoRepositoryTest
     [Fact]
     public async Task Obter_DeveRetornarContatoPorId()
     {
-      
+
         var contato = new Contato(null, "Nome 3", "11999878582", "teste2@email.com.br", 12);
-         context.Contatos.Add(contato);
+        context.Contatos.Add(contato);
         await context.SaveChangesAsync();
 
         var result = await repository.Obter(contato.ContatoId!.Value);

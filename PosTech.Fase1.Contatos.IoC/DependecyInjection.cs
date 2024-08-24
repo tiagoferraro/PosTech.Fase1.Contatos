@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using FluentValidation.AspNetCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PosTech.Fase1.Contatos.Application.DTO;
 using PosTech.Fase1.Contatos.Application.Interfaces;
@@ -14,10 +15,15 @@ namespace PosTech.Fase1.Contatos.IoC;
 
 public static class DependecyInjection
 {
+    public static IServiceCollection AdicionarDBContext(this IServiceCollection services)
+    {
+            services.AddDbContext<AppDBContext>(ServiceLifetime.Scoped);
+            return services;
+    }
     public static IServiceCollection AdicionarDependencias(this IServiceCollection services)
     {
         services.AddFluentValidationAutoValidation();
-        services.AddDbContext<AppDBContext>(ServiceLifetime.Scoped);
+    
 
 
         services.AddAutoMapper(typeof(DDDMapingProfile));
@@ -34,5 +40,6 @@ public static class DependecyInjection
 
         return services;
     }
+
 }
 

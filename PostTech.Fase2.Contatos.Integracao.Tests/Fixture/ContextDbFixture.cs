@@ -13,10 +13,12 @@ public class ContextDbFixture : IAsyncLifetime
 {
 
     public AppDBContext? Context { get; private set; }
+    public string sqlConection { get; private set; }
     private readonly MsSqlContainer _msSqlContainer = new MsSqlBuilder()
         .Build();
     public async Task InitializeAsync()
     {
+
         await _msSqlContainer.StartAsync();
         var options = new DbContextOptionsBuilder<AppDBContext>()
             .UseSqlServer(_msSqlContainer.GetConnectionString())
@@ -25,6 +27,7 @@ public class ContextDbFixture : IAsyncLifetime
 
         Context = new AppDBContext(options, mockConfiguration.Object);
         await Context.Database.MigrateAsync();
+        sqlConection = _msSqlContainer.GetConnectionString();
 
     }
     public async Task DisposeAsync()
