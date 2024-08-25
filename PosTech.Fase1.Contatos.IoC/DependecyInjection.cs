@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using FluentValidation.AspNetCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PosTech.Fase1.Contatos.Application.DTO;
@@ -15,9 +16,13 @@ namespace PosTech.Fase1.Contatos.IoC;
 
 public static class DependecyInjection
 {
-    public static IServiceCollection AdicionarDBContext(this IServiceCollection services)
+    public static IServiceCollection AdicionarDBContext(this IServiceCollection services,IConfiguration configurarion
+    )
     {
-            services.AddDbContext<AppDBContext>(ServiceLifetime.Scoped);
+            services.AddDbContext<AppDBContext>(options =>
+            {
+                options.UseSqlServer(configurarion.GetConnectionString("DefaultConnection"));
+            });
             return services;
     }
     public static IServiceCollection AdicionarDependencias(this IServiceCollection services)

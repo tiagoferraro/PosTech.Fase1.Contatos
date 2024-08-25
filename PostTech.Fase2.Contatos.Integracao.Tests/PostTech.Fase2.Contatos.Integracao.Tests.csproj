@@ -15,7 +15,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.8" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.10.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.0" />
     <PackageReference Include="Moq" Version="4.20.70" />
     <PackageReference Include="Testcontainers.MsSql" Version="3.9.0" />
     <PackageReference Include="xunit" Version="2.9.0" />
@@ -28,6 +28,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\PosTech.Fase1.Contatos.Api\PosTech.Fase1.Contatos.Api.csproj" />
+    <ProjectReference Include="..\PosTech.Fase1.Contatos.Application\PosTech.Fase1.Contatos.Application.csproj" />
     <ProjectReference Include="..\PosTech.Fase1.Contatos.Domain\PosTech.Fase1.Contatos.Domain.csproj" />
     <ProjectReference Include="..\PosTech.Fase1.Contatos.Infra\PosTech.Fase1.Contatos.Infra.csproj" />
     <ProjectReference Include="..\PosTech.Fase1.Contatos.IoC\PosTech.Fase1.Contatos.IoC.csproj" />
@@ -35,10 +37,6 @@
 
   <ItemGroup>
     <Using Include="Xunit" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Api\" />
   </ItemGroup>
 
 

@@ -110,6 +110,8 @@ public class ContatoService(IContatoRepository _contatoRepository,IMapper _mappe
         try
         {
             var contato = await _contatoRepository.Obter(contatoId);
+            if (contato is null)
+                return new ServiceResult<ContatoDTO>(new ValidacaoException("Contato não encontrado"));
 
             var contatoDto = _mapper.Map<ContatoDTO>(contato);
             return new ServiceResult<ContatoDTO>(contatoDto);

@@ -13,19 +13,14 @@ public class ContatoRepositoryTest
     private readonly ContatoRepository repository;
     public ContatoRepositoryTest(ContextDbFixture fixture)
     {
-        context = fixture.Context;
+        context = fixture.Context!;
         repository = new ContatoRepository(context);
-        Incializadados();
+        fixture.IncializaDadosContatos();
 
 
     }
 
-    private void Incializadados()
-    {
-        context.Database.ExecuteSqlRaw("DELETE FROM CONTATO");
-        context.Database.ExecuteSqlRaw("DELETE FROM DDD");
-        context.Database.ExecuteSqlRaw("INSERT DDD(DddId,Regiao,UfSigla,UfNome) VALUES (11,'São Paulo','SP','São Paulo') , (12,'S. José dos Campos','SP','São Paulo')");
-    }
+    
     [Fact]
     public async Task Adicionar_DeveAdicionarContato()
     {

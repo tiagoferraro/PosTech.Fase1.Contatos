@@ -11,6 +11,7 @@ using System.Reflection.PortableExecutable;
 #pragma warning disable S1118
 
 var builder = WebApplication.CreateBuilder(args);
+var configuration = builder.Configuration;
 
 builder.Services.AddControllers();
 
@@ -22,7 +23,7 @@ builder.Services.
 builder.Services.AddDbContext<AppDBContext>();
 
 builder.Services.AdicionarDependencias();
-builder.Services.AdicionarDBContext();
+builder.Services.AdicionarDBContext(configuration);
 
 builder.Services.AddSwaggerGen();
 
@@ -81,3 +82,4 @@ app.UseOpenTelemetryPrometheusScrapingEndpoint();
 
 await app.RunAsync();
 
+public partial class Program { }

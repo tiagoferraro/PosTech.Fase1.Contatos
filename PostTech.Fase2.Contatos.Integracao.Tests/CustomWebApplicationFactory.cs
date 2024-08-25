@@ -1,14 +1,11 @@
-﻿
-
-using System.Data.Common;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using PosTech.Fase1.Contatos.Infra.Context;
 using PosTech.Fase1.Contatos.IoC;
 using PostTech.Fase2.Contatos.Integracao.Tests.Fixture;
-using Xunit.Extensions.Ordering;
 
 namespace PostTech.Fase2.Contatos.Integracao.Tests;
 
@@ -16,19 +13,22 @@ namespace PostTech.Fase2.Contatos.Integracao.Tests;
 public class CustomWebApplicationFactory<TProgram>
     : WebApplicationFactory<TProgram> where TProgram : class
 {
-    private readonly string _conectionString;
-    public CustomWebApplicationFactory(string conectionString)
-    {
-        _conectionString = conectionString;
-    }
+    public string conectionString { get; set; } = "";
+ 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
+
         builder.ConfigureServices(services =>
         {
-            services.AdicionarDependencias();
+            var dbContextDescriptor = services.SingleOrDefault(
+                d => d.ServiceType ==
+                     typeof(DbContextOptions<AppDBContext>));
+
+            services.Remove(dbContextDescriptor!);
+
             services.AddDbContext<AppDBContext>(options =>
             {
-                options.UseSqlServer(_conectionString);
+                options.UseSqlServer(conectionString);
             });
         });
 
