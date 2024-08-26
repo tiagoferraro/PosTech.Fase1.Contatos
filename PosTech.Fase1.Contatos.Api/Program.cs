@@ -3,10 +3,8 @@ using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using PosTech.Fase1.Contatos.Api.Filter;
-using PosTech.Fase1.Contatos.Infra.Context;
 using PosTech.Fase1.Contatos.IoC;
 using Prometheus;
-using System.Reflection.PortableExecutable;
 
 #pragma warning disable S1118
 
@@ -19,8 +17,6 @@ builder.Services.
     AddControllers(options => options.Filters
     .Add(typeof(ModelStateValidatorFilter)))
     .ConfigureApiBehaviorOptions(options => { options.SuppressModelStateInvalidFilter = true; });
-
-builder.Services.AddDbContext<AppDBContext>();
 
 builder.Services.AdicionarDependencias();
 builder.Services.AdicionarDBContext(configuration);

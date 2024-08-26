@@ -19,7 +19,7 @@ public static class DependecyInjection
     public static IServiceCollection AdicionarDBContext(this IServiceCollection services,IConfiguration configurarion
     )
     {
-            services.AddDbContext<AppDBContext>(options =>
+        services.AddDbContext<AppDBContext>(options =>
             {
                 options.UseSqlServer(configurarion.GetConnectionString("DefaultConnection"));
             });
