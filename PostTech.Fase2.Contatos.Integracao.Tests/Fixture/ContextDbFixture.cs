@@ -15,10 +15,10 @@ public class ContextDbFixture : IAsyncLifetime
     public AppDBContext? Context { get; private set; }
     public string sqlConection { get; private set; } = "";
     private readonly MsSqlContainer _msSqlContainer = new MsSqlBuilder()
-        .WithImage(
-            "mcr.microsoft.com/mssql/server:2022-latest"
-        )
-        .WithPortBinding(1433, true)
+        //.WithImage(
+        //    "mcr.microsoft.com/mssql/server:2022-latest"
+        //)
+        //.WithPortBinding(1433, true)
         .Build();
     public async Task InitializeAsync()
     {
