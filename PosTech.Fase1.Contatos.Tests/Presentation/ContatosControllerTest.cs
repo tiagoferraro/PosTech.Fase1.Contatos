@@ -134,8 +134,8 @@ public class ContatosControllerTest
 
         //assert
         var okResult = Assert.IsType<OkObjectResult>(result.Result);
-        var  listaRetornada = (IEnumerable<ContatoDTO>)okResult.Value;
-        Assert.Equal(1, listaRetornada.Count());
+        var  listaRetornada = (IEnumerable<ContatoDTO>)okResult.Value!;
+        Assert.Single( listaRetornada);
     }
     [Fact]
     public async Task ContatosController_listarComErro()
@@ -207,8 +207,8 @@ public class ContatosControllerTest
 
         //assert
         var okResult = Assert.IsType<OkObjectResult>(result.Result);
-        var listaRetornada = (IEnumerable<ContatoDTO>)okResult.Value;
-        Assert.Equal(1, listaRetornada.Count());
+        var listaRetornada = (IEnumerable<ContatoDTO>)okResult.Value!;
+        Assert.Single( listaRetornada);
     }
     [Fact]
     public async Task ContatosController_listarFiltroDDDComErro()

@@ -11,8 +11,8 @@ public class UnidadeFederativaTest
         //Action
         var unidadeFederativa = new UnidadeFederativa("SP");
         //Assert
-        Assert.Equal(unidadeFederativa.Sigla, "SP");
-        Assert.Equal(unidadeFederativa.Nome,"São Paulo");
+        Assert.Equal("SP",unidadeFederativa.Sigla );
+        Assert.Equal("São Paulo",unidadeFederativa.Nome);
     }
     [Fact]
     public void UnidadeFederativa_Construir_DoisParametro()
@@ -21,8 +21,8 @@ public class UnidadeFederativaTest
         //Action
         var unidadeFederativa = new UnidadeFederativa("SP", "São Paulo 2");
         //Assert
-        Assert.Equal(unidadeFederativa.Sigla, "SP");
-        Assert.Equal(unidadeFederativa.Nome, "São Paulo 2");
+        Assert.Equal("SP", unidadeFederativa.Sigla);
+        Assert.Equal("São Paulo 2", unidadeFederativa.Nome);
     }
     [Fact]
     public void UnidadeFederativa_ErroUFInvalida()

@@ -64,6 +64,9 @@ public class DDDService(IDDDRepository _dddRepository, IMapper _mapper) : IDDDSe
         try
         {
             var ddd = await _dddRepository.Obter(dddId);
+            if (ddd is null)
+                return new ServiceResult<DDDDto>(new ValidacaoException("DDD Não Encontrado"));
+
             var dddDto = _mapper.Map<DDDDto>(ddd);
             return new ServiceResult<DDDDto>(dddDto);
         }

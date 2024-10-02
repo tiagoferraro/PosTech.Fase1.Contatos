@@ -57,7 +57,7 @@ public class ContatoServiceTest
         dddRepository = new Mock<IDDDRepository>();
     }
     [Fact]
-    public async void ContatoService_Adiconar_ComSucesso()
+    public async Task ContatoService_Adiconar_ComSucesso()
     {
         //arrange
 
@@ -79,7 +79,7 @@ public class ContatoServiceTest
     }
 
     [Fact]
-    public async void ContatoService_Adiconar_ComErroDDDNaoExiste()
+    public async Task ContatoService_Adiconar_ComErroDDDNaoExiste()
     {
         //arrange
         dddRepository
@@ -98,7 +98,7 @@ public class ContatoServiceTest
     }
 
     [Fact]
-    public async void ContatoService_Adiconar_ComErroContatoJaExistente()
+    public async Task ContatoService_Adiconar_ComErroContatoJaExistente()
     {
         //arrange
         dddRepository
@@ -121,7 +121,7 @@ public class ContatoServiceTest
     }
 
     [Fact]
-    public async void ContatoService_Adicionar_ComErro()
+    public async Task ContatoService_Adicionar_ComErro()
     {
         //arrange
         dddRepository
@@ -141,7 +141,7 @@ public class ContatoServiceTest
 
 
     [Fact]
-    public async void ContatoService_Atualizar_ContatoServiceAtualizadoComSucesso()
+    public async Task ContatoService_Atualizar_ContatoServiceAtualizadoComSucesso()
     {
         //arrange
         dddRepository
@@ -162,7 +162,7 @@ public class ContatoServiceTest
     }
 
     [Fact]
-    public async void ContatoService_Atualizar_ComErroDDDNaoExiste()
+    public async Task ContatoService_Atualizar_ComErroDDDNaoExiste()
     {
         //arrange
         dddRepository
@@ -180,7 +180,7 @@ public class ContatoServiceTest
     }
 
     [Fact]
-    public async void ContatoService_Atualizar_ComErroContatoNaoExiste()
+    public async Task ContatoService_Atualizar_ComErroContatoNaoExiste()
     {
         //arrange
         dddRepository
@@ -202,7 +202,7 @@ public class ContatoServiceTest
     }
 
     [Fact]
-    public async void ContatoService_Atualizar_AtualizadoComErro()
+    public async Task ContatoService_Atualizar_AtualizadoComErro()
     {
         //arrange
         dddRepository
@@ -220,7 +220,7 @@ public class ContatoServiceTest
     }
 
     [Fact]
-    public async void ContatoService_Excluir_ComSucesso()
+    public async Task ContatoService_Excluir_ComSucesso()
     {
         //arrange
         contatoRepository
@@ -239,7 +239,7 @@ public class ContatoServiceTest
         Assert.True(contatoResult.IsSuccess);
     }
     [Fact]
-    public async void ContatoService_Excluir_ComErroRegistroNaoExiste()
+    public async Task ContatoService_Excluir_ComErroRegistroNaoExiste()
     {
         //arrange
         var contatoService = new ContatoService(contatoRepository.Object, _mapper, dddRepository.Object);
@@ -253,11 +253,11 @@ public class ContatoServiceTest
     }
 
     [Fact]
-    public async void ContatoService_Excluir_ComErro()
+    public async Task ContatoService_Excluir_ComErro()
     {
         //arrange
         contatoRepository
-            .Setup(x => x.Obter(_contato.ContatoId.Value))
+            .Setup(x => x.Obter(_contato.ContatoId!.Value))
             .Throws(new Exception());
 
         var contatoService = new ContatoService(contatoRepository.Object, _mapper, dddRepository.Object);
@@ -271,7 +271,7 @@ public class ContatoServiceTest
     }
 
     [Fact]
-    public async void ContatoService_Listar_ComSucesso()
+    public async Task ContatoService_Listar_ComSucesso()
     {
         //arrange
         contatoRepository
@@ -288,7 +288,7 @@ public class ContatoServiceTest
     }
 
     [Fact]
-    public async void ContatoService_Listar_ComErro()
+    public async Task ContatoService_Listar_ComErro()
     {
         //arrange
         contatoRepository
@@ -308,7 +308,7 @@ public class ContatoServiceTest
 
 
     [Fact]
-    public async void ContatoService_ListarComDDD_ComSucesso()
+    public async Task ContatoService_ListarComDDD_ComSucesso()
     {
         //arrange
         contatoRepository
@@ -326,7 +326,7 @@ public class ContatoServiceTest
     }
 
     [Fact]
-    public async void ContatoService_ListarComDDD_ListadoComErro()
+    public async Task ContatoService_ListarComDDD_ListadoComErro()
     {
         //arrange
         contatoRepository
@@ -346,7 +346,7 @@ public class ContatoServiceTest
 
 
     [Fact]
-    public async void ContatoService_Obter_ComSucesso()
+    public async Task ContatoService_Obter_ComSucesso()
     {
         //arrange
         contatoRepository
@@ -363,7 +363,7 @@ public class ContatoServiceTest
     }
 
     [Fact]
-    public async void ContatoService_Obter_ComErro()
+    public async Task ContatoService_Obter_ComErro()
     {
         //arrange
         contatoRepository

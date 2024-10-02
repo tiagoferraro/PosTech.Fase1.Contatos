@@ -99,8 +99,8 @@ public class DDDControllerTest
 
         //assert
         var okResult = Assert.IsType<OkObjectResult>(result);
-        var listaRetornada = (IEnumerable<DDDDto>)okResult.Value;
-        Assert.Equal(1, listaRetornada.Count());
+        var listaRetornada = (IEnumerable<DDDDto>)okResult.Value!;
+        Assert.Single(listaRetornada);
     }
     [Fact]
     public async Task ContatosController_listarComErro()
