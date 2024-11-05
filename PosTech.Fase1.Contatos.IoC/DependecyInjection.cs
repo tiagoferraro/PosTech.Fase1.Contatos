@@ -10,6 +10,7 @@ using PosTech.Fase1.Contatos.Application.Services;
 using PosTech.Fase1.Contatos.Application.Validators;
 using PosTech.Fase1.Contatos.Infra.Context;
 using PosTech.Fase1.Contatos.Infra.Interfaces;
+using PosTech.Fase1.Contatos.Infra.Messaging;
 using PosTech.Fase1.Contatos.Infra.Repository;
 
 namespace PosTech.Fase1.Contatos.IoC;
@@ -42,6 +43,7 @@ public static class DependecyInjection
         services.AddScoped<IContatoService, ContatoService>();
         services.AddAutoMapper(typeof(ContatoMapingProfile));
 
+        services.AddScoped<IRabbitMqClient, RabbitMqClient>();
 
         return services;
     }
