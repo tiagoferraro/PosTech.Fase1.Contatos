@@ -8,19 +8,18 @@ namespace PosTech.Fase1.Contatos.Tests.Domain
         public void Contato_Excluir_VerificaContatoExcluido()
         {
             //Arrange
-            var contato = new Contato(1, "tiago", "321321312", "tiago@gmail.com", 11);
+            var contato = new Contato(null, "tiago", "321321312", "tiago@gmail.com", 11);
             //Action
             contato.DesativarContato();
             //Assert
             Assert.False(contato.Ativo);
-
 
         }
         [Fact]
         public void Contato_Criar_VerificaDataInclusao()
         {
             //Arrange
-            var contato = new Contato(1, "tiago", "321321312", "tiago@gmail.com", 11);
+            var contato = new Contato( null,"tiago", "321321312", "tiago@gmail.com", 11);
             //Action
           
             //Assert

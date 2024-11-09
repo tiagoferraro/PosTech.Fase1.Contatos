@@ -9,7 +9,7 @@ using PosTech.Fase1.Contatos.Infra.Interfaces;
 
 namespace PosTech.Fase1.Contatos.Application.Services;
 
-public class ContatoService(IContatoRepository _contatoRepository,IMapper _mapper,IDDDRepository _dddRepository) : IContatoService
+public class ContatoService(IContatoRepository _contatoRepository,IMapper _mapper,IDDDRepository _dddRepository,IContatoAddFila _contatoAddFila) : IContatoService
 {
     public async Task<ServiceResult<ContatoDTO>> Adicionar(ContatoDTO c)
     {
@@ -25,9 +25,9 @@ public class ContatoService(IContatoRepository _contatoRepository,IMapper _mappe
             if (await _contatoRepository.Existe(contato))
                 return new ServiceResult<ContatoDTO>(new ValidacaoException("Cadastro de contato ja existe"));
 
-            var novoContato = await _contatoRepository.Adicionar(contato);
+            await _contatoAddFila.AdicionarAsync(contato);
 
-            return new ServiceResult<ContatoDTO>(_mapper.Map<ContatoDTO>(novoContato));
+            return new ServiceResult<ContatoDTO>(_mapper.Map<ContatoDTO>(contato));
         }
         catch (Exception ex)
         {
@@ -58,7 +58,7 @@ public class ContatoService(IContatoRepository _contatoRepository,IMapper _mappe
         }
     }
 
-    public async Task<ServiceResult<bool>> Excluir(int ContatoId)
+    public async Task<ServiceResult<bool>> Excluir(Guid ContatoId)
     {
         try
         {
@@ -105,7 +105,7 @@ public class ContatoService(IContatoRepository _contatoRepository,IMapper _mappe
         }
     }
 
-    public async Task<ServiceResult<ContatoDTO>> Obter(int contatoId)
+    public async Task<ServiceResult<ContatoDTO>> Obter(Guid contatoId)
     {
         try
         {

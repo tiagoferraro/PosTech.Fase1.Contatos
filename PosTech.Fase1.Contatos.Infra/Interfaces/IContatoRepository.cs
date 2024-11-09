@@ -8,7 +8,7 @@ namespace PosTech.Fase1.Contatos.Infra.Interfaces
         Task Atualizar(Contato c);
         Task<IEnumerable<Contato>> Listar();
         Task<IEnumerable<Contato>> ListarComDDD(int DDD);
-        Task<Contato?> Obter(int ContatoId);
+        Task<Contato?> Obter(Guid ContatoId);
         Task<bool> Existe(Contato c);
     }
 }

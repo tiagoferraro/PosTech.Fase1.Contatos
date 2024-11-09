@@ -24,7 +24,7 @@ namespace PosTech.Fase1.Contatos.Api.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> Excluir(int id)
+        public async Task<ActionResult> Excluir(Guid id)
         {
             var resultado = await contatoService.Excluir(id);
             return resultado.IsSuccess ? NoContent() : BadRequest(resultado.Error);
@@ -38,7 +38,7 @@ namespace PosTech.Fase1.Contatos.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<ContatoDTO>> Obter(int id)
+        public async Task<ActionResult<ContatoDTO>> Obter(Guid id)
         {
             var resultado = await contatoService.Obter(id);
             return resultado.IsSuccess ? Ok(resultado.Data) : BadRequest(resultado.Error);

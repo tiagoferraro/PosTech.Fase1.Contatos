@@ -38,21 +38,22 @@ public class RabbitMqClient : IRabbitMqClient
             );
     }
 
-    public async Task SendMessage(string message,string exchange)
+    public async Task SendMessage(string message, string exchange)
     {
         // Executa o envio com a política de retry
         await _retryPolicy.ExecuteAsync(async () =>
         {
-            using var connection = _connectionFactory.CreateConnection();
-            using var channel = connection.CreateModel();
+            await using var connection = await _connectionFactory.CreateConnectionAsync();
+            await using var channel = await connection.CreateChannelAsync();
 
             var body = Encoding.UTF8.GetBytes(message);
 
+
             // Publica a mensagem na fila
-            channel.BasicPublish(exchange: exchange,
-                                 routingKey: "",
-                                 basicProperties: null,
-                                 body: body);
+            await channel.BasicPublishAsync(
+                                exchange: exchange,
+                                routingKey: "",
+                                body: body);
 
             Console.WriteLine($"Mensagem enviada: {message}");
         });

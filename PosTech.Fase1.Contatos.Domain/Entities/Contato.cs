@@ -2,7 +2,7 @@
 
 public class Contato
 {
-    public int? ContatoId { get; private set; }
+    public Guid? ContatoId { get; private set; }
     public string Nome { get; private set; }
     public string Telefone { get; private set; }
     public string Email { get; private set; }
@@ -11,9 +11,9 @@ public class Contato
     public bool Ativo { get; private set; }
     public DateTime DataInclusao { get; private set; }
 
-    public Contato(int? contatoId, string nome, string telefone, string email, int dddId)
+    public Contato(Guid? contatoId, string nome, string telefone, string email, int dddId)
     {
-        ContatoId = contatoId;
+        ContatoId = contatoId ?? Guid.NewGuid();
         Nome = nome;
         Telefone = telefone;
         Email = email;
@@ -21,11 +21,11 @@ public class Contato
         DataInclusao = DateTime.Now;
         Ativo = true;
     }
+    
 
     public void DesativarContato()
     {
         Ativo = false;
     }
-
 }
 
