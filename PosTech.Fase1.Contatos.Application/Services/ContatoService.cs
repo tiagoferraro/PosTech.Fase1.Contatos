@@ -11,7 +11,7 @@ namespace PosTech.Fase1.Contatos.Application.Services;
 
 public class ContatoService(IContatoRepository _contatoRepository,IMapper _mapper,IDDDRepository _dddRepository,IContatoAddFila _contatoAddFila) : IContatoService
 {
-    public async Task<ServiceResult<ContatoDTO>> Adicionar(ContatoDTO c)
+    public async Task<ServiceResult<ContatoDto>> Adicionar(ContatoDto c)
     {
         try
         {
@@ -19,23 +19,23 @@ public class ContatoService(IContatoRepository _contatoRepository,IMapper _mappe
 
             var ddd = await _dddRepository.Obter(c.DddId);
             if (ddd is null)
-                return new ServiceResult<ContatoDTO>(new ValidacaoException("DDD não existe"));
+                return new ServiceResult<ContatoDto>(new ValidacaoException("DDD não existe"));
 
 
             if (await _contatoRepository.Existe(contato))
-                return new ServiceResult<ContatoDTO>(new ValidacaoException("Cadastro de contato ja existe"));
-
+                return new ServiceResult<ContatoDto>(new ValidacaoException("Cadastro de contato ja existe"));
+    
             await _contatoAddFila.AdicionarAsync(contato);
 
-            return new ServiceResult<ContatoDTO>(_mapper.Map<ContatoDTO>(contato));
+            return new ServiceResult<ContatoDto>(_mapper.Map<ContatoDto>(contato));
         }
         catch (Exception ex)
         {
-            return new ServiceResult<ContatoDTO>(ex);
+            return new ServiceResult<ContatoDto>(ex);
         }
     }
 
-    public async Task<ServiceResult<bool>> Atualizar(ContatoDTO c)
+    public async Task<ServiceResult<bool>> Atualizar(ContatoDto c)
     {
         try
         {
@@ -58,11 +58,11 @@ public class ContatoService(IContatoRepository _contatoRepository,IMapper _mappe
         }
     }
 
-    public async Task<ServiceResult<bool>> Excluir(Guid ContatoId)
+    public async Task<ServiceResult<bool>> Excluir(Guid contatoId)
     {
         try
         {
-            var contato = await _contatoRepository.Obter(ContatoId);
+            var contato = await _contatoRepository.Obter(contatoId);
             if (contato is null)
                 return new ServiceResult<bool>(new ValidacaoException("Contato não existe"));
             contato.DesativarContato();
@@ -76,49 +76,49 @@ public class ContatoService(IContatoRepository _contatoRepository,IMapper _mappe
         }
     }
 
-    public async Task<ServiceResult<IEnumerable<ContatoDTO>>> Listar()
+    public async Task<ServiceResult<IEnumerable<ContatoDto>>> Listar()
     {
         try
         {
             var contatos = await _contatoRepository.Listar();
-            var listaContatosDto = _mapper.Map<IEnumerable<Contato>, IEnumerable<ContatoDTO>>(contatos);
+            var listaContatosDto = _mapper.Map<IEnumerable<Contato>, IEnumerable<ContatoDto>>(contatos);
 
-            return new ServiceResult<IEnumerable<ContatoDTO>>(listaContatosDto);
+            return new ServiceResult<IEnumerable<ContatoDto>>(listaContatosDto);
         }
         catch (Exception ex)
         {
-            return new ServiceResult<IEnumerable<ContatoDTO>>(ex);
+            return new ServiceResult<IEnumerable<ContatoDto>>(ex);
         }
     }
 
-    public async Task<ServiceResult<IEnumerable<ContatoDTO>>> ListarComDDD(int ddd)
+    public async Task<ServiceResult<IEnumerable<ContatoDto>>> ListarComDdd(int ddd)
     {
         try
         {
             var contatos = await _contatoRepository.ListarComDDD(ddd);
-            var listaContatosDto = _mapper.Map<IEnumerable<ContatoDTO>>(contatos);
-            return new ServiceResult<IEnumerable<ContatoDTO>>(listaContatosDto);
+            var listaContatosDto = _mapper.Map<IEnumerable<ContatoDto>>(contatos);
+            return new ServiceResult<IEnumerable<ContatoDto>>(listaContatosDto);
         }
         catch (Exception ex)
         {
-            return new ServiceResult<IEnumerable<ContatoDTO>>(ex);
+            return new ServiceResult<IEnumerable<ContatoDto>>(ex);
         }
     }
 
-    public async Task<ServiceResult<ContatoDTO>> Obter(Guid contatoId)
+    public async Task<ServiceResult<ContatoDto>> Obter(Guid contatoId)
     {
         try
         {
             var contato = await _contatoRepository.Obter(contatoId);
             if (contato is null)
-                return new ServiceResult<ContatoDTO>(new ValidacaoException("Contato não encontrado"));
+                return new ServiceResult<ContatoDto>(new ValidacaoException("Contato não encontrado"));
 
-            var contatoDto = _mapper.Map<ContatoDTO>(contato);
-            return new ServiceResult<ContatoDTO>(contatoDto);
+            var contatoDto = _mapper.Map<ContatoDto>(contato);
+            return new ServiceResult<ContatoDto>(contatoDto);
         }
         catch (Exception ex)
         {
-            return new ServiceResult<ContatoDTO>(ex);
+            return new ServiceResult<ContatoDto>(ex);
         }
     }
 }

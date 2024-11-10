@@ -10,14 +10,14 @@ namespace PosTech.Fase1.Contatos.Api.Controllers
     public class ContatosController(IContatoService contatoService) : ControllerBase
     {
         [HttpPost]
-        public async Task<ActionResult> Adicionar([FromBody] ContatoDTO contatoRequestRequestDto)
+        public async Task<ActionResult> Adicionar([FromBody] ContatoDto contatoRequestRequestDto)
         {
             var resultado = await contatoService.Adicionar(contatoRequestRequestDto);
             return resultado.IsSuccess ? Ok(resultado.Data) : BadRequest(resultado.Error);
         }
 
         [HttpPut]
-        public async Task<ActionResult> Atualizar([FromBody] ContatoDTO contatoRequestRequestDto)
+        public async Task<ActionResult> Atualizar([FromBody] ContatoDto contatoRequestRequestDto)
         {
             var resultado = await contatoService.Atualizar(contatoRequestRequestDto);
             return resultado.IsSuccess ? NoContent() : BadRequest(resultado.Error);
@@ -31,23 +31,23 @@ namespace PosTech.Fase1.Contatos.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ContatoDTO>>> Listar()
+        public async Task<ActionResult<IEnumerable<ContatoDto>>> Listar()
         {
             var resultado = await contatoService.Listar();
             return resultado.IsSuccess ? Ok(resultado.Data) : BadRequest(resultado.Error);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<ContatoDTO>> Obter(Guid id)
+        public async Task<ActionResult<ContatoDto>> Obter(Guid id)
         {
             var resultado = await contatoService.Obter(id);
             return resultado.IsSuccess ? Ok(resultado.Data) : BadRequest(resultado.Error);
         }
 
         [HttpGet("listarComDDD/{ddd}")]
-        public async Task<ActionResult<IEnumerable<ContatoDTO>>> ListarComDDD(int ddd)
+        public async Task<ActionResult<IEnumerable<ContatoDto>>> ListarComDDD(int ddd)
         {
-            var resultado = await contatoService.ListarComDDD(ddd);
+            var resultado = await contatoService.ListarComDdd(ddd);
             return resultado.IsSuccess ? Ok(resultado.Data) : BadRequest(resultado.Error);
         }
     }

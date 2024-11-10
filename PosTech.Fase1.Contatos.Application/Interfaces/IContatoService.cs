@@ -5,12 +5,12 @@ namespace PosTech.Fase1.Contatos.Application.Interfaces
 {
     public interface IContatoService
     {
-        Task<ServiceResult<ContatoDTO>> Adicionar(ContatoDTO c);
-        Task<ServiceResult<bool>> Atualizar(ContatoDTO c);
-        Task<ServiceResult<bool>> Excluir(Guid ContatoId);
-        Task<ServiceResult<IEnumerable<ContatoDTO>>> Listar();
-        Task<ServiceResult<IEnumerable<ContatoDTO>>> ListarComDDD(int DDD);
-        Task<ServiceResult<ContatoDTO>> Obter(Guid ContatoId);
+        Task<ServiceResult<ContatoDto>> Adicionar(ContatoDto c);
+        Task<ServiceResult<bool>> Atualizar(ContatoDto c);
+        Task<ServiceResult<bool>> Excluir(Guid contatoId);
+        Task<ServiceResult<IEnumerable<ContatoDto>>> Listar();
+        Task<ServiceResult<IEnumerable<ContatoDto>>> ListarComDdd(int ddd);
+        Task<ServiceResult<ContatoDto>> Obter(Guid contatoId);
 
 
     }

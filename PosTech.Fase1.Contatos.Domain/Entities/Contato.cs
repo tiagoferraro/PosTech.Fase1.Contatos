@@ -19,7 +19,7 @@ public class Contato
         Email = email;
         DddId = dddId;
         DataInclusao = DateTime.Now;
-        Ativo = true;
+        Ativo = true; 
     }
     
 

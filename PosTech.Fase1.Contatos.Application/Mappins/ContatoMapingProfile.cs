@@ -13,8 +13,8 @@ public class ContatoMapingProfile : Profile
 {
     public ContatoMapingProfile()
     {
-        CreateMap<Contato, ContatoDTO>()
-            .ConstructUsing(x => new ContatoDTO()
+        CreateMap<Contato, ContatoDto>()
+            .ConstructUsing(x => new ContatoDto()
             {
                 DddId = x.DddId,
                 Nome = x.Nome,
@@ -24,9 +24,12 @@ public class ContatoMapingProfile : Profile
                 Telefone = x.Telefone,
                 Ddd = x.Ddd == null ? null : new DDDDto() { UfNome = x.Ddd.UnidadeFederativa.Nome, UfSigla = x.Ddd.UnidadeFederativa.Sigla, DddId = x.DddId, Regiao = x.Ddd.Regiao }
             });
-        CreateMap<ContatoDTO, Contato>()
+        CreateMap<ContatoDto, Contato>()
             .ConstructUsing(x =>
-               new Contato(x.ContatoId,x.Nome,x.Telefone,x.Email,x.DddId  ));
+                new Contato(x.ContatoId,x.Nome,x.Telefone,x.Email,x.DddId));
+        CreateMap<ContatoDto, Contato>()
+            .ConvertUsing(x =>
+               new Contato(x.ContatoId,x.Nome,x.Telefone,x.Email,x.DddId));
     }
 }
 

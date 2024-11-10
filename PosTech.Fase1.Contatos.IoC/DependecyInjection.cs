@@ -36,11 +36,12 @@ public static class DependecyInjection
         services.AddScoped<IDDDRepository, DDDRepository>();
         services.AddScoped<IDDDService, DDDService>();
         services.AddScoped<IValidator<DDDDto>, DDDValidator>();
-        services.AddScoped<IValidator<ContatoDTO>, ContatoValidator>();
+        services.AddScoped<IValidator<ContatoDto>, ContatoValidator>();
 
 
         services.AddScoped<IContatoRepository, ContatoRepository>();
         services.AddScoped<IContatoService, ContatoService>();
+        services.AddScoped<IContatoAddFila, ContatoAddFila>();
         services.AddAutoMapper(typeof(ContatoMapingProfile));
 
         services.AddScoped<IRabbitMqClient, RabbitMqClient>();

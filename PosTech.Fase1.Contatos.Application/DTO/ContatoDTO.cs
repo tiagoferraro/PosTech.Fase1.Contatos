@@ -1,9 +1,9 @@
 ﻿namespace PosTech.Fase1.Contatos.Application.DTO;
 
 
-public class ContatoDTO
+public class ContatoDto
 {
-    public Guid? ContatoId { get; set; }
+    public Guid? ContatoId { get; set; } 
     public string Nome { get; set; }
     public string Telefone { get; set; }
     public string Email { get; set; }

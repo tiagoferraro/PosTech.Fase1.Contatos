@@ -12,10 +12,10 @@ namespace PosTech.Fase1.Contatos.Tests.Application;
 public class ContatoServiceTest
 {
     private readonly IMapper _mapper;
-    private readonly ContatoDTO _contatoDto;
+    private readonly ContatoDto _contatoDto;
     private readonly Contato _contato;
     private readonly DDD _ddd;
-    private readonly ContatoDTO _contatoListaDto;
+    private readonly ContatoDto _contatoListaDto;
     private readonly Mock<IContatoRepository> contatoRepository;
     private readonly Mock<IDDDRepository> dddRepository;
     private readonly Mock<IContatoAddFila> contatoAddFila;
@@ -30,7 +30,7 @@ public class ContatoServiceTest
         });
         _ddd = new DDD(71, "BA", "Salvador");
         _mapper = configMapper.CreateMapper();
-        _contatoDto = new ContatoDTO()
+        _contatoDto = new ContatoDto()
         {
             ContatoId = Guid.NewGuid(),
             Nome = "Mario",
@@ -40,7 +40,7 @@ public class ContatoServiceTest
             DddId = 71
         };
         
-        _contatoListaDto = new ContatoDTO()
+        _contatoListaDto = new ContatoDto()
         {
             ContatoId = Guid.NewGuid(),
             Nome = "Mario",
@@ -321,7 +321,7 @@ public class ContatoServiceTest
         var contatoService = new ContatoService(contatoRepository.Object, _mapper, dddRepository.Object, contatoAddFila.Object);
 
         //act
-        var contatoResult = await contatoService.ListarComDDD(_contatoDto.DddId);
+        var contatoResult = await contatoService.ListarComDdd(_contatoDto.DddId);
 
         //assert
         Assert.True(contatoResult.IsSuccess);
@@ -339,7 +339,7 @@ public class ContatoServiceTest
         var contatoService = new ContatoService(contatoRepository.Object, _mapper, dddRepository.Object, contatoAddFila.Object);
 
         //act
-        var contatoResult = await contatoService.ListarComDDD(_contatoDto.DddId);
+        var contatoResult = await contatoService.ListarComDdd(_contatoDto.DddId);
 
         //assert
         Assert.False(contatoResult.IsSuccess);
