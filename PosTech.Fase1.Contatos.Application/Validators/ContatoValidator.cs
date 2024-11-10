@@ -4,7 +4,7 @@ using PosTech.Fase1.Contatos.Application.DTO;
 namespace PosTech.Fase1.Contatos.Application.Validators
 {
 
-    public class ContatoValidator  : AbstractValidator<ContatoDTO>
+    public class ContatoValidator  : AbstractValidator<ContatoDto>
     {
         public ContatoValidator()
         {

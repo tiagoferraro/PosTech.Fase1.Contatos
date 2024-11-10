@@ -10,7 +10,7 @@ namespace PosTech.Fase1.Contatos.Tests.Application
         public void ContatoValidator_Contato_OK()
         {
             //arrange
-            ContatoDTO contatoDto = new ContatoDTO()
+            ContatoDto contatoDto = new ContatoDto()
             {
                 Nome = "João de Barro",
                 Telefone = "9 88808182",
@@ -29,7 +29,7 @@ namespace PosTech.Fase1.Contatos.Tests.Application
         public void ContatoValidator_NomeVazio_Error()
         {
             //arrange
-            ContatoDTO contatoDto = new ContatoDTO()
+            ContatoDto contatoDto = new ContatoDto()
             {
                 Nome = "",
                 Telefone = "988808182",
@@ -50,7 +50,7 @@ namespace PosTech.Fase1.Contatos.Tests.Application
         public void ContatoValidator_NomeInformed_Error()
         {
             //arrange
-            ContatoDTO contatoDto = new ContatoDTO()
+            ContatoDto contatoDto = new ContatoDto()
             {
                 
                 Telefone = "988808182",
@@ -76,7 +76,7 @@ namespace PosTech.Fase1.Contatos.Tests.Application
         public void ContatoValidator_Telefone_OK(string tel)
         {
             //arrange
-            ContatoDTO contatoDto = new ContatoDTO()
+            ContatoDto contatoDto = new ContatoDto()
             {
                 Nome = "Joao de Barro",
                 Telefone = tel,
@@ -95,7 +95,7 @@ namespace PosTech.Fase1.Contatos.Tests.Application
         public void ContatoValidator_TelefoneEmpty_Error()
         {
             //arrange
-            ContatoDTO contatoDto = new ContatoDTO()
+            ContatoDto contatoDto = new ContatoDto()
             {
                 Nome = "Joao de Barro",
                 Telefone = "",
@@ -115,7 +115,7 @@ namespace PosTech.Fase1.Contatos.Tests.Application
         public void ContatoValidator_TelefoneNotInformed_Error()
         {
             //arrange
-            ContatoDTO contatoDto = new ContatoDTO()
+            ContatoDto contatoDto = new ContatoDto()
             {
                 Nome = "Joao de Barro",
                 Email = "Joao.Barro@acme.com",
@@ -134,7 +134,7 @@ namespace PosTech.Fase1.Contatos.Tests.Application
         public void ContatoValidator_EmailEmpty_Error()
         {
             //arrange
-            ContatoDTO contatoDto = new ContatoDTO()
+            ContatoDto contatoDto = new ContatoDto()
             {
                 Nome = "Joao de Barro",
                 Telefone = "988808182",
@@ -154,7 +154,7 @@ namespace PosTech.Fase1.Contatos.Tests.Application
         public void ContatoValidator_EmailNotInformed_Error()
         {
             //arrange
-            ContatoDTO contatoDto = new ContatoDTO()
+            ContatoDto contatoDto = new ContatoDto()
             {
                 Nome = "Joao de Barro",
                 Telefone = "988808182",
@@ -174,7 +174,7 @@ namespace PosTech.Fase1.Contatos.Tests.Application
         public void ContatoValidator_EmailInvalid_Error()
         {
             //arrange
-            ContatoDTO contatoDto = new ContatoDTO()
+            ContatoDto contatoDto = new ContatoDto()
             {
                 Nome = "Joao de Barro",
                 Telefone = "988808182",
@@ -195,7 +195,7 @@ namespace PosTech.Fase1.Contatos.Tests.Application
         public void ContatoValidator_DDDId_Invalid_Error()
         {
             //arrange
-            ContatoDTO contatoDto = new ContatoDTO()
+            ContatoDto contatoDto = new ContatoDto()
             {
                 Nome = "Joao de Barro",
                 Telefone = "988808182",
@@ -216,7 +216,7 @@ namespace PosTech.Fase1.Contatos.Tests.Application
         public void ContatoValidator_DDDId_NotInformed_Error()
         {
             //arrange
-            ContatoDTO contatoDto = new ContatoDTO()
+            ContatoDto contatoDto = new ContatoDto()
             {
                 Nome = "Joao de Barro",
                 Telefone = "988808182",
