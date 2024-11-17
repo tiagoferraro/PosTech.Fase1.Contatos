@@ -24,6 +24,15 @@ services:
       - GF_SECURITY_ADMIN_PASSWORD=grafana
     volumes:
       - F:\postech\grafana:/etc/grafana/provisioning/datasources
+  rabbitmq:
+    image: rabbitmq:4.0-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: user
+      RABBITMQ_DEFAULT_PASS: password
 networks:
   localprom:
     driver: bridge

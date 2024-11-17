@@ -6,6 +6,10 @@ scrape_configs:
     scrape_interval: 5s
     static_configs:
     - targets: ['192.168.1.183:5196']
+  - job_name: 'ConsumerContatosAdd'
+    scrape_interval: 5s
+    static_configs:
+    - targets: ['192.168.1.183:5001']
   - job_name: 'prometheus'
     scrape_interval: 5s
     static_configs:
