@@ -5,5 +5,6 @@ namespace PosTech.Fase1.Contatos.Infra.Interfaces;
 public interface IContatoAddFila
 {
     Task AdicionarAsync(Contato contato);
+    Task AtualizarAsync(Contato contato);
 }
 
