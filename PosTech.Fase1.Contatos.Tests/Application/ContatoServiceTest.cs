@@ -19,7 +19,7 @@ public class ContatoServiceTest
     private readonly Mock<IContatoRepository> contatoRepository;
     private readonly Mock<IDDDRepository> dddRepository;
     private readonly Mock<IContatoAddFila> contatoAddFila;
-
+    private readonly Mock<IContatoUpdateFila> contatoUpdateFila;
 
     public ContatoServiceTest()
     {
@@ -57,6 +57,7 @@ public class ContatoServiceTest
         contatoRepository = new Mock<IContatoRepository>();
         dddRepository = new Mock<IDDDRepository>();
         contatoAddFila = new Mock<IContatoAddFila>();
+        contatoUpdateFila = new Mock<IContatoUpdateFila>();
     }
     [Fact]
     public async Task ContatoService_Adiconar_ComSucesso()
@@ -72,7 +73,7 @@ public class ContatoServiceTest
             .ReturnsAsync(_ddd);
 
         var ContatoService =
-            new ContatoService(contatoRepository.Object, _mapper, dddRepository.Object, contatoAddFila.Object);
+            new ContatoService(contatoRepository.Object, _mapper, dddRepository.Object, contatoAddFila.Object, contatoUpdateFila.Object);
 
         //act
         var ContatoResult = await ContatoService.Adicionar(_contatoDto);
@@ -89,7 +90,7 @@ public class ContatoServiceTest
             .Setup(x => x.Obter(_ddd.DddId));
 
 
-        var contatoService = new ContatoService(contatoRepository.Object, _mapper, dddRepository.Object, contatoAddFila.Object);
+        var contatoService = new ContatoService(contatoRepository.Object, _mapper, dddRepository.Object, contatoAddFila.Object, contatoUpdateFila.Object);
 
         //act
         var contatoResult = await contatoService.Adicionar(_contatoDto);
@@ -112,7 +113,7 @@ public class ContatoServiceTest
             .Setup(x => x.Existe(It.IsAny<Contato>()))
             .ReturnsAsync(true);
 
-        var contatoService = new ContatoService(contatoRepository.Object, _mapper, dddRepository.Object, contatoAddFila.Object);
+        var contatoService = new ContatoService(contatoRepository.Object, _mapper, dddRepository.Object, contatoAddFila.Object, contatoUpdateFila.Object);
 
         //act
         var contatoResult = await contatoService.Adicionar(_contatoDto);
@@ -131,7 +132,7 @@ public class ContatoServiceTest
             .Setup(x => x.Obter(_contatoDto.DddId))
             .Throws(new Exception());
 
-        var contatoService = new ContatoService(contatoRepository.Object, _mapper, dddRepository.Object, contatoAddFila.Object);
+        var contatoService = new ContatoService(contatoRepository.Object, _mapper, dddRepository.Object, contatoAddFila.Object, contatoUpdateFila.Object);
 
         //act
         var contatoResult = await contatoService.Adicionar(_contatoDto);
@@ -155,7 +156,7 @@ public class ContatoServiceTest
             .Setup(x => x.Obter(_contato.ContatoId!.Value))
             .ReturnsAsync(_contato);
 
-        var contatoService = new ContatoService(contatoRepository.Object, _mapper, dddRepository.Object, contatoAddFila.Object);
+        var contatoService = new ContatoService(contatoRepository.Object, _mapper, dddRepository.Object, contatoAddFila.Object, contatoUpdateFila.Object);
 
         //act
         var contatoResult = await contatoService.Atualizar(_contatoDto);
@@ -171,7 +172,7 @@ public class ContatoServiceTest
         dddRepository
             .Setup(x => x.Obter(_ddd.DddId));
         
-        var contatoService = new ContatoService(contatoRepository.Object, _mapper, dddRepository.Object, contatoAddFila.Object);
+        var contatoService = new ContatoService(contatoRepository.Object, _mapper, dddRepository.Object, contatoAddFila.Object, contatoUpdateFila.Object);
 
         //act
         var contatoResult = await contatoService.Atualizar(_contatoDto);
@@ -193,7 +194,7 @@ public class ContatoServiceTest
         contatoRepository
             .Setup(x => x.Obter(_contato.ContatoId!.Value));
 
-        var contatoService = new ContatoService(contatoRepository.Object, _mapper, dddRepository.Object, contatoAddFila.Object);
+        var contatoService = new ContatoService(contatoRepository.Object, _mapper, dddRepository.Object, contatoAddFila.Object, contatoUpdateFila.Object);
 
         //act
         var contatoResult = await contatoService.Atualizar(_contatoDto);
@@ -212,7 +213,7 @@ public class ContatoServiceTest
             .Setup(x => x.Obter(_contatoDto.DddId))
             .Throws(new Exception());
 
-        var contatoService = new ContatoService(contatoRepository.Object, _mapper, dddRepository.Object, contatoAddFila.Object);
+        var contatoService = new ContatoService(contatoRepository.Object, _mapper, dddRepository.Object, contatoAddFila.Object, contatoUpdateFila.Object);
 
         //act
         var contatoResult = await contatoService.Atualizar(_contatoDto);
@@ -233,7 +234,7 @@ public class ContatoServiceTest
         contatoRepository
             .Setup(x => x.Atualizar(_contato));
 
-        var contatoService = new ContatoService(contatoRepository.Object, _mapper, dddRepository.Object, contatoAddFila.Object);
+        var contatoService = new ContatoService(contatoRepository.Object, _mapper, dddRepository.Object, contatoAddFila.Object, contatoUpdateFila.Object);
 
         //act
         var contatoResult = await contatoService.Excluir(_contatoDto.ContatoId!.Value);
@@ -245,7 +246,7 @@ public class ContatoServiceTest
     public async Task ContatoService_Excluir_ComErroRegistroNaoExiste()
     {
         //arrange
-        var contatoService = new ContatoService(contatoRepository.Object, _mapper, dddRepository.Object, contatoAddFila.Object);
+        var contatoService = new ContatoService(contatoRepository.Object, _mapper, dddRepository.Object, contatoAddFila.Object, contatoUpdateFila.Object);
 
         //act
         var contatoResult = await contatoService.Excluir(_contatoDto.ContatoId!.Value);
@@ -263,7 +264,7 @@ public class ContatoServiceTest
             .Setup(x => x.Obter(_contato.ContatoId!.Value))
             .Throws(new Exception());
 
-        var contatoService = new ContatoService(contatoRepository.Object, _mapper, dddRepository.Object, contatoAddFila.Object);
+        var contatoService = new ContatoService(contatoRepository.Object, _mapper, dddRepository.Object, contatoAddFila.Object, contatoUpdateFila.Object);
 
         //act
         var contatoResult = await contatoService.Excluir(_contatoDto.ContatoId!.Value);
@@ -281,7 +282,7 @@ public class ContatoServiceTest
             .Setup(x => x.Listar())
             .ReturnsAsync(new List<Contato>());
 
-        var contatoService = new ContatoService(contatoRepository.Object, _mapper, dddRepository.Object, contatoAddFila.Object);
+        var contatoService = new ContatoService(contatoRepository.Object, _mapper, dddRepository.Object, contatoAddFila.Object, contatoUpdateFila.Object);
 
         //act
         var contatoResult = await contatoService.Listar();
@@ -298,7 +299,7 @@ public class ContatoServiceTest
             .Setup(x => x.Listar())
             .Throws(new Exception());
 
-        var contatoService = new ContatoService(contatoRepository.Object, _mapper, dddRepository.Object, contatoAddFila.Object);
+        var contatoService = new ContatoService(contatoRepository.Object, _mapper, dddRepository.Object, contatoAddFila.Object, contatoUpdateFila.Object);
 
         //act
         var contatoResult = await contatoService.Listar();
@@ -318,7 +319,7 @@ public class ContatoServiceTest
             .Setup(x => x.ListarComDDD(_contatoDto.DddId))
             .ReturnsAsync(new List<Contato>() );
 
-        var contatoService = new ContatoService(contatoRepository.Object, _mapper, dddRepository.Object, contatoAddFila.Object);
+        var contatoService = new ContatoService(contatoRepository.Object, _mapper, dddRepository.Object, contatoAddFila.Object, contatoUpdateFila.Object);
 
         //act
         var contatoResult = await contatoService.ListarComDdd(_contatoDto.DddId);
@@ -336,7 +337,7 @@ public class ContatoServiceTest
             .Setup(x => x.ListarComDDD(_contato.DddId))
             .Throws(new Exception());
 
-        var contatoService = new ContatoService(contatoRepository.Object, _mapper, dddRepository.Object, contatoAddFila.Object);
+        var contatoService = new ContatoService(contatoRepository.Object, _mapper, dddRepository.Object, contatoAddFila.Object, contatoUpdateFila.Object);
 
         //act
         var contatoResult = await contatoService.ListarComDdd(_contatoDto.DddId);
@@ -356,7 +357,7 @@ public class ContatoServiceTest
             .Setup(x => x.Obter(_contatoListaDto.ContatoId!.Value))
             .ReturnsAsync(_contato);
 
-        var contatoService = new ContatoService(contatoRepository.Object, _mapper, dddRepository.Object, contatoAddFila.Object);
+        var contatoService = new ContatoService(contatoRepository.Object, _mapper, dddRepository.Object, contatoAddFila.Object, contatoUpdateFila.Object);
 
         //act
         var contatoResult = await contatoService.Obter(_contatoListaDto.ContatoId!.Value);
@@ -373,7 +374,7 @@ public class ContatoServiceTest
             .Setup(x => x.Obter(_contatoDto.ContatoId!.Value))
             .Throws(new Exception());
 
-        var contatoService = new ContatoService(contatoRepository.Object, _mapper, dddRepository.Object, contatoAddFila.Object);
+        var contatoService = new ContatoService(contatoRepository.Object, _mapper, dddRepository.Object, contatoAddFila.Object, contatoUpdateFila.Object);
 
         //act
         var contatoResult = await contatoService.Obter(_contatoDto.ContatoId!.Value);

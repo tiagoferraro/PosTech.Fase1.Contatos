@@ -9,7 +9,7 @@ using PosTech.Fase1.Contatos.Infra.Interfaces;
 
 namespace PosTech.Fase1.Contatos.Application.Services;
 
-public class ContatoService(IContatoRepository _contatoRepository,IMapper _mapper,IDDDRepository _dddRepository,IContatoAddFila _contatoAddFila) : IContatoService
+public class ContatoService(IContatoRepository _contatoRepository,IMapper _mapper,IDDDRepository _dddRepository,IContatoAddFila _contatoAddFila,IContatoUpdateFila _contatoUpdateFila) : IContatoService
 {
     public async Task<ServiceResult<ContatoDto>> Adicionar(ContatoDto c)
     {
@@ -48,7 +48,7 @@ public class ContatoService(IContatoRepository _contatoRepository,IMapper _mappe
                 return new ServiceResult<bool>(new ValidacaoException("Contato não existe"));
 
             var contato = _mapper.Map<Contato>(c);
-            await _contatoRepository.Atualizar(contato);
+            await _contatoUpdateFila.AtualizarAsync(contato);
 
             return new ServiceResult<bool>(true);
         }
