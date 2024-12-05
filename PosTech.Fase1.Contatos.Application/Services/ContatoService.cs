@@ -67,7 +67,7 @@ public class ContatoService(IContatoRepository _contatoRepository, IMapper _mapp
             if (contato is null)
                 return new ServiceResult<bool>(new ValidacaoException("Contato não existe"));
             contato.DesativarContato();
-            await _contatoRepository.Atualizar(contato);
+            await _contatoAddFila.AtualizarAsync(contato);
 
             return new ServiceResult<bool>(true);
         }
