@@ -34,5 +34,10 @@ public class ContatoAddFila(
         await EnviarMensagemAsync(contato, "ExchangeUpdate");
     }
 
+    public async Task ExcluirAsync(Contato contato)
+    {
+        await EnviarMensagemAsync(contato, "ExchangeDelete");
+    }
+
 }
 

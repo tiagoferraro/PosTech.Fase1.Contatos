@@ -6,5 +6,6 @@ public interface IContatoAddFila
 {
     Task AdicionarAsync(Contato contato);
     Task AtualizarAsync(Contato contato);
+    Task ExcluirAsync(Contato contato);
 }
 
