@@ -23,6 +23,7 @@ public static class DependecyInjection
         services.AddDbContext<AppDBContext>(options =>
             {
                 options.UseSqlServer(configurarion.GetConnectionString("DefaultConnection"));
+          
             });
             return services;
     }
@@ -42,6 +43,8 @@ public static class DependecyInjection
         services.AddScoped<IContatoRepository, ContatoRepository>();
         services.AddScoped<IContatoService, ContatoService>();
         services.AddScoped<IContatoAddFila, ContatoAddFila>();
+        services.AddScoped<IContatoUpdateFila, ContatoUpdateFila>();
+        services.AddScoped<IContatoDeleteFila, ContatoDeleteFila>();
         services.AddAutoMapper(typeof(ContatoMapingProfile));
 
         services.AddScoped<IRabbitMqClient, RabbitMqClient>();

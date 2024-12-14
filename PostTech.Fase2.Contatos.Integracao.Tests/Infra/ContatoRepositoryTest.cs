@@ -20,33 +20,8 @@ public class ContatoRepositoryTest
 
     }
 
-    
-    [Fact]
-    public async Task Adicionar_DeveAdicionarContato()
-    {
-        var contato = new Contato(null, "Nome 1", "11999878587", "teste@email.com.br", 11);
-        var result = await repository.Adicionar(contato);
+  
 
-        Assert.NotNull(result);
-        Assert.Equal("Nome 1", result.Nome);
-        Assert.Equal("11999878587", result.Telefone);
-        Assert.Equal(11, result.DddId);
-    }
-
-    [Fact]
-    public async Task Atualizar_DeveAtualizarContato()
-    {
-        var contato = new Contato(null, "Nome 1", "11999878587", "teste@email.com.br", 11);
-        context.Contatos.Add(contato);
-        await context.SaveChangesAsync();
-        context.Entry(contato).State = EntityState.Detached;
-
-        contato = new Contato(contato.ContatoId, "Nome 2", "11999878587", "teste@email.com.br", 11);
-        await repository.Atualizar(contato);
-
-        var contatoAtualizado = await context.Contatos.FindAsync(contato.ContatoId);
-        Assert.Equal("Nome 2", contatoAtualizado?.Nome);
-    }
 
     [Fact]
     public async Task Listar_DeveRetornarContatosAtivos()

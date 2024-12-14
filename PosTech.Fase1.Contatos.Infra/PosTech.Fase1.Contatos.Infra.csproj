@@ -25,16 +25,4 @@
     <PackageReference Include="RabbitMQ.Client" Version="7.0.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Compile Remove="Migrations\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Remove="Migrations\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="Migrations\**" />
-  </ItemGroup>
-
 </Project>
