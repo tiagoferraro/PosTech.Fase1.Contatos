@@ -23,8 +23,17 @@ docker build . -f Postech.Fase3.Contatos.Add.Service/Dockerfile -t  postech-add:
 kubernetes dashboard
 https://github.com/kubernetes/dashboard/blob/master/docs/user/access-control/creating-sample-user.md
 
+reiniciar kong dashboard
+kubectl delete pod kubernetes-dashboard-kong-78fd98d579-sscqt -n kubernetes-dashboard
+
 teste
  dashboard
  kubectl -n kubernetes-dashboard port-forward svc/kubernetes-dashboard-kong-proxy 8443:443
     rabbit    
  kubectl port-forward service/rabbitmq 15672:15672
+
+
+#prometheus
+helm install prometheus prometheus-community/prometheus --namespace monitoramento --create-namespace --set server.service.type=LoadBalancer
+
+helm upgrade --install prometheus prometheus-community/prometheus  --namespace monitoramento --set server.service.type=LoadBalancer --set nodeExporter.hostRootFsMountPropagation=Bidirectional

@@ -17,12 +17,16 @@ metadata:
   labels:
     app: apipostech
 spec:
-  replicas: 1  # Número de réplicas desejadas
+  replicas: 5  # Número de réplicas desejadas
   selector:
     matchLabels:
       app: apipostech  # Seleciona os pods com esta label
   template:
     metadata:
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8080"
+        prometheus.io/path: "/metrics"
       labels:
         app: apipostech  # Label aplicada aos pods
     spec:

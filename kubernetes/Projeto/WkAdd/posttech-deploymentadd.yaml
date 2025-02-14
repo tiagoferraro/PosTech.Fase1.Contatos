@@ -20,7 +20,7 @@ metadata:
   labels:
     app: apipostechadd
 spec:
-  replicas: 1  # Número de réplicas desejadas
+  replicas: 5  # Número de réplicas desejadas
   selector:
     matchLabels:
       app: apipostechadd  # Seleciona os pods com esta label

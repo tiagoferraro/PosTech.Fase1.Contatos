@@ -20,7 +20,7 @@ metadata:
   labels:
     app: apipostechdelete
 spec:
-  replicas: 1  # Número de réplicas desejadas
+  replicas: 3  # Número de réplicas desejadas
   selector:
     matchLabels:
       app: apipostechdelete  # Seleciona os pods com esta label
