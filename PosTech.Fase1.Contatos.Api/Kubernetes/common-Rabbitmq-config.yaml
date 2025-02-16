@@ -3,7 +3,6 @@ kind: ConfigMap
 metadata:
   name: common-rabbit-config
 data:
-  # Configuração do RabbitMQ
   RabbitMQ__HostName: "rabbitmq.default.svc.cluster.local"
   RabbitMQ__UserName: "guest"
   RabbitMQ__Password: "guest"
