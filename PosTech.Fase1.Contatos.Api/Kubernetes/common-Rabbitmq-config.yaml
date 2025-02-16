@@ -12,4 +12,3 @@ data:
   RabbitMQ__ExchangeDelete: "Fase3.Contatos.Delete"
   RabbitMQ__Port: "5672"
   RabbitMQ__ConnectionString: "amqp://guest:guest@rabbitmq.default.svc.cluster.local:5672"
-
