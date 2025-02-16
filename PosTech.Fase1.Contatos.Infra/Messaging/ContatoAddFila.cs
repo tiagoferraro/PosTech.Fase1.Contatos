@@ -14,7 +14,7 @@ public class ContatoAddFila(
     public async Task AdicionarAsync(Contato contato)
     {
         var rabbitMqConfig = _configuration.GetSection("RabbitMq");
-        var mensagem = JsonSerializer.Serialize(contato, new JsonSerializerOptions { DefaultIgnoreCondition = JsonIgnoreCondition.Always});
+        var mensagem = JsonSerializer.Serialize(contato, new JsonSerializerOptions { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull });
 
         await _rabbitMqClient.SendMessage(mensagem, rabbitMqConfig["ExchangeAdd"]);
     }
