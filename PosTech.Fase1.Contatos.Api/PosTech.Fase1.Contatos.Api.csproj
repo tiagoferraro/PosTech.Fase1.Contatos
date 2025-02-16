@@ -9,10 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="Kubernetes\common-Rabbitmq-config.yaml" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.10.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.10">
       <PrivateAssets>all</PrivateAssets>
@@ -38,11 +34,6 @@
   <ItemGroup>
     <ProjectReference Include="..\PosTech.Fase1.Contatos.Application\PosTech.Fase1.Contatos.Application.csproj" />
     <ProjectReference Include="..\PosTech.Fase1.Contatos.IoC\PosTech.Fase1.Contatos.IoC.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Kubernetes\Delete\" />
-    <Folder Include="Kubernetes\Update\" />
   </ItemGroup>
 
 </Project>
