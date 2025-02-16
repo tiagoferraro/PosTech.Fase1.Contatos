@@ -36,4 +36,8 @@
     <ProjectReference Include="..\PosTech.Fase1.Contatos.IoC\PosTech.Fase1.Contatos.IoC.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Kubernetes\Update\" />
+  </ItemGroup>
+
 </Project>

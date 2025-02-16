@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: contatos-add-service
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: contatos-add-service
+  template:
+    metadata:
+      labels:
+        app: contatos-add-service
+    spec:
+      containers:
+      - name: contatos-add-container
+        image: hajimemori/contatos-add-service:1.3
+        ports:
+        - containerPort: 5002
+        envFrom:
+        - configMapRef:
+            name: contatos-add-config
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: contatos-add-service
+spec:
+  selector:
+    app: contatos-add-service
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5002
+  type: ClusterIP
+
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: contatos-add-config
+data:
+
+  # Configuração do banco de dados
+  ConnectionStrings__DefaultConnection: "Server=154.38.172.208,52439;Database=ContatoFase3;User Id=sa;Password=Fiap2024$;TrustServerCertificate=True;"
+
+  # Configuração do RabbitMQ
+  RabbitMQ__HostName: "rabbitmq.default.svc.cluster.local"
+  RabbitMQ__UserName: "guest"
+  RabbitMQ__Password: "guest"
+  RabbitMQ__ExchangeAdd: "Fase3.Contatos.Add"
+  RabbitMQ__QueueName: "Fase3.Contatos.AddtoDataBase"
+  RabbitMQ__Port: "5672"
+

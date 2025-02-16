@@ -1,0 +1,65 @@
+﻿apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: contatos-api
+  labels:
+    app: contatos-api
+  annotations:
+    description: "Api de contatos"
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: contatos-api
+  template:
+    metadata:
+      labels:
+        app: contatos-api
+    spec:
+      containers:
+      - name: contatos-api
+        image: hajimemori/postech-contatos-api:1.0
+        ports:
+        - containerPort: 8080
+        envFrom:
+        - configMapRef:
+            name: contatos-api-config
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: contatos-api-service
+spec:
+  selector:
+    app: contatos-api
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+  type: ClusterIP
+
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: contatos-api-config
+data:
+  ASPNETCORE_ENVIRONMENT: "Development"
+
+  # Configuração do banco de dados
+  ConnectionStrings__DefaultConnection: "Server=154.38.172.208,52439;Database=ContatoFase3;User Id=sa;Password=Fiap2024$;TrustServerCertificate=True;"
+
+  # Configuração do RabbitMQ
+  RabbitMQ__HostName: "rabbitmq.default.svc.cluster.local"
+  RabbitMQ__UserName: "guest"
+  RabbitMQ__Password: "guest"
+  RabbitMQ__ExchangeAdd: "Fase3.Contatos.Add"
+  RabbitMQ__ExchangeUpdate: "Fase3.Contatos.Update"
+  RabbitMQ__ExchangeDelete: "Fase3.Contatos.Delete"
+  RabbitMQ__Port: "5672"
+
+  # Hosts permitidos
+  AllowedHosts: "*"
